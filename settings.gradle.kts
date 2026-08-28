@@ -10,6 +10,8 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     includeBuild("C:/Users/Administrator/Desktop/组件库/MiuiX/build-plugins")
     repositories {
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")
@@ -25,6 +27,8 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")
@@ -36,6 +40,7 @@ dependencyResolutionManagement {
         maven { url = uri("https://api.xposed.info/") }
     }
 }
+
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
