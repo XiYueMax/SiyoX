@@ -265,6 +265,11 @@ public class EpicVerifySDK {
         this.card = card == null ? "" : card;
     }
 
+    public String getCard() {
+        return card;
+    }
+
+
     public void setAutoHeartbeat(boolean autoHeartbeat) {
         this.autoHeartbeat = autoHeartbeat;
     }

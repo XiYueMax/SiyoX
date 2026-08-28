@@ -143,14 +143,14 @@ class VerifyManager private constructor(private val appContext: Context) {
         scope.launch {
             try {
                 val currentSdk = sdk ?: throw EpicVerifyException("SDK 未就绪")
-                currentSdk.card = cardKey.trim()
+                currentSdk.setCard(cardKey.trim())
                 val resp: Resp = currentSdk.cardVerify()
 
                 mainHandler.post {
                     _isLoading.value = false
                     if (resp.isSuccess) {
                         val expireMs = try {
-                            resp.data.optLong("expire", 0L)
+                            resp.data?.getLong("expire") ?: 0L
                         } catch (e: Exception) {
                             0L
                         }
@@ -200,13 +200,13 @@ class VerifyManager private constructor(private val appContext: Context) {
         scope.launch {
             try {
                 val currentSdk = sdk ?: throw EpicVerifyException("SDK 未就绪")
-                currentSdk.card = password.trim()
+                currentSdk.setCard(password.trim())
                 val resp: Resp = currentSdk.cardPass()
 
                 mainHandler.post {
                     _isLoading.value = false
                     if (resp.isSuccess) {
-                        val expireMs = resp.data.optLong("expire", 0L)
+                        val expireMs = resp.data?.getLong("expire") ?: 0L
                         _isVerified.value = true
                         _expireTimestamp.value = expireMs
                         _statusMessage.value = "已通过密码通道进入"
@@ -233,15 +233,15 @@ class VerifyManager private constructor(private val appContext: Context) {
         scope.launch {
             try {
                 val currentSdk = sdk ?: throw EpicVerifyException("SDK 未就绪")
-                currentSdk.card = cardKey.trim()
+                currentSdk.setCard(cardKey.trim())
                 val resp: Resp = currentSdk.cardQuery()
 
                 mainHandler.post {
                     if (resp.isSuccess) {
-                        val usable = resp.data.optBoolean("usable", true)
-                        val value = resp.data.optInt("value", 0)
-                        val mac = resp.data.optString("mac", "无")
-                        val expireTime = resp.data.optLong("expireTime", 0L)
+                        val usable = resp.data?.getBoolean("usable") ?: true
+                        val value = resp.data?.getInt("value") ?: 0
+                        val mac = resp.data?.optString("mac", "无") ?: "无"
+                        val expireTime = resp.data?.getLong("expireTime") ?: 0L
                         val info = "卡密状态: ${if (usable) "正常" else "冻结"}\n面值: $value\n绑定机器码: $mac\n到期时间: ${formatDate(expireTime)}"
                         onResult(true, info)
                     } else {
@@ -265,8 +265,9 @@ class VerifyManager private constructor(private val appContext: Context) {
         scope.launch {
             try {
                 val currentSdk = sdk ?: throw EpicVerifyException("SDK 未就绪")
-                currentSdk.card = cardKey.trim()
+                currentSdk.setCard(cardKey.trim())
                 val resp: Resp = currentSdk.cardUnbind()
+
 
                 mainHandler.post {
                     if (resp.isSuccess) {

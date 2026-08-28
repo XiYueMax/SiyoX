@@ -81,9 +81,10 @@ fun VerifyPage(
                 }
                 // Check if update is available
                 val ver = verifyManager.versionConfig
-                if (ver != null && ver.hasUpdate && ver.version != appSettings.ignoredVersion) {
+                if (ver != null && ver.hasUpdate && ver.version.toString() != appSettings.ignoredVersion) {
                     showUpgradeDialog = true
                 }
+
             }
         }
 
@@ -235,8 +236,11 @@ fun VerifyPage(
                     Button(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !isLoading && cardInput.isNotBlank(),
-                        colors = ButtonDefaults.primaryButtonColors(),
+                        colors = ButtonDefaults.buttonColors(
+                            color = MiuixTheme.colorScheme.primary
+                        ),
                         onClick = {
+
                             verifyManager.verifyCard(cardInput) { ok, msg ->
                                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                                 if (ok) {

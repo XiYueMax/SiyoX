@@ -88,7 +88,10 @@ fun NoticeDialog(
                 }
 
                 Button(
-                    colors = ButtonDefaults.primaryButtonColors(),
+                    colors = ButtonDefaults.buttonColors(
+                        color = MiuixTheme.colorScheme.primary
+                    ),
+
                     onClick = {
                         onDismiss()
                         if (notice.confirm != null && notice.confirm.enabled()) {
@@ -141,9 +144,10 @@ fun UpgradeDialog(
                             color = MiuixTheme.colorScheme.surfaceContainer
                         ),
                         onClick = {
-                            AppSettings.get().ignoredVersion = version.version ?: ""
+                            AppSettings.get().ignoredVersion = version.version.toString()
                             onDismiss()
                         }
+
                     ) {
                         Text(text = version.ignoreBtn)
                     }
@@ -163,7 +167,10 @@ fun UpgradeDialog(
                 }
 
                 Button(
-                    colors = ButtonDefaults.primaryButtonColors(),
+                    colors = ButtonDefaults.buttonColors(
+                        color = MiuixTheme.colorScheme.primary
+                    ),
+
                     onClick = {
                         if (version.updateType == 0 && context is Activity) {
                             EpicUpdater.downloadAndInstall(context, version.downloadUrl, version.version) { ok, msg ->
