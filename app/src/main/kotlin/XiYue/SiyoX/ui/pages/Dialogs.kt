@@ -248,7 +248,10 @@ fun CardQueryDialog(
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     enabled = !isLoading && cardInput.isNotBlank(),
-                    colors = ButtonDefaults.primaryButtonColors(),
+                    colors = ButtonDefaults.buttonColors(
+                        color = MiuixTheme.colorScheme.primary
+                    ),
+
                     onClick = {
                         isLoading = true
                         VerifyManager.get().queryCard(cardInput) { success, info ->
@@ -317,7 +320,10 @@ fun CardUnbindDialog(
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     enabled = !isLoading && cardInput.isNotBlank(),
-                    colors = ButtonDefaults.primaryButtonColors(),
+                    colors = ButtonDefaults.buttonColors(
+                        color = MiuixTheme.colorScheme.primary
+                    ),
+
                     onClick = {
                         isLoading = true
                         VerifyManager.get().unbindCard(cardInput) { success, msg ->
@@ -387,7 +393,10 @@ fun PassDialog(
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     enabled = !isLoading && passInput.isNotBlank(),
-                    colors = ButtonDefaults.primaryButtonColors(),
+                    colors = ButtonDefaults.buttonColors(
+                        color = MiuixTheme.colorScheme.primary
+                    ),
+
                     onClick = {
                         isLoading = true
                         VerifyManager.get().verifyPassword(passInput) { success, msg ->
