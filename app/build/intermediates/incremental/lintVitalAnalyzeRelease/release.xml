@@ -1,0 +1,30 @@
+<variant
+    name="release"
+    package="XiYue.SiyoX"
+    minSdkVersion="26"
+    targetSdkVersion="35"
+    mergedManifest="build\intermediates\merged_manifest\release\processReleaseMainManifest\AndroidManifest.xml"
+    proguardFiles="build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1;proguard-rules.pro"
+    partialResultsDir="build\intermediates\lint_vital_partial_results\release\lintVitalAnalyzeRelease\out"
+    desugaredMethodsFiles="C:\Users\Administrator\.gradle\caches\9.6.1\transforms\fa2ee0b5d9355f154a3567a3bd457a09\transformed\D8BackportedDesugaredMethods.txt">
+  <buildFeatures/>
+  <sourceProviders>
+    <sourceProvider
+        manifests="src\main\AndroidManifest.xml"
+        javaDirectories="src\main\java;src\release\java;src\main\kotlin;src\release\kotlin"
+        resDirectories="src\main\res;src\release\res"
+        assetsDirectories="src\main\assets;src\release\assets"
+        keepRulesDirectories="src\main\keepRules;src\release\keepRules"/>
+  </sourceProviders>
+  <testSourceProviders>
+  </testSourceProviders>
+  <testFixturesSourceProviders>
+  </testFixturesSourceProviders>
+  <artifact
+      classOutputs="build\intermediates\javac\release\compileReleaseJavaWithJavac\classes;build\intermediates\built_in_kotlinc\release\compileReleaseKotlin\classes;build\intermediates\compile_r_class_jar\release\generateReleaseRFile\R.jar"
+      type="MAIN"
+      applicationId="XiYue.SiyoX"
+      generatedSourceFolders="build\generated\ap_generated_sources\release\out;build\generated\source\buildConfig\release"
+      desugaredMethodsFiles="C:\Users\Administrator\.gradle\caches\9.6.1\transforms\fa2ee0b5d9355f154a3567a3bd457a09\transformed\D8BackportedDesugaredMethods.txt">
+  </artifact>
+</variant>
