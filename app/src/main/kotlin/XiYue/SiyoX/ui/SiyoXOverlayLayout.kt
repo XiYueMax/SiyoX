@@ -524,7 +524,8 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
         if (verified) {
             statusBadge.text = "已授权"
             statusBadge.background = createCardBg(Color.parseColor("#34C759"), Color.TRANSPARENT, dp(10))
-            statusDetailText.text = "已激活 (到期: ${verifyManager.formatDate(verifyManager.expireTimestamp.value)})"
+            statusDetailText.text = "已激活 (到期: ${VerifyManager.formatDate(verifyManager.expireTimestamp.value)})"
+
             verifyButton.text = "验证通过 (点击重验)"
             btnMinimize.visibility = View.VISIBLE
         } else {
