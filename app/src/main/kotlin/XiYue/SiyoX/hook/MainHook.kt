@@ -31,23 +31,7 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
 
     private fun hookActivityLifecycle(lpparam: XC_LoadPackage.LoadPackageParam) {
         try {
-            // Hook Activity.onPostCreate or onCreate in com.netease.x19
-            XposedHelpers.findAndHookMethod(
-                Activity::class.java,
-                "onPostCreate",
-                Bundle::class.java,
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        val activity = param.thisObject as? Activity ?: return
-                        if (activity.packageName != TARGET_PACKAGE) return
-
-                        XposedBridge.log("[$TAG] Activity onPostCreate: ${activity.javaClass.name}")
-                        FloatingOverlayManager.attach(activity)
-                    }
-                }
-            )
-
-            // Also hook onCreate fallback
+            // Hook Activity.onCreate
             XposedHelpers.findAndHookMethod(
                 Activity::class.java,
                 "onCreate",
@@ -63,7 +47,23 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
                 }
             )
 
-            // Hook onResume to ensure floating overlay stays mounted
+            // Hook Activity.onPostCreate
+            XposedHelpers.findAndHookMethod(
+                Activity::class.java,
+                "onPostCreate",
+                Bundle::class.java,
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val activity = param.thisObject as? Activity ?: return
+                        if (activity.packageName != TARGET_PACKAGE) return
+
+                        XposedBridge.log("[$TAG] Activity onPostCreate: ${activity.javaClass.name}")
+                        FloatingOverlayManager.attach(activity)
+                    }
+                }
+            )
+
+            // Hook Activity.onResume
             XposedHelpers.findAndHookMethod(
                 Activity::class.java,
                 "onResume",
@@ -73,6 +73,24 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
                         if (activity.packageName != TARGET_PACKAGE) return
 
                         FloatingOverlayManager.attach(activity)
+                    }
+                }
+            )
+
+            // Hook Activity.onWindowFocusChanged
+            XposedHelpers.findAndHookMethod(
+                Activity::class.java,
+                "onWindowFocusChanged",
+                Boolean::class.javaPrimitiveType,
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val hasFocus = param.args[0] as? Boolean ?: false
+                        val activity = param.thisObject as? Activity ?: return
+                        if (activity.packageName != TARGET_PACKAGE) return
+
+                        if (hasFocus) {
+                            FloatingOverlayManager.attach(activity)
+                        }
                     }
                 }
             )

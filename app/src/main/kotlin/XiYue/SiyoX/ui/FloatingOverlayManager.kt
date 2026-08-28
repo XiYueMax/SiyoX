@@ -4,78 +4,73 @@
 package XiYue.SiyoX.ui
 
 import android.app.Activity
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.compose.ui.platform.ComposeView
+
 import de.robv.android.xposed.XposedBridge
 import XiYue.SiyoX.data.AppSettings
 import XiYue.SiyoX.data.VerifyManager
-import XiYue.SiyoX.ui.pages.SiyoXOverlayView
-import XiYue.SiyoX.ui.theme.SiyoXTheme
 import java.lang.ref.WeakReference
 
 object FloatingOverlayManager {
 
     private const val TAG = "SiyoX"
-    private const val OVERLAY_TAG = "SIYOX_FLOATING_OVERLAY"
+    private const val OVERLAY_VIEW_TAG = "SIYOX_IN_GAME_OVERLAY"
 
     private val mainHandler = Handler(Looper.getMainLooper())
+    private var activeOverlay: SiyoXOverlayLayout? = null
     private var currentActivityRef: WeakReference<Activity>? = null
 
     fun attach(activity: Activity) {
         if (activity.isFinishing || activity.isDestroyed) return
+
         currentActivityRef = WeakReference(activity)
 
         mainHandler.post {
             try {
-                // Initialize settings and verify manager inside target process
+                if (activity.isFinishing || activity.isDestroyed) return@post
+
+                // Initialize AppSettings and VerifyManager with host context
                 AppSettings.init(activity.applicationContext)
                 VerifyManager.init(activity.applicationContext)
 
                 val decorView = activity.window?.decorView as? ViewGroup
                 if (decorView == null) {
-                    XposedBridge.log("[$TAG] decorView is null, retry later")
+                    XposedBridge.log("[$TAG] decorView is null, scheduling retry...")
+                    mainHandler.postDelayed({ attach(activity) }, 300)
                     return@post
                 }
 
-                // Check if already attached
-                val existingView = decorView.findViewWithTag<ComposeView>(OVERLAY_TAG)
-                if (existingView != null) {
-                    XposedBridge.log("[$TAG] Overlay already attached to Activity ${activity.javaClass.name}")
+                // Check if already present on this decorView
+                val existing = decorView.findViewWithTag<View>(OVERLAY_VIEW_TAG)
+                if (existing != null) {
+                    XposedBridge.log("[$TAG] Overlay already mounted on ${activity.javaClass.name}")
+                    existing.bringToFront()
                     return@post
                 }
 
-                XposedBridge.log("[$TAG] Attaching SiyoX Compose Overlay to ${activity.javaClass.name}")
+                XposedBridge.log("[$TAG] Mounting SiyoX Floating Ball & UI to ${activity.javaClass.name}")
 
-                val composeView = ComposeView(activity).apply {
-                    tag = OVERLAY_TAG
+                val overlay = SiyoXOverlayLayout(activity).apply {
+                    tag = OVERLAY_VIEW_TAG
                     layoutParams = FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
-
-                    // Setup Lifecycle & SavedState owners
-                    ViewTreeHelper.setupViewTree(this, activity)
-
-                    setContent {
-                        SiyoXTheme {
-                            SiyoXOverlayView(
-                                onDismissRequest = {
-                                    // Minimize or dismiss
-                                }
-                            )
-                        }
-                    }
                 }
+                activeOverlay = overlay
 
-                decorView.addView(composeView)
-                XposedBridge.log("[$TAG] SiyoX In-Game Floating Ball & UI successfully mounted!")
+                decorView.addView(overlay)
+                overlay.bringToFront()
+                decorView.requestLayout()
+
+                XposedBridge.log("[$TAG] SiyoX In-Game Floating Ball & UI mounted successfully!")
 
             } catch (t: Throwable) {
-                XposedBridge.log("[$TAG] Failed to attach Floating Overlay: ${t.message}")
+                XposedBridge.log("[$TAG] Error attaching SiyoX overlay: ${t.message}")
                 t.printStackTrace()
             }
         }
@@ -85,10 +80,13 @@ object FloatingOverlayManager {
         mainHandler.post {
             try {
                 val decorView = activity.window?.decorView as? ViewGroup ?: return@post
-                val overlay = decorView.findViewWithTag<ComposeView>(OVERLAY_TAG)
-                if (overlay != null) {
-                    decorView.removeView(overlay)
-                    XposedBridge.log("[$TAG] Detached overlay from ${activity.javaClass.name}")
+                val existing = decorView.findViewWithTag<View>(OVERLAY_VIEW_TAG)
+                if (existing != null) {
+                    decorView.removeView(existing)
+                    XposedBridge.log("[$TAG] SiyoX overlay detached from ${activity.javaClass.name}")
+                }
+                if (activeOverlay === existing) {
+                    activeOverlay = null
                 }
             } catch (t: Throwable) {
                 XposedBridge.log("[$TAG] Error detaching overlay: ${t.message}")
