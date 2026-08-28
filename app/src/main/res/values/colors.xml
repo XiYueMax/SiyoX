@@ -1,0 +1,11 @@
+<resources>
+    <color name="primary">#0A84FF</color>
+    <color name="primary_variant">#0066CC</color>
+    <color name="secondary">#30D158</color>
+    <color name="background_light">#F5F6F8</color>
+    <color name="background_dark">#121212</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="card_border">#20000000</color>
+    <color name="translucent_bg">#99000000</color>
+</resources>
