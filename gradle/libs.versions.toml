@@ -48,9 +48,9 @@ androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchm
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+androidApplication = { id = "com.android.application" } # AGP
+androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library" } # AGP
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform" } # KGP
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "about-libraries" }
@@ -59,5 +59,5 @@ composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "jet
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose-multiplatform" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "jetbrains-dokka" }
 
-androidTest = { id = "com.android.test", version.ref = "agp" }
+androidTest = { id = "com.android.test" } # AGP
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
