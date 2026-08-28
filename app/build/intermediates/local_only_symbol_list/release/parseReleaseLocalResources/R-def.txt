@@ -1,0 +1,28 @@
+R_DEF: Internal format may change without notice
+local
+color background_dark
+color background_light
+color card_border
+color primary
+color primary_variant
+color secondary
+color surface_dark
+color surface_light
+color translucent_bg
+drawable ic_launcher
+string app_desc
+string app_name
+string card_query
+string card_unbind
+string heartbeat_active
+string join_group
+string module_scope
+string official_site
+string pass_login
+string verify_btn
+string verify_failed
+string verify_hint
+string verify_success
+string verify_title
+style Theme.SiyoX
+style Theme.SiyoX.Translucent

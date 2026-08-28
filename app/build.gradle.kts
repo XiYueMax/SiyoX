@@ -9,7 +9,8 @@ plugins {
 
 android {
     namespace = "XiYue.SiyoX"
-    compileSdk = 35
+    compileSdk = 37
+
 
     defaultConfig {
         applicationId = "XiYue.SiyoX"
