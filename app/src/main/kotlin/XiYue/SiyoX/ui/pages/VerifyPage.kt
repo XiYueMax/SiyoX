@@ -17,10 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -141,7 +138,7 @@ fun VerifyPage(
                             Text(
                                 text = "作用域: com.netease.x19",
                                 fontSize = 12.sp,
-                                color = MiuixTheme.colorScheme.onSurfaceVariant
+                                color = MiuixTheme.colorScheme.onSurfaceSecondary
                             )
                         }
 
@@ -191,7 +188,8 @@ fun VerifyPage(
                     TextField(
                         value = cardInput,
                         onValueChange = { cardInput = it },
-                        hint = placeholder,
+                        label = placeholder,
+                        useLabelAsPlaceholder = true,
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -201,9 +199,8 @@ fun VerifyPage(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(
-                            text = "粘贴卡密",
                             modifier = Modifier.weight(1f),
-                            buttonColor = ButtonDefaults.buttonColors(
+                            colors = ButtonDefaults.buttonColors(
                                 color = MiuixTheme.colorScheme.surfaceContainer
                             ),
                             onClick = {
@@ -217,28 +214,28 @@ fun VerifyPage(
                                     }
                                 }
                             }
-                        )
+                        ) {
+                            Text(text = "粘贴卡密")
+                        }
 
                         Button(
-                            text = "清空",
                             modifier = Modifier.weight(1f),
-                            buttonColor = ButtonDefaults.buttonColors(
+                            colors = ButtonDefaults.buttonColors(
                                 color = MiuixTheme.colorScheme.surfaceContainer
                             ),
                             onClick = {
                                 cardInput = ""
                             }
-                        )
+                        ) {
+                            Text(text = "清空")
+                        }
                     }
 
                     // Main Verification Button
                     Button(
-                        text = if (isLoading) "正在验证中…" else if (isVerified) "验证通过 (点击重验)" else "立即验证",
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !isLoading && cardInput.isNotBlank(),
-                        buttonColor = ButtonDefaults.buttonColors(
-                            color = MiuixTheme.colorScheme.primary
-                        ),
+                        colors = ButtonDefaults.primaryButtonColors(),
                         onClick = {
                             verifyManager.verifyCard(cardInput) { ok, msg ->
                                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
@@ -247,7 +244,9 @@ fun VerifyPage(
                                 }
                             }
                         }
-                    )
+                    ) {
+                        Text(text = if (isLoading) "正在验证中…" else if (isVerified) "验证通过 (点击重验)" else "立即验证")
+                    }
 
                     // Secondary actions
                     Row(
@@ -301,9 +300,8 @@ fun VerifyPage(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(
-                            text = "查看公告",
                             modifier = Modifier.weight(1f),
-                            buttonColor = ButtonDefaults.buttonColors(
+                            colors = ButtonDefaults.buttonColors(
                                 color = MiuixTheme.colorScheme.surfaceContainer
                             ),
                             onClick = {
@@ -315,12 +313,13 @@ fun VerifyPage(
                                     }
                                 }
                             }
-                        )
+                        ) {
+                            Text(text = "查看公告")
+                        }
 
                         Button(
-                            text = "检查更新",
                             modifier = Modifier.weight(1f),
-                            buttonColor = ButtonDefaults.buttonColors(
+                            colors = ButtonDefaults.buttonColors(
                                 color = MiuixTheme.colorScheme.surfaceContainer
                             ),
                             onClick = {
@@ -333,7 +332,9 @@ fun VerifyPage(
                                     }
                                 }
                             }
-                        )
+                        ) {
+                            Text(text = "检查更新")
+                        }
                     }
 
                     Row(
@@ -341,26 +342,28 @@ fun VerifyPage(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(
-                            text = "官方群聊",
                             modifier = Modifier.weight(1f),
-                            buttonColor = ButtonDefaults.buttonColors(
+                            colors = ButtonDefaults.buttonColors(
                                 color = MiuixTheme.colorScheme.surfaceContainer
                             ),
                             onClick = {
                                 verifyManager.handleEvent(context, 3, "1031891543")
                             }
-                        )
+                        ) {
+                            Text(text = "官方群聊")
+                        }
 
                         Button(
-                            text = "官方网站",
                             modifier = Modifier.weight(1f),
-                            buttonColor = ButtonDefaults.buttonColors(
+                            colors = ButtonDefaults.buttonColors(
                                 color = MiuixTheme.colorScheme.surfaceContainer
                             ),
                             onClick = {
                                 verifyManager.handleEvent(context, 1, "https://epic.t60.top/")
                             }
-                        )
+                        ) {
+                            Text(text = "官方网站")
+                        }
                     }
                 }
             }
@@ -392,7 +395,7 @@ fun VerifyPage(
                             Text(
                                 text = "自动在游戏中保持高清夜视效果",
                                 fontSize = 12.sp,
-                                color = MiuixTheme.colorScheme.onSurfaceVariant
+                                color = MiuixTheme.colorScheme.onSurfaceSecondary
                             )
                         }
 
@@ -422,7 +425,7 @@ fun VerifyPage(
                             Text(
                                 text = "高亮矿石并过滤石头方块",
                                 fontSize = 12.sp,
-                                color = MiuixTheme.colorScheme.onSurfaceVariant
+                                color = MiuixTheme.colorScheme.onSurfaceSecondary
                             )
                         }
 

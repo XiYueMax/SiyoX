@@ -5,17 +5,20 @@ package XiYue.SiyoX.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import top.yukonga.miuix.kmp.theme.ColorSchemeMode
 import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.theme.ThemeController
 
 @Composable
 fun SiyoXTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorSchemeMode = if (darkTheme) ColorSchemeMode.Dark else ColorSchemeMode.Light
+    val mode = if (darkTheme) ColorSchemeMode.Dark else ColorSchemeMode.Light
+    val controller = remember(mode) { ThemeController(mode) }
     MiuixTheme(
-        colorSchemeMode = colorSchemeMode,
+        controller = controller,
         content = content
     )
 }

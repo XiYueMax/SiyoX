@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -18,10 +17,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import epic.verify.api.EpicUpdater
@@ -63,43 +60,44 @@ fun NoticeDialog(
             ) {
                 if (notice.cancel != null && notice.cancel.enabled()) {
                     Button(
-                        text = notice.cancel.text ?: "关闭",
-                        buttonColor = ButtonDefaults.buttonColors(
+                        colors = ButtonDefaults.buttonColors(
                             color = MiuixTheme.colorScheme.surfaceContainer
                         ),
                         onClick = {
                             onDismiss()
                             VerifyManager.get().handleEvent(context, notice.cancel.event, notice.cancel.value)
                         }
-                    )
+                    ) {
+                        Text(text = notice.cancel.text ?: "关闭")
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
                 }
 
                 if (notice.extra != null && notice.extra.enabled()) {
                     Button(
-                        text = notice.extra.text ?: "更多",
-                        buttonColor = ButtonDefaults.buttonColors(
+                        colors = ButtonDefaults.buttonColors(
                             color = MiuixTheme.colorScheme.surfaceContainer
                         ),
                         onClick = {
                             VerifyManager.get().handleEvent(context, notice.extra.event, notice.extra.value)
                         }
-                    )
+                    ) {
+                        Text(text = notice.extra.text ?: "更多")
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
                 }
 
                 Button(
-                    text = if (notice.confirm != null && notice.confirm.enabled()) notice.confirm.text else "我知道了",
-                    buttonColor = ButtonDefaults.buttonColors(
-                        color = MiuixTheme.colorScheme.primary
-                    ),
+                    colors = ButtonDefaults.primaryButtonColors(),
                     onClick = {
                         onDismiss()
                         if (notice.confirm != null && notice.confirm.enabled()) {
                             VerifyManager.get().handleEvent(context, notice.confirm.event, notice.confirm.value)
                         }
                     }
-                )
+                ) {
+                    Text(text = if (notice.confirm != null && notice.confirm.enabled()) notice.confirm.text else "我知道了")
+                }
             }
         }
     }
@@ -139,34 +137,33 @@ fun UpgradeDialog(
             ) {
                 if (version.ignoreEnable && !version.ignoreBtn.isNullOrBlank()) {
                     Button(
-                        text = version.ignoreBtn,
-                        buttonColor = ButtonDefaults.buttonColors(
+                        colors = ButtonDefaults.buttonColors(
                             color = MiuixTheme.colorScheme.surfaceContainer
                         ),
                         onClick = {
                             AppSettings.get().ignoredVersion = version.version ?: ""
                             onDismiss()
                         }
-                    )
+                    ) {
+                        Text(text = version.ignoreBtn)
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
                 }
 
                 if (!force && version.cancelEnable && !version.cancelBtn.isNullOrBlank()) {
                     Button(
-                        text = version.cancelBtn,
-                        buttonColor = ButtonDefaults.buttonColors(
+                        colors = ButtonDefaults.buttonColors(
                             color = MiuixTheme.colorScheme.surfaceContainer
                         ),
                         onClick = onDismiss
-                    )
+                    ) {
+                        Text(text = version.cancelBtn)
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
                 }
 
                 Button(
-                    text = if (!version.upgradeBtn.isNullOrBlank()) version.upgradeBtn else "立即更新",
-                    buttonColor = ButtonDefaults.buttonColors(
-                        color = MiuixTheme.colorScheme.primary
-                    ),
+                    colors = ButtonDefaults.primaryButtonColors(),
                     onClick = {
                         if (version.updateType == 0 && context is Activity) {
                             EpicUpdater.downloadAndInstall(context, version.downloadUrl, version.version) { ok, msg ->
@@ -177,7 +174,9 @@ fun UpgradeDialog(
                         }
                         if (!force) onDismiss()
                     }
-                )
+                ) {
+                    Text(text = if (!version.upgradeBtn.isNullOrBlank()) version.upgradeBtn else "立即更新")
+                }
             }
         }
     }
@@ -207,7 +206,8 @@ fun CardQueryDialog(
             TextField(
                 value = cardInput,
                 onValueChange = { cardInput = it },
-                hint = "请输入要查询的卡密",
+                label = "请输入要查询的卡密",
+                useLabelAsPlaceholder = true,
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -231,19 +231,17 @@ fun CardQueryDialog(
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    text = "取消",
-                    buttonColor = ButtonDefaults.buttonColors(
+                    colors = ButtonDefaults.buttonColors(
                         color = MiuixTheme.colorScheme.surfaceContainer
                     ),
                     onClick = onDismiss
-                )
+                ) {
+                    Text(text = "取消")
+                }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
-                    text = if (isLoading) "查询中…" else "查询",
                     enabled = !isLoading && cardInput.isNotBlank(),
-                    buttonColor = ButtonDefaults.buttonColors(
-                        color = MiuixTheme.colorScheme.primary
-                    ),
+                    colors = ButtonDefaults.primaryButtonColors(),
                     onClick = {
                         isLoading = true
                         VerifyManager.get().queryCard(cardInput) { success, info ->
@@ -251,7 +249,9 @@ fun CardQueryDialog(
                             resultText = info
                         }
                     }
-                )
+                ) {
+                    Text(text = if (isLoading) "查询中…" else "查询")
+                }
             }
         }
     }
@@ -281,7 +281,8 @@ fun CardUnbindDialog(
             TextField(
                 value = cardInput,
                 onValueChange = { cardInput = it },
-                hint = "请输入要解绑的卡密",
+                label = "请输入要解绑的卡密",
+                useLabelAsPlaceholder = true,
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -299,19 +300,17 @@ fun CardUnbindDialog(
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    text = "取消",
-                    buttonColor = ButtonDefaults.buttonColors(
+                    colors = ButtonDefaults.buttonColors(
                         color = MiuixTheme.colorScheme.surfaceContainer
                     ),
                     onClick = onDismiss
-                )
+                ) {
+                    Text(text = "取消")
+                }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
-                    text = if (isLoading) "解绑中…" else "确认解绑",
                     enabled = !isLoading && cardInput.isNotBlank(),
-                    buttonColor = ButtonDefaults.buttonColors(
-                        color = MiuixTheme.colorScheme.primary
-                    ),
+                    colors = ButtonDefaults.primaryButtonColors(),
                     onClick = {
                         isLoading = true
                         VerifyManager.get().unbindCard(cardInput) { success, msg ->
@@ -319,7 +318,9 @@ fun CardUnbindDialog(
                             resultText = msg
                         }
                     }
-                )
+                ) {
+                    Text(text = if (isLoading) "解绑中…" else "确认解绑")
+                }
             }
         }
     }
@@ -350,7 +351,8 @@ fun PassDialog(
             TextField(
                 value = passInput,
                 onValueChange = { passInput = it },
-                hint = "请输入密码",
+                label = "请输入密码",
+                useLabelAsPlaceholder = true,
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -368,19 +370,17 @@ fun PassDialog(
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    text = "取消",
-                    buttonColor = ButtonDefaults.buttonColors(
+                    colors = ButtonDefaults.buttonColors(
                         color = MiuixTheme.colorScheme.surfaceContainer
                     ),
                     onClick = onDismiss
-                )
+                ) {
+                    Text(text = "取消")
+                }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
-                    text = if (isLoading) "验证中…" else "验证进入",
                     enabled = !isLoading && passInput.isNotBlank(),
-                    buttonColor = ButtonDefaults.buttonColors(
-                        color = MiuixTheme.colorScheme.primary
-                    ),
+                    colors = ButtonDefaults.primaryButtonColors(),
                     onClick = {
                         isLoading = true
                         VerifyManager.get().verifyPassword(passInput) { success, msg ->
@@ -392,7 +392,9 @@ fun PassDialog(
                             }
                         }
                     }
-                )
+                ) {
+                    Text(text = if (isLoading) "验证中…" else "验证进入")
+                }
             }
         }
     }
