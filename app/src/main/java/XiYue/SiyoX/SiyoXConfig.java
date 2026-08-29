@@ -11,15 +11,8 @@ import java.util.List;
 
 import XiYue.SiyoX.data.NativeVerify;
 
-/**
- * SiyoX 全局配置桥接类
- * 真实敏感配置全部已安全下沉至独立的 C/C++ 配置文件:
- * 【 app/src/main/cpp/SiyoX_Config.h 】
- * 编译后存入底层 .so 动态库中，防止反编译泄露明文。
- */
 public class SiyoXConfig {
 
-    // ==================== 软件框架基本信息 (Java层固定信息) ====================
     public static final String APP_NAME = "SiyoX";
     public static final String PACKAGE_NAME = "XiYue.SiyoX";
     public static final String VERSION_NAME = "v1.0.0";
@@ -28,14 +21,10 @@ public class SiyoXConfig {
     public static final String GITHUB_URL = "https://github.com/XiYueMax/SiyoX";
     public static final String TARGET_PACKAGE = "com.netease.x19";
 
-    // ==================== 客户端展示信息 (自动从 C/C++ SiyoX_Config.h 动态注入) ====================
     public static String CLIENT_NAME = "";
     public static String CLIENT_AUTHOR = "";
-
-    // ==================== 材质包 MD5 校验开关 (自动从 C/C++ SiyoX_Config.h 动态注入) ====================
     public static boolean ENABLE_RESOURCE_MD5_VERIFY = true;
 
-    // ==================== 默认材质资源实体定义 ====================
     public static class DefaultResource {
         public final String name;
         public final String url;
@@ -65,28 +54,22 @@ public class SiyoXConfig {
         }
     }
 
-    /**
-     * 预置默认资源包列表 (运行时从 C/C++ SiyoX_Config.h 动态构建)
-     */
     public static DefaultResource[] DEFAULT_RESOURCES = new DefaultResource[0];
 
-    // ==================== 网络验证类型 ====================
     public enum VerifyType {
-        EPIC,    // 摇光云验证
-        T3,      // T3网络验证
-        WEIYAN   // 微验网络验证
+        EPIC,
+        T3,
+        WEIYAN
     }
 
     public static VerifyType CURRENT_VERIFY_TYPE = VerifyType.EPIC;
 
-    // ==================== 1. EPIC (摇光云) 配置 ====================
     public static class EpicConfig {
         public static String APP_KEY = "";
         public static String[] HOSTS = new String[0];
         public static int PORT = 5000;
     }
 
-    // ==================== 2. T3 网络验证配置 ====================
     public static class T3Config {
         public static String API_HOST = "";
         public static String APP_KEY = "";
@@ -97,7 +80,6 @@ public class SiyoXConfig {
         public static String RSA_PUBLIC_KEY = "";
     }
 
-    // ==================== 3. 微验 (WeiYan) 网络验证配置 ====================
     public static class WeiYanConfig {
         public static String API_HOST = "";
         public static String APP_ID = "";
@@ -105,7 +87,6 @@ public class SiyoXConfig {
         public static String RC4_KEY = "";
     }
 
-    // ==================== 静态初始化：从 Native C/C++ 动态注入所有配置 ====================
     static {
         loadNativeConfig();
     }
@@ -115,7 +96,6 @@ public class SiyoXConfig {
             return;
         }
         try {
-            // 1. 客户端展示信息
             String nativeClientName = NativeVerify.nativeGetClientName();
             if (nativeClientName != null && !nativeClientName.isEmpty()) {
                 CLIENT_NAME = nativeClientName;
@@ -125,10 +105,8 @@ public class SiyoXConfig {
                 CLIENT_AUTHOR = nativeClientAuthor;
             }
 
-            // 2. MD5 校验开关
             ENABLE_RESOURCE_MD5_VERIFY = NativeVerify.nativeGetEnableMd5Verify();
 
-            // 3. EPIC 验证配置
             String nativeEpicAppKey = NativeVerify.nativeGetEpicAppKey();
             if (nativeEpicAppKey != null && !nativeEpicAppKey.isEmpty()) {
                 EpicConfig.APP_KEY = nativeEpicAppKey;
@@ -142,7 +120,6 @@ public class SiyoXConfig {
                 EpicConfig.HOSTS = nativeEpicHosts;
             }
 
-            // 4. T3 验证配置
             String t3Json = NativeVerify.nativeGetT3ConfigJson();
             if (t3Json != null && !t3Json.isEmpty()) {
                 JSONObject obj = new JSONObject(t3Json);
@@ -155,7 +132,6 @@ public class SiyoXConfig {
                 T3Config.RSA_PUBLIC_KEY = obj.optString("rsaPublicKey", T3Config.RSA_PUBLIC_KEY);
             }
 
-            // 5. 微验配置
             String wyJson = NativeVerify.nativeGetWeiYanConfigJson();
             if (wyJson != null && !wyJson.isEmpty()) {
                 JSONObject obj = new JSONObject(wyJson);
@@ -165,7 +141,6 @@ public class SiyoXConfig {
                 WeiYanConfig.RC4_KEY = obj.optString("rc4Key", WeiYanConfig.RC4_KEY);
             }
 
-            // 6. 默认资源包列表 (从 C++ 读取并解析)
             String resJson = NativeVerify.nativeGetDefaultResourcesJson();
             if (resJson != null && !resJson.isEmpty()) {
                 JSONArray arr = new JSONArray(resJson);

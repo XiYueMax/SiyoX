@@ -5,3 +5,5 @@
 2	48	8097034191578590	build.ninja	c15fa83dc547bc94
 0	181	8097034194582457	CMakeFiles/siyox_verify.dir/SiyoX_Verify.c.o	412a09a7fbf8dc41
 182	219	8097034194973197	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/arm64-v8a/libsiyox_verify.so	7f1bc28344a4ffde
+2	163	8097040130472196	CMakeFiles/siyox_verify.dir/SiyoX_Verify.c.o	412a09a7fbf8dc41
+163	201	8097040130853597	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/arm64-v8a/libsiyox_verify.so	7f1bc28344a4ffde
