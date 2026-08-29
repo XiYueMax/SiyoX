@@ -12,6 +12,7 @@ public class AppSettings {
     private static final String KEY_CARD = "card_key";
     private static final String KEY_EXPIRE_TIME = "expire_time";
     private static final String KEY_AUTO_VERIFY = "auto_verify";
+    private static final String KEY_REMEMBER_CARD = "remember_card";
 
     private final SharedPreferences sp;
     private static volatile AppSettings instance;
@@ -60,5 +61,13 @@ public class AppSettings {
 
     public void setAutoVerify(boolean autoVerify) {
         sp.edit().putBoolean(KEY_AUTO_VERIFY, autoVerify).apply();
+    }
+
+    public boolean isRememberCard() {
+        return sp.getBoolean(KEY_REMEMBER_CARD, true);
+    }
+
+    public void setRememberCard(boolean remember) {
+        sp.edit().putBoolean(KEY_REMEMBER_CARD, remember).apply();
     }
 }

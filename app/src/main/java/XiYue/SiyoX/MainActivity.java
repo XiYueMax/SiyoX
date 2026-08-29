@@ -28,6 +28,8 @@ import android.widget.TextView;
 import XiYue.SiyoX.data.AppSettings;
 import XiYue.SiyoX.data.VerifyManager;
 import XiYue.SiyoX.ui.LogoLoader;
+import XiYue.SiyoX.ui.SiyoXOverlayLayout;
+
 
 
 public class MainActivity extends Activity {
@@ -90,14 +92,11 @@ public class MainActivity extends Activity {
         logoView.setClipToOutline(true);
         headerCard.addView(logoView);
 
-        // 软件名
-        TextView tvAppName = new TextView(this);
-        tvAppName.setText(SiyoXConfig.APP_NAME);
-        tvAppName.setTextSize(24f);
-        tvAppName.setTypeface(Typeface.DEFAULT_BOLD);
-        tvAppName.setTextColor(Color.parseColor("#0A84FF"));
-        tvAppName.setPadding(0, dp12, 0, 0);
-        headerCard.addView(tvAppName);
+        // 软件名 (Siyo 黑色 + X 蓝色)
+        View titleView = SiyoXOverlayLayout.createSiyoXTitleView(this, 24f);
+        titleView.setPadding(0, dp12, 0, 0);
+        headerCard.addView(titleView);
+
 
         // 版本号
         TextView tvVersion = new TextView(this);
