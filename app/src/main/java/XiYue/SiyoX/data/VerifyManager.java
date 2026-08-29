@@ -226,14 +226,15 @@ public class VerifyManager {
                         if (resp.isSuccess()) {
                             long expire = 0L;
                             try {
-                                if (resp.getData() != null) {
-                                    expire = resp.getData().getLong("expire");
+                                if (resp.data != null) {
+                                    expire = resp.data.getLong("expire");
                                 }
                             } catch (Exception ignored) {}
                             onVerifySuccess(cardKey.trim(), expire, callback);
                         } else {
-                            onVerifyFailed(resp.getMsg() != null ? resp.getMsg() : "验证失败", callback);
+                            onVerifyFailed(resp.msg != null ? resp.msg : "验证失败", callback);
                         }
+
                         return;
                     }
 

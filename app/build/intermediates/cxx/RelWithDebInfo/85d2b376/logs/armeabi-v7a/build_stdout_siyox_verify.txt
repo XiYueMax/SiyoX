@@ -1,3 +1,2 @@
 ninja: Entering directory `C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\.cxx\RelWithDebInfo\85d2b376\armeabi-v7a'
-[1/2] Building C object CMakeFiles/siyox_verify.dir/siyox_verify.c.o
-[2/2] Linking C shared library "C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\build\intermediates\cxx\RelWithDebInfo\85d2b376\obj\armeabi-v7a\libsiyox_verify.so"
+ninja: no work to do.
