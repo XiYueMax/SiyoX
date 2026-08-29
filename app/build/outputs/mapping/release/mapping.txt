@@ -3,8 +3,8 @@
 # min_api: 26
 # common_typos_disable
 # {"id":"com.android.tools.r8.mapping","version":"2.2"}
-# pg_map_id: dd0c69053cc13955c347f50899f8edab3bb314f07c247ba6cd4c85546c618890
-# pg_map_hash: SHA-256 dd0c69053cc13955c347f50899f8edab3bb314f07c247ba6cd4c85546c618890
+# pg_map_id: c4448fb4e7dc89cab8a42b5a3ad9f78bd0b8c4f626409b03e8671c99d5968235
+# pg_map_hash: SHA-256 c4448fb4e7dc89cab8a42b5a3ad9f78bd0b8c4f626409b03e8671c99d5968235
 XiYue.SiyoX.BuildConfig -> XiYue.SiyoX.BuildConfig:
 # {"id":"sourceFile","fileName":"BuildConfig.java"}
     1:4:void <init>():6:6 -> <init>
@@ -1155,7 +1155,7 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout -> XiYue.SiyoX.ui.SiyoXOverlayLayout:
     85:88:void <init>(android.app.Activity):120:120 -> <init>
     1:3:void -$$Nest$fputdownRawY(XiYue.SiyoX.ui.SiyoXOverlayLayout,float):0:0 -> A
       # {"id":"com.android.tools.r8.synthesized"}
-    1:7:int -$$Nest$mdp(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> B
+    1:5:int -$$Nest$mdp(XiYue.SiyoX.ui.SiyoXOverlayLayout,int):0:0 -> B
       # {"id":"com.android.tools.r8.synthesized"}
     1:5:int[] -$$Nest$mgetRealScreenSize(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> C
       # {"id":"com.android.tools.r8.synthesized"}
@@ -1500,25 +1500,25 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout -> XiYue.SiyoX.ui.SiyoXOverlayLayout:
     761:764:void buildInGamePanel():640:640 -> buildInGamePanel
     1:3:XiYue.SiyoX.ui.MiuiXCheckBox -$$Nest$fgetcbAutoLogin(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> c
       # {"id":"com.android.tools.r8.synthesized"}
-    1:8:void checkInitialState():1604:1604 -> checkInitialState
-    9:12:void checkInitialState():1605:1605 -> checkInitialState
-    13:18:void checkInitialState():1607:1607 -> checkInitialState
-    19:25:void checkInitialState():1608:1608 -> checkInitialState
-    26:31:void checkInitialState():1609:1609 -> checkInitialState
-    1:6:void closePanel():1506:1506 -> closePanel
-    7:8:void closePanel():1507:1507 -> closePanel
-    9:17:void closePanel():1509:1509 -> closePanel
-    18:21:void closePanel():1510:1510 -> closePanel
-    22:26:void closePanel():1511:1511 -> closePanel
-    27:32:void closePanel():1512:1512 -> closePanel
-    33:41:void closePanel():1513:1513 -> closePanel
-    42:50:void closePanel():1514:1514 -> closePanel
-    51:54:void closePanel():1515:1515 -> closePanel
-    55:58:void closePanel():1525:1525 -> closePanel
-    1:5:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1726:1726 -> createCardBg
-    6:9:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1727:1727 -> createCardBg
-    10:15:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1728:1728 -> createCardBg
-    16:23:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1730:1730 -> createCardBg
+    1:8:void checkInitialState():1608:1608 -> checkInitialState
+    9:12:void checkInitialState():1609:1609 -> checkInitialState
+    13:18:void checkInitialState():1611:1611 -> checkInitialState
+    19:25:void checkInitialState():1612:1612 -> checkInitialState
+    26:31:void checkInitialState():1613:1613 -> checkInitialState
+    1:6:void closePanel():1510:1510 -> closePanel
+    7:8:void closePanel():1511:1511 -> closePanel
+    9:17:void closePanel():1513:1513 -> closePanel
+    18:21:void closePanel():1514:1514 -> closePanel
+    22:26:void closePanel():1515:1515 -> closePanel
+    27:32:void closePanel():1516:1516 -> closePanel
+    33:41:void closePanel():1517:1517 -> closePanel
+    42:50:void closePanel():1518:1518 -> closePanel
+    51:54:void closePanel():1519:1519 -> closePanel
+    55:58:void closePanel():1529:1529 -> closePanel
+    1:5:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1730:1730 -> createCardBg
+    6:9:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1731:1731 -> createCardBg
+    10:15:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1732:1732 -> createCardBg
+    16:23:android.graphics.drawable.GradientDrawable createCardBg(int,int,int):1734:1734 -> createCardBg
     1:10:android.view.View createCustomInfoRow(java.lang.String,android.view.View,boolean):1325:1325 -> createCustomInfoRow
     11:15:android.view.View createCustomInfoRow(java.lang.String,android.view.View,boolean):1326:1326 -> createCustomInfoRow
     16:18:android.view.View createCustomInfoRow(java.lang.String,android.view.View,boolean):1327:1327 -> createCustomInfoRow
@@ -1668,24 +1668,24 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout -> XiYue.SiyoX.ui.SiyoXOverlayLayout:
     311:313:android.view.View createDirectoryCard(java.lang.String,java.lang.String,java.lang.String,boolean):1297:1297 -> createDirectoryCard
     314:321:android.view.View createDirectoryCard(java.lang.String,java.lang.String,java.lang.String,boolean):1299:1299 -> createDirectoryCard
     322:325:android.view.View createDirectoryCard(java.lang.String,java.lang.String,java.lang.String,boolean):1311:1311 -> createDirectoryCard
-    1:9:android.view.View createDivider(boolean):1717:1717 -> createDivider
-    10:21:android.view.View createDivider(boolean):1718:1718 -> createDivider
-    22:33:android.view.View createDivider(boolean):1719:1719 -> createDivider
-    34:36:android.view.View createDivider(boolean):1720:1720 -> createDivider
-    37:44:android.view.View createDivider(boolean):1721:1721 -> createDivider
-    2:6:android.graphics.drawable.RippleDrawable createExitRippleDrawable(int,int):1743:1743 -> createExitRippleDrawable
-    7:10:android.graphics.drawable.RippleDrawable createExitRippleDrawable(int,int):1744:1744 -> createExitRippleDrawable
-    11:26:android.graphics.drawable.RippleDrawable createExitRippleDrawable(int,int):1745:1745 -> createExitRippleDrawable
+    1:9:android.view.View createDivider(boolean):1721:1721 -> createDivider
+    10:21:android.view.View createDivider(boolean):1722:1722 -> createDivider
+    22:33:android.view.View createDivider(boolean):1723:1723 -> createDivider
+    34:36:android.view.View createDivider(boolean):1724:1724 -> createDivider
+    37:44:android.view.View createDivider(boolean):1725:1725 -> createDivider
+    2:6:android.graphics.drawable.RippleDrawable createExitRippleDrawable(int,int):1747:1747 -> createExitRippleDrawable
+    7:10:android.graphics.drawable.RippleDrawable createExitRippleDrawable(int,int):1748:1748 -> createExitRippleDrawable
+    11:26:android.graphics.drawable.RippleDrawable createExitRippleDrawable(int,int):1749:1749 -> createExitRippleDrawable
     1:9:android.view.View createInfoRowItem(java.lang.String,java.lang.String,boolean):1316:1316 -> createInfoRowItem
     10:14:android.view.View createInfoRowItem(java.lang.String,java.lang.String,boolean):1317:1317 -> createInfoRowItem
     15:17:android.view.View createInfoRowItem(java.lang.String,java.lang.String,boolean):1318:1318 -> createInfoRowItem
     18:22:android.view.View createInfoRowItem(java.lang.String,java.lang.String,boolean):1319:1319 -> createInfoRowItem
     23:29:android.view.View createInfoRowItem(java.lang.String,java.lang.String,boolean):1320:1320 -> createInfoRowItem
     30:34:android.view.View createInfoRowItem(java.lang.String,java.lang.String,boolean):1321:1321 -> createInfoRowItem
-    1:10:android.widget.LinearLayout createInnerCard(boolean):1709:1709 -> createInnerCard
-    11:13:android.widget.LinearLayout createInnerCard(boolean):1710:1710 -> createInnerCard
-    14:23:android.widget.LinearLayout createInnerCard(boolean):1711:1711 -> createInnerCard
-    24:42:android.widget.LinearLayout createInnerCard(boolean):1712:1712 -> createInnerCard
+    1:10:android.widget.LinearLayout createInnerCard(boolean):1713:1713 -> createInnerCard
+    11:13:android.widget.LinearLayout createInnerCard(boolean):1714:1714 -> createInnerCard
+    14:23:android.widget.LinearLayout createInnerCard(boolean):1715:1715 -> createInnerCard
+    24:42:android.widget.LinearLayout createInnerCard(boolean):1716:1716 -> createInnerCard
     1:10:android.view.View createMiuiXFeatureCard(java.lang.String,java.lang.String,boolean,boolean,XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener):1343:1343 -> createMiuiXFeatureCard
     11:15:android.view.View createMiuiXFeatureCard(java.lang.String,java.lang.String,boolean,boolean,XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener):1344:1344 -> createMiuiXFeatureCard
     16:18:android.view.View createMiuiXFeatureCard(java.lang.String,java.lang.String,boolean,boolean,XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener):1345:1345 -> createMiuiXFeatureCard
@@ -1714,36 +1714,36 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout -> XiYue.SiyoX.ui.SiyoXOverlayLayout:
     178:180:android.view.View createMiuiXFeatureCard(java.lang.String,java.lang.String,boolean,boolean,XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener):1374:1374 -> createMiuiXFeatureCard
     181:183:android.view.View createMiuiXFeatureCard(java.lang.String,java.lang.String,boolean,boolean,XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener):1375:1375 -> createMiuiXFeatureCard
     184:187:android.view.View createMiuiXFeatureCard(java.lang.String,java.lang.String,boolean,boolean,XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener):1376:1376 -> createMiuiXFeatureCard
-    2:6:android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int):1736:1736 -> createRippleDrawable
-    7:10:android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int):1737:1737 -> createRippleDrawable
-    11:20:android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int):1738:1738 -> createRippleDrawable
-    1:9:android.widget.TextView createSectionTitle(java.lang.String,boolean):1699:1699 -> createSectionTitle
-    10:14:android.widget.TextView createSectionTitle(java.lang.String,boolean):1700:1700 -> createSectionTitle
-    15:17:android.widget.TextView createSectionTitle(java.lang.String,boolean):1701:1701 -> createSectionTitle
-    18:22:android.widget.TextView createSectionTitle(java.lang.String,boolean):1702:1702 -> createSectionTitle
-    23:31:android.widget.TextView createSectionTitle(java.lang.String,boolean):1703:1703 -> createSectionTitle
-    32:45:android.widget.TextView createSectionTitle(java.lang.String,boolean):1704:1704 -> createSectionTitle
-    1:9:android.view.View createSiyoXTitle(float,boolean):1650:1650 -> createSiyoXTitle
-    1:6:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1628:1628 -> createSiyoXTitleView
-    7:11:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1629:1629 -> createSiyoXTitleView
-    12:14:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1630:1630 -> createSiyoXTitleView
-    15:19:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1632:1632 -> createSiyoXTitleView
-    20:24:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1633:1633 -> createSiyoXTitleView
-    25:27:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1634:1634 -> createSiyoXTitleView
-    28:32:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1635:1635 -> createSiyoXTitleView
-    33:39:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1636:1636 -> createSiyoXTitleView
-    40:42:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1637:1637 -> createSiyoXTitleView
-    43:47:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1639:1639 -> createSiyoXTitleView
-    48:52:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1640:1640 -> createSiyoXTitleView
-    53:55:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1641:1641 -> createSiyoXTitleView
-    56:58:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1642:1642 -> createSiyoXTitleView
-    59:65:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1643:1643 -> createSiyoXTitleView
-    66:69:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1644:1644 -> createSiyoXTitleView
-    70:71:android.view.View createSiyoXTitleView(android.content.Context,float):1623:1624 -> createSiyoXTitleView
+    2:6:android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int):1740:1740 -> createRippleDrawable
+    7:10:android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int):1741:1741 -> createRippleDrawable
+    11:20:android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int):1742:1742 -> createRippleDrawable
+    1:9:android.widget.TextView createSectionTitle(java.lang.String,boolean):1703:1703 -> createSectionTitle
+    10:14:android.widget.TextView createSectionTitle(java.lang.String,boolean):1704:1704 -> createSectionTitle
+    15:17:android.widget.TextView createSectionTitle(java.lang.String,boolean):1705:1705 -> createSectionTitle
+    18:22:android.widget.TextView createSectionTitle(java.lang.String,boolean):1706:1706 -> createSectionTitle
+    23:31:android.widget.TextView createSectionTitle(java.lang.String,boolean):1707:1707 -> createSectionTitle
+    32:45:android.widget.TextView createSectionTitle(java.lang.String,boolean):1708:1708 -> createSectionTitle
+    1:9:android.view.View createSiyoXTitle(float,boolean):1654:1654 -> createSiyoXTitle
+    1:6:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1632:1632 -> createSiyoXTitleView
+    7:11:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1633:1633 -> createSiyoXTitleView
+    12:14:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1634:1634 -> createSiyoXTitleView
+    15:19:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1636:1636 -> createSiyoXTitleView
+    20:24:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1637:1637 -> createSiyoXTitleView
+    25:27:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1638:1638 -> createSiyoXTitleView
+    28:32:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1639:1639 -> createSiyoXTitleView
+    33:39:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1640:1640 -> createSiyoXTitleView
+    40:42:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1641:1641 -> createSiyoXTitleView
+    43:47:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1643:1643 -> createSiyoXTitleView
+    48:52:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1644:1644 -> createSiyoXTitleView
+    53:55:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1645:1645 -> createSiyoXTitleView
+    56:58:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1646:1646 -> createSiyoXTitleView
+    59:65:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1647:1647 -> createSiyoXTitleView
+    66:69:android.view.View createSiyoXTitleView(android.content.Context,float,boolean):1648:1648 -> createSiyoXTitleView
+    70:71:android.view.View createSiyoXTitleView(android.content.Context,float):1627:1628 -> createSiyoXTitleView
     1:3:XiYue.SiyoX.ui.MiuiXCheckBox -$$Nest$fgetcbRememberCard(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> d
       # {"id":"com.android.tools.r8.synthesized"}
-    2:14:int dp(int):1752:1752 -> dp
-    15:20:int dp(int):1749:1749 -> dp
+    2:14:int dp(int):1756:1756 -> dp
+    15:20:int dp(int):1753:1753 -> dp
     1:3:int -$$Nest$fgetcurrentResSubTab(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> e
       # {"id":"com.android.tools.r8.synthesized"}
     1:3:float -$$Nest$fgetdX(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> f
@@ -1774,10 +1774,10 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout -> XiYue.SiyoX.ui.SiyoXOverlayLayout:
       # {"id":"com.android.tools.r8.synthesized"}
     1:3:android.widget.Button -$$Nest$fgetfullBtnVerify(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> l
       # {"id":"com.android.tools.r8.synthesized"}
-    1:10:void loadNotice():1571:1571 -> loadNotice
-    11:16:void loadNotice():1585:1585 -> loadNotice
-    17:42:void loadNotice():1586:1586 -> loadNotice
-    43:53:void loadNotice():1587:1587 -> loadNotice
+    1:10:void loadNotice():1575:1575 -> loadNotice
+    11:16:void loadNotice():1589:1589 -> loadNotice
+    17:42:void loadNotice():1590:1590 -> loadNotice
+    43:53:void loadNotice():1591:1591 -> loadNotice
     1:3:android.widget.EditText -$$Nest$fgetfullCardInput(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> m
       # {"id":"com.android.tools.r8.synthesized"}
     1:3:android.widget.ProgressBar -$$Nest$fgetfullLoadingBar(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> n
@@ -1792,30 +1792,30 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout -> XiYue.SiyoX.ui.SiyoXOverlayLayout:
     16:19:void onMeasure(int,int):146:146 -> onMeasure
     20:23:void onMeasure(int,int):147:147 -> onMeasure
     24:27:void onMeasure(int,int):145:145 -> onMeasure
-    1:7:void onVerifySuccess():1614:1614 -> onVerifySuccess
-    8:13:void onVerifySuccess():1615:1615 -> onVerifySuccess
-    14:17:void onVerifySuccess():1616:1616 -> onVerifySuccess
-    18:45:void onVerifySuccess():1617:1617 -> onVerifySuccess
-    1:11:void openPanelWithRipple(float,float):1472:1472 -> openPanelWithRipple
-    12:16:void openPanelWithRipple(float,float):1473:1473 -> openPanelWithRipple
-    17:21:void openPanelWithRipple(float,float):1474:1474 -> openPanelWithRipple
-    22:28:void openPanelWithRipple(float,float):1475:1475 -> openPanelWithRipple
-    29:30:void openPanelWithRipple(float,float):1479:1479 -> openPanelWithRipple
-    31:35:void openPanelWithRipple(float,float):1480:1480 -> openPanelWithRipple
-    36:40:void openPanelWithRipple(float,float):1481:1481 -> openPanelWithRipple
-    41:44:void openPanelWithRipple(float,float):1484:1484 -> openPanelWithRipple
-    45:71:void openPanelWithRipple(float,float):1485:1485 -> openPanelWithRipple
-    72:76:void openPanelWithRipple(float,float):1489:1489 -> openPanelWithRipple
-    77:84:void openPanelWithRipple(float,float):1492:1492 -> openPanelWithRipple
-    85:89:void openPanelWithRipple(float,float):1493:1493 -> openPanelWithRipple
-    90:95:void openPanelWithRipple(float,float):1494:1494 -> openPanelWithRipple
-    96:103:void openPanelWithRipple(float,float):1496:1496 -> openPanelWithRipple
-    104:107:void openPanelWithRipple(float,float):1497:1497 -> openPanelWithRipple
-    108:111:void openPanelWithRipple(float,float):1498:1498 -> openPanelWithRipple
-    112:117:void openPanelWithRipple(float,float):1499:1499 -> openPanelWithRipple
-    118:129:void openPanelWithRipple(float,float):1500:1500 -> openPanelWithRipple
-    130:133:void openPanelWithRipple(float,float):1501:1501 -> openPanelWithRipple
-    134:137:void openPanelWithRipple(float,float):1502:1502 -> openPanelWithRipple
+    1:7:void onVerifySuccess():1618:1618 -> onVerifySuccess
+    8:13:void onVerifySuccess():1619:1619 -> onVerifySuccess
+    14:17:void onVerifySuccess():1620:1620 -> onVerifySuccess
+    18:45:void onVerifySuccess():1621:1621 -> onVerifySuccess
+    1:11:void openPanelWithRipple(float,float):1476:1476 -> openPanelWithRipple
+    12:16:void openPanelWithRipple(float,float):1477:1477 -> openPanelWithRipple
+    17:21:void openPanelWithRipple(float,float):1478:1478 -> openPanelWithRipple
+    22:28:void openPanelWithRipple(float,float):1479:1479 -> openPanelWithRipple
+    29:30:void openPanelWithRipple(float,float):1483:1483 -> openPanelWithRipple
+    31:35:void openPanelWithRipple(float,float):1484:1484 -> openPanelWithRipple
+    36:40:void openPanelWithRipple(float,float):1485:1485 -> openPanelWithRipple
+    41:44:void openPanelWithRipple(float,float):1488:1488 -> openPanelWithRipple
+    45:71:void openPanelWithRipple(float,float):1489:1489 -> openPanelWithRipple
+    72:76:void openPanelWithRipple(float,float):1493:1493 -> openPanelWithRipple
+    77:84:void openPanelWithRipple(float,float):1496:1496 -> openPanelWithRipple
+    85:89:void openPanelWithRipple(float,float):1497:1497 -> openPanelWithRipple
+    90:95:void openPanelWithRipple(float,float):1498:1498 -> openPanelWithRipple
+    96:103:void openPanelWithRipple(float,float):1500:1500 -> openPanelWithRipple
+    104:107:void openPanelWithRipple(float,float):1501:1501 -> openPanelWithRipple
+    108:111:void openPanelWithRipple(float,float):1502:1502 -> openPanelWithRipple
+    112:117:void openPanelWithRipple(float,float):1503:1503 -> openPanelWithRipple
+    118:129:void openPanelWithRipple(float,float):1504:1504 -> openPanelWithRipple
+    130:133:void openPanelWithRipple(float,float):1505:1505 -> openPanelWithRipple
+    134:137:void openPanelWithRipple(float,float):1506:1506 -> openPanelWithRipple
     1:3:android.widget.TextView -$$Nest$fgetfullNoticeTitle(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> p
       # {"id":"com.android.tools.r8.synthesized"}
     1:3:android.widget.FrameLayout -$$Nest$fgetfullScreenVerifyView(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> q
@@ -1995,7 +1995,7 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout -> XiYue.SiyoX.ui.SiyoXOverlayLayout:
     1:3:android.widget.FrameLayout -$$Nest$fgetinGamePanelScrim(XiYue.SiyoX.ui.SiyoXOverlayLayout):0:0 -> s
       # {"id":"com.android.tools.r8.synthesized"}
     1:9:void setupBallDragListener(android.view.View):1420:1420 -> setupBallDragListener
-    1:11:void setupListeners():1529:1529 -> setupListeners
+    1:11:void setupListeners():1533:1533 -> setupListeners
     1:8:void switchCategory(int):645:645 -> switchCategory
     9:12:void switchCategory(int):646:646 -> switchCategory
     13:22:void switchCategory(int):648:648 -> switchCategory
@@ -2156,86 +2156,87 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout$20 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$20:
 XiYue.SiyoX.ui.SiyoXOverlayLayout$21 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$21:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
     1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1420:1420 -> <init>
-    1:7:boolean onTouch(android.view.View,android.view.MotionEvent):1423:1423 -> onTouch
-    8:10:boolean onTouch(android.view.View,android.view.MotionEvent):1424:1424 -> onTouch
-    11:12:boolean onTouch(android.view.View,android.view.MotionEvent):1425:1425 -> onTouch
-    13:26:boolean onTouch(android.view.View,android.view.MotionEvent):1426:1426 -> onTouch
-    27:40:boolean onTouch(android.view.View,android.view.MotionEvent):1427:1427 -> onTouch
-    41:52:boolean onTouch(android.view.View,android.view.MotionEvent):1429:1429 -> onTouch
-    53:69:boolean onTouch(android.view.View,android.view.MotionEvent):1439:1439 -> onTouch
-    70:87:boolean onTouch(android.view.View,android.view.MotionEvent):1440:1440 -> onTouch
-    88:92:boolean onTouch(android.view.View,android.view.MotionEvent):1441:1441 -> onTouch
-    93:96:boolean onTouch(android.view.View,android.view.MotionEvent):1442:1442 -> onTouch
-    97:118:boolean onTouch(android.view.View,android.view.MotionEvent):1444:1444 -> onTouch
-    119:139:boolean onTouch(android.view.View,android.view.MotionEvent):1445:1445 -> onTouch
-    140:145:boolean onTouch(android.view.View,android.view.MotionEvent):1447:1447 -> onTouch
-    146:153:boolean onTouch(android.view.View,android.view.MotionEvent):1448:1448 -> onTouch
-    154:155:boolean onTouch(android.view.View,android.view.MotionEvent):1449:1449 -> onTouch
-    156:160:boolean onTouch(android.view.View,android.view.MotionEvent):1450:1450 -> onTouch
-    161:162:boolean onTouch(android.view.View,android.view.MotionEvent):1451:1451 -> onTouch
-    163:166:boolean onTouch(android.view.View,android.view.MotionEvent):1452:1452 -> onTouch
-    167:181:boolean onTouch(android.view.View,android.view.MotionEvent):1457:1457 -> onTouch
-    182:196:boolean onTouch(android.view.View,android.view.MotionEvent):1458:1458 -> onTouch
-    197:218:boolean onTouch(android.view.View,android.view.MotionEvent):1459:1459 -> onTouch
-    219:224:boolean onTouch(android.view.View,android.view.MotionEvent):1460:1460 -> onTouch
-    225:252:boolean onTouch(android.view.View,android.view.MotionEvent):1461:1461 -> onTouch
-    253:261:boolean onTouch(android.view.View,android.view.MotionEvent):1431:1431 -> onTouch
-    262:270:boolean onTouch(android.view.View,android.view.MotionEvent):1432:1432 -> onTouch
-    271:276:boolean onTouch(android.view.View,android.view.MotionEvent):1433:1433 -> onTouch
-    277:289:boolean onTouch(android.view.View,android.view.MotionEvent):1434:1434 -> onTouch
-    290:303:boolean onTouch(android.view.View,android.view.MotionEvent):1435:1435 -> onTouch
+    1:9:boolean onTouch(android.view.View,android.view.MotionEvent):1423:1423 -> onTouch
+    10:18:boolean onTouch(android.view.View,android.view.MotionEvent):1424:1424 -> onTouch
+    19:32:boolean onTouch(android.view.View,android.view.MotionEvent):1425:1425 -> onTouch
+    33:46:boolean onTouch(android.view.View,android.view.MotionEvent):1426:1426 -> onTouch
+    47:65:boolean onTouch(android.view.View,android.view.MotionEvent):1427:1427 -> onTouch
+    66:82:boolean onTouch(android.view.View,android.view.MotionEvent):1428:1428 -> onTouch
+    83:91:boolean onTouch(android.view.View,android.view.MotionEvent):1431:1431 -> onTouch
+    92:97:boolean onTouch(android.view.View,android.view.MotionEvent):1433:1433 -> onTouch
+    98:101:boolean onTouch(android.view.View,android.view.MotionEvent):1435:1435 -> onTouch
+    102:114:boolean onTouch(android.view.View,android.view.MotionEvent):1437:1437 -> onTouch
+    115:135:boolean onTouch(android.view.View,android.view.MotionEvent):1447:1447 -> onTouch
+    136:156:boolean onTouch(android.view.View,android.view.MotionEvent):1448:1448 -> onTouch
+    157:162:boolean onTouch(android.view.View,android.view.MotionEvent):1450:1450 -> onTouch
+    163:170:boolean onTouch(android.view.View,android.view.MotionEvent):1451:1451 -> onTouch
+    171:172:boolean onTouch(android.view.View,android.view.MotionEvent):1452:1452 -> onTouch
+    173:177:boolean onTouch(android.view.View,android.view.MotionEvent):1453:1453 -> onTouch
+    178:179:boolean onTouch(android.view.View,android.view.MotionEvent):1454:1454 -> onTouch
+    180:184:boolean onTouch(android.view.View,android.view.MotionEvent):1455:1455 -> onTouch
+    185:188:boolean onTouch(android.view.View,android.view.MotionEvent):1456:1456 -> onTouch
+    189:203:boolean onTouch(android.view.View,android.view.MotionEvent):1461:1461 -> onTouch
+    204:218:boolean onTouch(android.view.View,android.view.MotionEvent):1462:1462 -> onTouch
+    219:240:boolean onTouch(android.view.View,android.view.MotionEvent):1463:1463 -> onTouch
+    241:246:boolean onTouch(android.view.View,android.view.MotionEvent):1464:1464 -> onTouch
+    247:266:boolean onTouch(android.view.View,android.view.MotionEvent):1465:1465 -> onTouch
+    267:275:boolean onTouch(android.view.View,android.view.MotionEvent):1439:1439 -> onTouch
+    276:284:boolean onTouch(android.view.View,android.view.MotionEvent):1440:1440 -> onTouch
+    285:290:boolean onTouch(android.view.View,android.view.MotionEvent):1441:1441 -> onTouch
+    291:303:boolean onTouch(android.view.View,android.view.MotionEvent):1442:1442 -> onTouch
+    304:317:boolean onTouch(android.view.View,android.view.MotionEvent):1443:1443 -> onTouch
 XiYue.SiyoX.ui.SiyoXOverlayLayout$22 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$22:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1515:1515 -> <init>
-    1:14:void onAnimationEnd(android.animation.Animator):1518:1518 -> onAnimationEnd
-    15:25:void onAnimationEnd(android.animation.Animator):1519:1519 -> onAnimationEnd
-    26:37:void onAnimationEnd(android.animation.Animator):1520:1520 -> onAnimationEnd
-    38:48:void onAnimationEnd(android.animation.Animator):1521:1521 -> onAnimationEnd
+    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1519:1519 -> <init>
+    1:14:void onAnimationEnd(android.animation.Animator):1522:1522 -> onAnimationEnd
+    15:25:void onAnimationEnd(android.animation.Animator):1523:1523 -> onAnimationEnd
+    26:37:void onAnimationEnd(android.animation.Animator):1524:1524 -> onAnimationEnd
+    38:48:void onAnimationEnd(android.animation.Animator):1525:1525 -> onAnimationEnd
 XiYue.SiyoX.ui.SiyoXOverlayLayout$23 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$23:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1529:1529 -> <init>
-    1:18:void onClick(android.view.View):1532:1532 -> onClick
-    19:22:void onClick(android.view.View):1533:1533 -> onClick
-    23:27:void onClick(android.view.View):1538:1538 -> onClick
-    28:41:void onClick(android.view.View):1534:1534 -> onClick
-    42:48:void onClick(android.view.View):1538:1538 -> onClick
-    49:57:void onClick(android.view.View):1539:1539 -> onClick
-    58:68:void onClick(android.view.View):1540:1540 -> onClick
-    69:83:void onClick(android.view.View):1542:1542 -> onClick
+    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1533:1533 -> <init>
+    1:18:void onClick(android.view.View):1536:1536 -> onClick
+    19:22:void onClick(android.view.View):1537:1537 -> onClick
+    23:27:void onClick(android.view.View):1542:1542 -> onClick
+    28:41:void onClick(android.view.View):1538:1538 -> onClick
+    42:48:void onClick(android.view.View):1542:1542 -> onClick
+    49:57:void onClick(android.view.View):1543:1543 -> onClick
+    58:68:void onClick(android.view.View):1544:1544 -> onClick
+    69:83:void onClick(android.view.View):1546:1546 -> onClick
 XiYue.SiyoX.ui.SiyoXOverlayLayout$23$1 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$23$1:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:8:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$23,java.lang.String):1542:1542 -> <init>
-    1:15:void onResult(boolean,java.lang.String):1545:1545 -> onResult
+    1:8:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$23,java.lang.String):1546:1546 -> <init>
+    1:15:void onResult(boolean,java.lang.String):1549:1549 -> onResult
 XiYue.SiyoX.ui.SiyoXOverlayLayout$23$1$1 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$23$1$1:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:12:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$23$1,java.lang.String,boolean,java.lang.String):1545:1545 -> <init>
-    1:15:void run():1548:1548 -> run
-    16:29:void run():1549:1549 -> run
-    30:75:void run():1550:1550 -> run
-    76:95:void run():1552:1552 -> run
-    96:99:void run():1554:1554 -> run
-    100:127:void run():1555:1555 -> run
-    128:143:void run():1556:1556 -> run
-    144:158:void run():1558:1558 -> run
-    159:168:void run():1560:1560 -> run
+    1:12:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$23$1,java.lang.String,boolean,java.lang.String):1549:1549 -> <init>
+    1:15:void run():1552:1552 -> run
+    16:29:void run():1553:1553 -> run
+    30:75:void run():1554:1554 -> run
+    76:95:void run():1556:1556 -> run
+    96:99:void run():1558:1558 -> run
+    100:127:void run():1559:1559 -> run
+    128:143:void run():1560:1560 -> run
+    144:158:void run():1562:1562 -> run
+    159:168:void run():1564:1564 -> run
 XiYue.SiyoX.ui.SiyoXOverlayLayout$24 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$24:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1571:1571 -> <init>
-    1:11:void onResult(boolean,java.lang.String,java.lang.String):1574:1574 -> onResult
+    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1575:1575 -> <init>
+    1:11:void onResult(boolean,java.lang.String,java.lang.String):1578:1578 -> onResult
 XiYue.SiyoX.ui.SiyoXOverlayLayout$24$1 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$24$1:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:10:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$24,java.lang.String,java.lang.String):1574:1574 -> <init>
-    1:13:void run():1577:1577 -> run
-    14:27:void run():1578:1578 -> run
+    1:10:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$24,java.lang.String,java.lang.String):1578:1578 -> <init>
+    1:13:void run():1581:1581 -> run
+    14:27:void run():1582:1582 -> run
 XiYue.SiyoX.ui.SiyoXOverlayLayout$25 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$25:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1587:1587 -> <init>
-    1:11:void onResult(boolean,java.lang.String):1590:1590 -> onResult
+    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):1591:1591 -> <init>
+    1:11:void onResult(boolean,java.lang.String):1594:1594 -> onResult
 XiYue.SiyoX.ui.SiyoXOverlayLayout$25$1 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$25$1:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:8:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$25,boolean):1590:1590 -> <init>
-    1:4:void run():1593:1593 -> run
-    5:12:void run():1594:1594 -> run
+    1:8:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$25,boolean):1594:1594 -> <init>
+    1:4:void run():1597:1597 -> run
+    5:12:void run():1598:1598 -> run
 XiYue.SiyoX.ui.SiyoXOverlayLayout$3 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$3:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
     1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout):372:372 -> <init>
@@ -2275,33 +2276,33 @@ XiYue.SiyoX.ui.SiyoXOverlayLayout$9 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$9:
     47:62:void onClick(android.view.View):736:736 -> onClick
 XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView -> XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:4:void <init>(android.content.Context):1664:1664 -> <init>
-    5:6:void <init>(android.content.Context):1657:1657 -> <init>
-    7:8:void <init>(android.content.Context):1658:1658 -> <init>
-    9:10:void <init>(android.content.Context):1659:1659 -> <init>
-    11:12:void <init>(android.content.Context):1660:1660 -> <init>
-    13:20:void <init>(android.content.Context):1661:1661 -> <init>
-    21:30:void <init>(android.content.Context):1665:1665 -> <init>
+    1:4:void <init>(android.content.Context):1668:1668 -> <init>
+    5:6:void <init>(android.content.Context):1661:1661 -> <init>
+    7:8:void <init>(android.content.Context):1662:1662 -> <init>
+    9:10:void <init>(android.content.Context):1663:1663 -> <init>
+    11:12:void <init>(android.content.Context):1664:1664 -> <init>
+    13:20:void <init>(android.content.Context):1665:1665 -> <init>
+    21:30:void <init>(android.content.Context):1669:1669 -> <init>
     1:3:void -$$Nest$fputcurrentRadius(XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView,float):0:0 -> a
       # {"id":"com.android.tools.r8.synthesized"}
-    1:3:void onDraw(android.graphics.Canvas):1691:1691 -> onDraw
-    4:10:void onDraw(android.graphics.Canvas):1692:1692 -> onDraw
-    11:20:void onDraw(android.graphics.Canvas):1693:1693 -> onDraw
-    1:2:void startExpandAnimation(float,float):1669:1669 -> startExpandAnimation
-    3:4:void startExpandAnimation(float,float):1670:1670 -> startExpandAnimation
-    5:17:void startExpandAnimation(float,float):1672:1672 -> startExpandAnimation
-    18:32:void startExpandAnimation(float,float):1673:1673 -> startExpandAnimation
-    33:40:void startExpandAnimation(float,float):1674:1674 -> startExpandAnimation
-    41:55:void startExpandAnimation(float,float):1676:1676 -> startExpandAnimation
-    56:58:void startExpandAnimation(float,float):1677:1677 -> startExpandAnimation
-    59:66:void startExpandAnimation(float,float):1678:1678 -> startExpandAnimation
-    67:74:void startExpandAnimation(float,float):1679:1679 -> startExpandAnimation
-    75:78:void startExpandAnimation(float,float):1686:1686 -> startExpandAnimation
+    1:3:void onDraw(android.graphics.Canvas):1695:1695 -> onDraw
+    4:10:void onDraw(android.graphics.Canvas):1696:1696 -> onDraw
+    11:20:void onDraw(android.graphics.Canvas):1697:1697 -> onDraw
+    1:2:void startExpandAnimation(float,float):1673:1673 -> startExpandAnimation
+    3:4:void startExpandAnimation(float,float):1674:1674 -> startExpandAnimation
+    5:17:void startExpandAnimation(float,float):1676:1676 -> startExpandAnimation
+    18:32:void startExpandAnimation(float,float):1677:1677 -> startExpandAnimation
+    33:40:void startExpandAnimation(float,float):1678:1678 -> startExpandAnimation
+    41:55:void startExpandAnimation(float,float):1680:1680 -> startExpandAnimation
+    56:58:void startExpandAnimation(float,float):1681:1681 -> startExpandAnimation
+    59:66:void startExpandAnimation(float,float):1682:1682 -> startExpandAnimation
+    67:74:void startExpandAnimation(float,float):1683:1683 -> startExpandAnimation
+    75:78:void startExpandAnimation(float,float):1690:1690 -> startExpandAnimation
 XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView$1 -> XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView$1:
 # {"id":"sourceFile","fileName":"SiyoXOverlayLayout.java"}
-    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView):1679:1679 -> <init>
-    1:15:void onAnimationUpdate(android.animation.ValueAnimator):1682:1682 -> onAnimationUpdate
-    16:21:void onAnimationUpdate(android.animation.ValueAnimator):1683:1683 -> onAnimationUpdate
+    1:6:void <init>(XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView):1683:1683 -> <init>
+    1:15:void onAnimationUpdate(android.animation.ValueAnimator):1686:1686 -> onAnimationUpdate
+    16:21:void onAnimationUpdate(android.animation.ValueAnimator):1687:1687 -> onAnimationUpdate
 XiYue.SiyoX.ui.SiyoXTheme -> XiYue.SiyoX.ui.SiyoXTheme:
 # {"id":"sourceFile","fileName":"SiyoXTheme.java"}
     1:4:void <init>():10:10 -> <init>

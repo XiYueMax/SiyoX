@@ -1379,10 +1379,10 @@ public class SiyoXOverlayLayout extends FrameLayout {
     }
 
     // ==========================================
-    // 3. 悬浮球 (全屏幕自由拖拽，严格父容器边界约束，绝不跑出界外，小巧精致图标)
+    // 3. 悬浮球 (全屏幕自由拖拽，安全边距保护绝不出界，小巧精致 38dp 图标)
     // ==========================================
     private void buildFloatingBall() {
-        int ballSize = dp(44);
+        int ballSize = dp(38);
         floatingBall = new FrameLayout(getContext());
         LayoutParams ballParams = new LayoutParams(ballSize, ballSize);
         ballParams.gravity = Gravity.TOP | Gravity.START;
@@ -1396,11 +1396,11 @@ public class SiyoXOverlayLayout extends FrameLayout {
         // 无蓝色边框，圆角白色背景，精致无黑边
         GradientDrawable bg = new GradientDrawable();
         bg.setColor(Color.parseColor("#FFFFFF"));
-        bg.setCornerRadius(dp(13));
+        bg.setCornerRadius(dp(11));
         floatingBall.setBackground(bg);
 
         ImageView logoImg = new ImageView(getContext());
-        int pad = dp(5);
+        int pad = dp(4);
         logoImg.setPadding(pad, pad, pad, pad);
         logoImg.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         Bitmap bmp = LogoLoader.getLogo(getContext());
@@ -1420,11 +1420,19 @@ public class SiyoXOverlayLayout extends FrameLayout {
         ball.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int[] size = getRealScreenSize();
-                int screenW = size[0];
-                int screenH = size[1];
+                int screenW = getRealScreenSize()[0];
+                int screenH = getRealScreenSize()[1];
                 int parentW = getWidth() > 0 ? getWidth() : screenW;
                 int parentH = getHeight() > 0 ? getHeight() : screenH;
+                int bw = v.getWidth() > 0 ? v.getWidth() : dp(38);
+                int bh = v.getHeight() > 0 ? v.getHeight() : dp(38);
+
+                // 安全边距保护：预留 6dp 边距，绝不触碰屏幕最边缘/曲面屏/圆角裁切区域
+                int safeMargin = dp(6);
+                int minX = safeMargin;
+                int maxX = Math.max(minX, parentW - bw - safeMargin);
+                int minY = safeMargin;
+                int maxY = Math.max(minY, parentH - bh - safeMargin);
 
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
@@ -1436,13 +1444,8 @@ public class SiyoXOverlayLayout extends FrameLayout {
                         return true;
 
                     case MotionEvent.ACTION_MOVE:
-                        int bw = v.getWidth() > 0 ? v.getWidth() : dp(44);
-                        int bh = v.getHeight() > 0 ? v.getHeight() : dp(44);
-                        int maxX = Math.max(0, parentW - bw);
-                        int maxY = Math.max(0, parentH - bh);
-
-                        int newLeft = (int) Math.max(0, Math.min(event.getRawX() + dX, maxX));
-                        int newTop = (int) Math.max(0, Math.min(event.getRawY() + dY, maxY));
+                        int newLeft = (int) Math.max(minX, Math.min(event.getRawX() + dX, maxX));
+                        int newTop = (int) Math.max(minY, Math.min(event.getRawY() + dY, maxY));
 
                         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
                         if (lp.leftMargin != newLeft || lp.topMargin != newTop) {
@@ -1450,6 +1453,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
                             lp.topMargin = newTop;
                             lp.gravity = Gravity.TOP | Gravity.START;
                             v.setLayoutParams(lp);
+                            v.layout(newLeft, newTop, newLeft + bw, newTop + bh);
                         }
                         return true;
 
@@ -1458,7 +1462,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
                         float diffY = Math.abs(event.getRawY() - downRawY);
                         if (diffX < touchSlop && diffY < touchSlop) {
                             FrameLayout.LayoutParams curPos = (FrameLayout.LayoutParams) v.getLayoutParams();
-                            openPanelWithRipple(curPos.leftMargin + v.getWidth() / 2f, curPos.topMargin + v.getHeight() / 2f);
+                            openPanelWithRipple(curPos.leftMargin + bw / 2f, curPos.topMargin + bh / 2f);
                         }
                         return true;
                 }
