@@ -14,6 +14,12 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -90,7 +96,7 @@ public class VerifyManager {
             case T3:
                 return "T3 网络验证 (C/Java)";
             case WEIYAN:
-                return "微验验证 (C/Java)";
+                return "微验验证 (Native C)";
             case EPIC:
             default:
                 return "摇光云 (EPIC)";
@@ -112,54 +118,55 @@ public class VerifyManager {
             @Override
             public void run() {
                 try {
-                    int typeCode = SiyoXConfig.CURRENT_VERIFY_TYPE.ordinal();
-
-                    // Try Native C first
-                    if (NativeVerify.isNativeLoaded()) {
-                        try {
-                            String nativeResp = NativeVerify.nativeFetchNotice(typeCode);
-                            if (nativeResp != null && !nativeResp.isEmpty()) {
-                                JSONObject json = new JSONObject(nativeResp);
-                                int code = json.optInt("code", -1);
-                                if (code == 200) {
-                                    JSONObject msgObj = json.optJSONObject("msg");
-                                    if (msgObj != null) {
-                                        noticeTitle = msgObj.optString("title", "官方公告");
-                                        noticeContent = msgObj.optString("content", msgObj.optString("app_gg", "欢迎使用 SiyoX 模块！"));
-                                    } else {
-                                        noticeContent = json.optString("msg", "欢迎使用 SiyoX 模块！");
-                                    }
+                    switch (SiyoXConfig.CURRENT_VERIFY_TYPE) {
+                        case EPIC: {
+                            EpicVerifySDK sdk = new EpicVerifySDK(
+                                    SiyoXConfig.EpicConfig.HOSTS,
+                                    SiyoXConfig.EpicConfig.PORT,
+                                    SiyoXConfig.EpicConfig.APP_KEY
+                            );
+                            sdk.setDeviceId(getAndroidId());
+                            sdk.setPackageName(SiyoXConfig.TARGET_PACKAGE);
+                            Resp resp = sdk.getSoftwareConfig();
+                            if (resp.isSuccess()) {
+                                EpicVerifySDK.Notice notice = sdk.getSoftwareNotice(resp);
+                                if (notice != null && notice.hasNotice()) {
+                                    noticeTitle = notice.title != null ? notice.title : "官方公告";
+                                    noticeContent = notice.content != null ? notice.content : "欢迎使用 SiyoX 模块！";
                                     notifyNoticeResult(callback, true, noticeTitle, noticeContent);
                                     return;
                                 }
                             }
-                        } catch (Exception ignored) {}
-                    }
+                            notifyNoticeResult(callback, true, noticeTitle, noticeContent);
+                            break;
+                        }
 
-                    // Java Fallback for EPIC
-                    if (SiyoXConfig.CURRENT_VERIFY_TYPE == SiyoXConfig.VerifyType.EPIC) {
-                        EpicVerifySDK sdk = new EpicVerifySDK(
-                                SiyoXConfig.EpicConfig.HOSTS,
-                                SiyoXConfig.EpicConfig.PORT,
-                                SiyoXConfig.EpicConfig.APP_KEY
-                        );
-                        sdk.setDeviceId(getAndroidId());
-                        sdk.setPackageName(SiyoXConfig.TARGET_PACKAGE);
-                        Resp resp = sdk.getSoftwareConfig();
-                        if (resp.isSuccess()) {
-                            EpicVerifySDK.Notice notice = sdk.getSoftwareNotice(resp);
-                            if (notice != null && notice.hasNotice()) {
-                                noticeTitle = notice.title != null ? notice.title : "官方公告";
-                                noticeContent = notice.content != null ? notice.content : "欢迎使用 SiyoX 模块！";
-
-                                notifyNoticeResult(callback, true, noticeTitle, noticeContent);
-                                return;
+                        case WEIYAN: {
+                            if (NativeVerify.isNativeLoaded()) {
+                                String nativeResp = NativeVerify.nativeFetchNotice(2);
+                                if (nativeResp != null && !nativeResp.isEmpty()) {
+                                    JSONObject json = new JSONObject(nativeResp);
+                                    int code = json.optInt("code", -1);
+                                    if (code == 200) {
+                                        JSONObject msgObj = json.optJSONObject("msg");
+                                        if (msgObj != null) {
+                                            noticeTitle = "微验官方公告";
+                                            noticeContent = msgObj.optString("app_gg", "欢迎使用 SiyoX 模块！");
+                                        }
+                                        notifyNoticeResult(callback, true, noticeTitle, noticeContent);
+                                        return;
+                                    }
+                                }
                             }
+                            notifyNoticeResult(callback, true, "微验官方公告", "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。");
+                            break;
+                        }
+
+                        case T3: {
+                            notifyNoticeResult(callback, true, "T3 官方公告", "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。");
+                            break;
                         }
                     }
-
-                    notifyNoticeResult(callback, true, noticeTitle, noticeContent);
-
                 } catch (Exception e) {
                     notifyNoticeResult(callback, false, noticeTitle, noticeContent);
                 }
@@ -188,57 +195,84 @@ public class VerifyManager {
             public void run() {
                 try {
                     String androidId = getAndroidId();
-                    int typeCode = SiyoXConfig.CURRENT_VERIFY_TYPE.ordinal();
 
-                    // 1. Try Native C Verification
-                    if (NativeVerify.isNativeLoaded()) {
-                        try {
-                            String nativeResp = NativeVerify.nativeVerifyCard(typeCode, cardKey.trim(), androidId);
-                            if (nativeResp != null && !nativeResp.isEmpty()) {
-                                JSONObject json = new JSONObject(nativeResp);
-                                int code = json.optInt("code", -1);
-                                if (code == 200) {
-                                    JSONObject msgObj = json.optJSONObject("msg");
-                                    long vip = msgObj != null ? msgObj.optLong("vip", 0L) : 0L;
-                                    long expireMs = vip > 0 ? vip * 1000L : System.currentTimeMillis() + 86400000L * 30;
-                                    onVerifySuccess(cardKey.trim(), expireMs, callback);
-                                    return;
-                                } else {
-                                    String msg = json.optString("msg", "验证失败");
-                                    onVerifyFailed(msg, callback);
-                                    return;
-                                }
+                    switch (SiyoXConfig.CURRENT_VERIFY_TYPE) {
+                        case EPIC: {
+                            // 摇光云 (EPIC) 验证
+                            EpicVerifySDK sdk = new EpicVerifySDK(
+                                    SiyoXConfig.EpicConfig.HOSTS,
+                                    SiyoXConfig.EpicConfig.PORT,
+                                    SiyoXConfig.EpicConfig.APP_KEY
+                            );
+                            sdk.setDeviceId(androidId);
+                            sdk.setPackageName(SiyoXConfig.TARGET_PACKAGE);
+                            sdk.setCard(cardKey.trim());
+
+                            Resp resp = sdk.cardVerify();
+                            if (resp.isSuccess()) {
+                                long expire = 0L;
+                                try {
+                                    if (resp.data != null) {
+                                        expire = resp.data.getLong("expire");
+                                    }
+                                } catch (Exception ignored) {}
+                                onVerifySuccess(cardKey.trim(), expire, callback);
+                            } else {
+                                onVerifyFailed(resp.msg != null ? resp.msg : "验证失败", callback);
                             }
-                        } catch (Exception ignored) {}
-                    }
-
-                    // 2. Java Fallback for EPIC
-                    if (SiyoXConfig.CURRENT_VERIFY_TYPE == SiyoXConfig.VerifyType.EPIC) {
-                        EpicVerifySDK sdk = new EpicVerifySDK(
-                                SiyoXConfig.EpicConfig.HOSTS,
-                                SiyoXConfig.EpicConfig.PORT,
-                                SiyoXConfig.EpicConfig.APP_KEY
-                        );
-                        sdk.setDeviceId(androidId);
-                        sdk.setPackageName(SiyoXConfig.TARGET_PACKAGE);
-                        sdk.setCard(cardKey.trim());
-                        Resp resp = sdk.cardVerify();
-                        if (resp.isSuccess()) {
-                            long expire = 0L;
-                            try {
-                                if (resp.data != null) {
-                                    expire = resp.data.getLong("expire");
-                                }
-                            } catch (Exception ignored) {}
-                            onVerifySuccess(cardKey.trim(), expire, callback);
-                        } else {
-                            onVerifyFailed(resp.msg != null ? resp.msg : "验证失败", callback);
+                            break;
                         }
 
-                        return;
-                    }
+                        case WEIYAN: {
+                            // 微验 (Native C) 验证
+                            if (NativeVerify.isNativeLoaded()) {
+                                String nativeResp = NativeVerify.nativeVerifyCard(2, cardKey.trim(), androidId);
+                                if (nativeResp != null && !nativeResp.isEmpty()) {
+                                    JSONObject json = new JSONObject(nativeResp);
+                                    int code = json.optInt("code", -1);
+                                    if (code == 200) {
+                                        JSONObject msgObj = json.optJSONObject("msg");
+                                        long vip = msgObj != null ? msgObj.optLong("vip", 0L) : 0L;
+                                        long expireMs = vip > 0 ? vip * 1000L : System.currentTimeMillis() + 86400000L * 30;
+                                        onVerifySuccess(cardKey.trim(), expireMs, callback);
+                                        return;
+                                    } else {
+                                        String msg = json.optString("msg", "微验卡密验证失败");
+                                        onVerifyFailed(msg, callback);
+                                        return;
+                                    }
+                                }
+                            }
+                            onVerifyFailed("Native C 微验模块加载失败", callback);
+                            break;
+                        }
 
-                    onVerifyFailed("网络验证服务未就绪", callback);
+                        case T3: {
+                            // T3 网络验证
+                            String host = SiyoXConfig.T3Config.API_HOST;
+                            String appKey = SiyoXConfig.T3Config.APP_KEY;
+                            String loginCode = SiyoXConfig.T3Config.LOGIN_CODE;
+                            String time = String.valueOf(System.currentTimeMillis() / 1000);
+                            String sign = md5("appkey=" + appKey + "&card=" + cardKey.trim() + "&imei=" + androidId + "&t=" + time).toLowerCase();
+
+                            String url = host.endsWith("/") ? host + "api/login" : host + "/api/login";
+                            String body = "appkey=" + appKey + "&code=" + loginCode + "&card=" + cardKey.trim() + "&imei=" + androidId + "&t=" + time + "&sign=" + sign;
+
+                            String responseStr = httpPost(url, body);
+                            JSONObject json = new JSONObject(responseStr);
+                            int code = json.optInt("code", json.optInt("status", -1));
+                            String msg = json.optString("msg", json.optString("message", ""));
+
+                            if (code == 200 || code == 1 || json.optBoolean("success", false)) {
+                                JSONObject data = json.optJSONObject("data");
+                                long endTime = data != null ? data.optLong("end_time", 0L) : 0L;
+                                onVerifySuccess(cardKey.trim(), endTime * 1000L, callback);
+                            } else {
+                                onVerifyFailed(msg.isEmpty() ? "T3 验证失败" : msg, callback);
+                            }
+                            break;
+                        }
+                    }
 
                 } catch (Exception e) {
                     onVerifyFailed("连接异常: " + e.getMessage(), callback);
@@ -274,6 +308,46 @@ public class VerifyManager {
                 }
             }
         });
+    }
+
+    private String httpPost(String urlStr, String body) throws Exception {
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setConnectTimeout(8000);
+        conn.setReadTimeout(8000);
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("User-Agent", "SiyoX/1.0");
+
+        OutputStream os = conn.getOutputStream();
+        os.write(body.getBytes("UTF-8"));
+        os.flush();
+        os.close();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        reader.close();
+        return sb.toString().trim();
+    }
+
+    private String md5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(input.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public void handleEvent(Context context, int eventType, String value) {
