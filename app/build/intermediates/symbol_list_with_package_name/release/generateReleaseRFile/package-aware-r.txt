@@ -9,6 +9,7 @@ color surface_dark
 color surface_light
 color translucent_bg
 drawable ic_launcher
+drawable logo
 string app_desc
 string app_name
 string card_query

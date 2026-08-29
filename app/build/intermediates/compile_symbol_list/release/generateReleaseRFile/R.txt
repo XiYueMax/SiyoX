@@ -8,6 +8,7 @@ int color surface_dark 0x0
 int color surface_light 0x0
 int color translucent_bg 0x0
 int drawable ic_launcher 0x0
+int drawable logo 0x0
 int string app_desc 0x0
 int string app_name 0x0
 int string card_query 0x0

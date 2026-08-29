@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-42:12
+ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-56:12
+INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-56:12
+INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-56:12
+INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:2:1-56:12
 MERGED from [:miuix-preference] C:\Users\Administrator\Desktop\组件库\MiuiX\miuix-preference\build\intermediates\merged_manifest\androidMain\processAndroidMainManifest\AndroidManifest.xml:2:1-7:12
 MERGED from [:miuix-ui] C:\Users\Administrator\Desktop\组件库\MiuiX\miuix-ui\build\intermediates\merged_manifest\androidMain\processAndroidMainManifest\AndroidManifest.xml:2:1-7:12
 MERGED from [:miuix-icons] C:\Users\Administrator\Desktop\组件库\MiuiX\miuix-icons\build\intermediates\merged_manifest\androidMain\processAndroidMainManifest\AndroidManifest.xml:2:1-7:12
@@ -271,8 +271,8 @@ ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidMa
 	android:name
 		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:9:22-80
 application
-ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:11:5-40:19
-INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:11:5-40:19
+ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:11:5-54:19
+INJECTED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:11:5-54:19
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.11.1] C:\Users\Administrator\.gradle\caches\9.6.1\transforms\dacd6f5758deb55c4ddbefa97c934281\transformed\library-release\AndroidManifest.xml:7:5-14:19
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.11.1] C:\Users\Administrator\.gradle\caches\9.6.1\transforms\dacd6f5758deb55c4ddbefa97c934281\transformed\library-release\AndroidManifest.xml:7:5-14:19
 MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Administrator\.gradle\caches\9.6.1\transforms\383633956683d59ed7cbb5e5f7a27213\transformed\emoji2-1.4.0\AndroidManifest.xml:23:5-33:19
@@ -298,11 +298,11 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Administrator\.gra
 	android:label
 		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:15:9-41
 	android:roundIcon
-		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:16:9-63
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:16:9-43
 	tools:targetApi
 		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:19:9-29
 	android:icon
-		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:14:9-58
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:14:9-38
 	android:allowBackup
 		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:13:9-36
 	android:theme
@@ -333,12 +333,36 @@ ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidMa
 		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:33:13-44
 	android:name
 		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:32:13-39
-receiver#epic.verify.api.InstallReceiver
-ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:36:9-38:40
+activity#XiYue.SiyoX.MainActivity
+ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:36:9-47:20
+	android:label
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:41:13-34
 	android:exported
-		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:38:13-37
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:38:13-36
+	android:roundIcon
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:40:13-47
+	android:icon
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:39:13-42
+	android:theme
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:42:13-47
 	android:name
-		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:37:13-59
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:37:13-52
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:43:13-46:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:44:17-69
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:44:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:45:17-77
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:45:27-74
+receiver#epic.verify.api.InstallReceiver
+ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:50:9-52:40
+	android:exported
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:52:13-37
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\AndroidManifest.xml:51:13-59
 provider#org.jetbrains.compose.resources.AndroidContextProvider
 ADDED from [org.jetbrains.compose.components:components-resources-android:1.11.1] C:\Users\Administrator\.gradle\caches\9.6.1\transforms\dacd6f5758deb55c4ddbefa97c934281\transformed\library-release\AndroidManifest.xml:8:9-13:20
 	android:enabled
