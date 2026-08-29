@@ -9,15 +9,19 @@ package XiYue.SiyoX;
  */
 public class SiyoXConfig {
 
+    // ==================== 客户端自定义配置 ====================
+    public static final String CLIENT_NAME = "SiyoX Client";
+    public static final String CLIENT_AUTHOR = "XiYue.";
+
     // ==================== 软件基本信息 ====================
     public static final String APP_NAME = "SiyoX";
-    public static final String CLIENT_NAME = "网易我的世界";
     public static final String PACKAGE_NAME = "XiYue.SiyoX";
     public static final String VERSION_NAME = "v1.0.0";
     public static final int VERSION_CODE = 1;
     public static final String AUTHOR = "@XiYueMax";
     public static final String GITHUB_URL = "https://github.com/XiYueMax/SiyoX";
     public static final String TARGET_PACKAGE = "com.netease.x19";
+
 
 
     // ==================== 网络验证类型 ====================

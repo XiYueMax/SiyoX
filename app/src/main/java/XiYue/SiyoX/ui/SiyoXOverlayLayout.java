@@ -585,7 +585,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         titleContainer.addView(titleSub);
         topBar.addView(titleContainer);
 
-        // 5. 右上角：删掉“收起”，只保留到期时间徽章
+        // 右上角：删掉“收起”，只保留到期时间徽章
         tvTopExpireBadge = new TextView(getContext());
         tvTopExpireBadge.setText("到期时间: " + VerifyManager.formatDate(verifyManager.getExpireTimestamp()));
         tvTopExpireBadge.setTextSize(11.5f);
@@ -615,7 +615,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         categoryListLayout.setOrientation(LinearLayout.VERTICAL);
         categoryListLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        // 4. 左侧分类改为：资源管理、辅助功能、脚本列表、个人中心、关于软件
+        // 分类：资源管理、辅助功能、脚本列表、个人中心、关于软件
         String[] categories = new String[]{"资源管理", "辅助功能", "脚本列表", "个人中心", "关于软件"};
         categoryTabViews.clear();
 
@@ -668,7 +668,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         switchCategory(0);
     }
 
-    // 6. 切换分类带有平滑过渡动画
+    // 切换分类带有平滑过渡动画
     private void switchCategory(int categoryIndex) {
         boolean isDark = SiyoXTheme.isDarkMode(getContext());
         this.currentCategoryIndex = categoryIndex;
@@ -717,23 +717,12 @@ public class SiyoXOverlayLayout extends FrameLayout {
         featureListContent.addView(titleTv);
 
         if (categoryIndex == 0) {
-            // 资源管理 (Resource Management)
-            LinearLayout resCard = createInnerCard(isDark);
-            resCard.setPadding(dp16, dp14, dp16, dp14);
-            resCard.addView(createInfoRowItem("资源目录", "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Resources/", isDark));
-            resCard.addView(createDivider(isDark));
-            resCard.addView(createInfoRowItem("资源状态", "已挂载 (可在此目录放置自定义材质与资源)", isDark));
-            featureListContent.addView(resCard);
-
-            featureListContent.addView(createMiuiXFeatureCard("自动重载资源", "检测到目录文件变动时自动重新加载", true, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
-                    Toast.makeText(getContext(), "自动重载资源: " + (isChecked ? "已开启" : "已关闭"), Toast.LENGTH_SHORT).show();
-                }
-            }));
+            // 1. 资源管理 (仅保留资源目录与复制按钮)
+            String resPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Resources/";
+            featureListContent.addView(createDirectoryCard("资源目录", resPath, "已复制资源目录路径", isDark));
 
         } else if (categoryIndex == 1) {
-            // 辅助功能 (Auxiliary Features)
+            // 2. 辅助功能 (Auxiliary Features)
             featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 01", "核心辅助功能模块，可在源码中接入具体功能", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
@@ -756,23 +745,12 @@ public class SiyoXOverlayLayout extends FrameLayout {
             }));
 
         } else if (categoryIndex == 2) {
-            // 脚本列表 (Script List)
-            LinearLayout scriptCard = createInnerCard(isDark);
-            scriptCard.setPadding(dp16, dp14, dp16, dp14);
-            scriptCard.addView(createInfoRowItem("脚本目录", "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Script/", isDark));
-            scriptCard.addView(createDivider(isDark));
-            scriptCard.addView(createInfoRowItem("脚本引擎", "Ready (支持自动解析 .js / .lua 扩展)", isDark));
-            featureListContent.addView(scriptCard);
-
-            featureListContent.addView(createMiuiXFeatureCard("脚本后台执行", "允许脚本在游戏主线程后台静默执行", true, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
-                    Toast.makeText(getContext(), "脚本后台执行: " + (isChecked ? "已开启" : "已关闭"), Toast.LENGTH_SHORT).show();
-                }
-            }));
+            // 3. 脚本列表 (仅保留脚本目录与复制按钮)
+            String scriptPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Script/";
+            featureListContent.addView(createDirectoryCard("脚本目录", scriptPath, "已复制脚本目录路径", isDark));
 
         } else if (categoryIndex == 3) {
-            // 个人中心 (User Center - 不展示验证提供商)
+            // 4. 个人中心 (User Center - 不展示验证提供商)
             LinearLayout profileCard = createInnerCard(isDark);
             profileCard.setPadding(dp16, dp14, dp16, dp14);
 
@@ -809,11 +787,13 @@ public class SiyoXOverlayLayout extends FrameLayout {
             featureListContent.addView(btnLogout);
 
         } else if (categoryIndex == 4) {
-            // 3. 关于软件 (About Software - 仅显示：客户端名称, 软件名称, 软件版本, 软件作者, 当前作用域)
+            // 5. 关于软件 (仅显示：客户端名称, 客户端作者, 软件名称, 软件版本, 软件作者, 当前作用域)
             LinearLayout aboutCard = createInnerCard(isDark);
             aboutCard.setPadding(dp16, dp14, dp16, dp14);
 
             aboutCard.addView(createInfoRowItem("客户端名称", SiyoXConfig.CLIENT_NAME, isDark));
+            aboutCard.addView(createDivider(isDark));
+            aboutCard.addView(createInfoRowItem("客户端作者", SiyoXConfig.CLIENT_AUTHOR, isDark));
             aboutCard.addView(createDivider(isDark));
             aboutCard.addView(createCustomInfoRow("软件名称", createSiyoXTitle(14f, isDark), isDark));
             aboutCard.addView(createDivider(isDark));
@@ -824,31 +804,83 @@ public class SiyoXOverlayLayout extends FrameLayout {
             aboutCard.addView(createInfoRowItem("当前作用域", SiyoXConfig.TARGET_PACKAGE, isDark));
 
             featureListContent.addView(aboutCard);
-
-            Button btnGithub = new Button(getContext());
-            btnGithub.setText("前往 GitHub 查看源码");
-            btnGithub.setTextSize(14f);
-            btnGithub.setTypeface(Typeface.DEFAULT_BOLD);
-            btnGithub.setTextColor(Color.WHITE);
-            btnGithub.setBackground(createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(12)));
-            LinearLayout.LayoutParams lpGh = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(44));
-            lpGh.setMargins(0, dp14, 0, 0);
-            btnGithub.setLayoutParams(lpGh);
-
-            btnGithub.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(SiyoXConfig.GITHUB_URL));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getContext().startActivity(intent);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "无法打开浏览器: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            featureListContent.addView(btnGithub);
         }
+    }
+
+    // 4. 资源与脚本目录卡片 (右侧带复制图标，点击一键复制路径)
+    private View createDirectoryCard(final String title, final String path, final String toastMsg, boolean isDark) {
+        LinearLayout card = new LinearLayout(getContext());
+        card.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        cardParams.setMargins(0, 0, 0, dp(10));
+        card.setLayoutParams(cardParams);
+        card.setBackground(createCardBg(SiyoXTheme.getInnerCardBg(isDark), Color.TRANSPARENT, dp(14)));
+        card.setPadding(dp(16), dp(14), dp(16), dp(14));
+
+        // 顶部行：标签 + 复制按钮/图标
+        LinearLayout topRow = new LinearLayout(getContext());
+        topRow.setOrientation(LinearLayout.HORIZONTAL);
+        topRow.setGravity(Gravity.CENTER_VERTICAL);
+        topRow.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+        TextView tvLabel = new TextView(getContext());
+        tvLabel.setText(title);
+        tvLabel.setTextSize(13.5f);
+        tvLabel.setTypeface(Typeface.DEFAULT_BOLD);
+        tvLabel.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+        topRow.addView(tvLabel);
+
+        // 复制按钮 (包含 CopyIconView 图标与文字)
+        LinearLayout btnCopy = new LinearLayout(getContext());
+        btnCopy.setOrientation(LinearLayout.HORIZONTAL);
+        btnCopy.setGravity(Gravity.CENTER_VERTICAL);
+        btnCopy.setPadding(dp(10), dp(5), dp(10), dp(5));
+        btnCopy.setBackground(createRippleDrawable(SiyoXTheme.getActiveTabBg(isDark), Color.parseColor("#0066CC"), dp(8)));
+        btnCopy.setClickable(true);
+
+        CopyIconView copyIcon = new CopyIconView(getContext());
+        copyIcon.setIconColor(SiyoXTheme.getAccentBlue());
+        btnCopy.addView(copyIcon);
+
+        View spacerIcon = new View(getContext());
+        spacerIcon.setLayoutParams(new LinearLayout.LayoutParams(dp(5), 1));
+        btnCopy.addView(spacerIcon);
+
+        TextView tvCopy = new TextView(getContext());
+        tvCopy.setText("复制");
+        tvCopy.setTextSize(12f);
+        tvCopy.setTypeface(Typeface.DEFAULT_BOLD);
+        tvCopy.setTextColor(SiyoXTheme.getAccentBlue());
+        btnCopy.addView(tvCopy);
+
+        btnCopy.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                if (cm != null) {
+                    ClipData clip = ClipData.newPlainText(title, path);
+                    cm.setPrimaryClip(clip);
+                    Toast.makeText(getContext(), toastMsg, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        topRow.addView(btnCopy);
+        card.addView(topRow);
+
+        card.addView(createDivider(isDark));
+
+        // 路径展示行
+        TextView tvPath = new TextView(getContext());
+        tvPath.setText(path);
+        tvPath.setTextSize(12.5f);
+        tvPath.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        tvPath.setPadding(0, dp(4), 0, 0);
+        tvPath.setTextIsSelectable(true);
+        card.addView(tvPath);
+
+        return card;
     }
 
     private View createInfoRowItem(String label, String value, boolean isDark) {
@@ -1148,7 +1180,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         }
     }
 
-    // 7. Siyo 黑/白 + X 蓝色标题组件 (自适应暗黑模式)
+    // Siyo 黑/白 + X 蓝色标题组件 (自适应暗黑模式)
     public static View createSiyoXTitleView(Context context, float textSize) {
         boolean isDark = SiyoXTheme.isDarkMode(context);
         return createSiyoXTitleView(context, textSize, isDark);

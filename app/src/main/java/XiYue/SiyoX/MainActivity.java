@@ -175,8 +175,12 @@ public class MainActivity extends Activity {
         // 客户端名称
         envCard.addView(createInfoRow("客户端名称", SiyoXConfig.CLIENT_NAME, isDark));
 
+        // 客户端作者
+        envCard.addView(createInfoRow("客户端作者", SiyoXConfig.CLIENT_AUTHOR, isDark));
+
         // 作用域目标
         envCard.addView(createInfoRow("作用域目标", SiyoXConfig.TARGET_PACKAGE, isDark));
+
 
         // Android ID
         tvAndroidId = new TextView(this);
