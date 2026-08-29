@@ -129,8 +129,9 @@ public class MainActivity extends Activity {
         statusCard.setPadding(dp16, dp16, dp16, dp16);
 
         TextView tvStatusTitle = new TextView(this);
-        tvStatusTitle.setText("模块状态");
+        tvStatusTitle.setText("模块信息");
         tvStatusTitle.setTextSize(14f);
+
         tvStatusTitle.setTypeface(Typeface.DEFAULT_BOLD);
         tvStatusTitle.setTextColor(SiyoXTheme.getTextPrimary(isDark));
         statusCard.addView(tvStatusTitle);

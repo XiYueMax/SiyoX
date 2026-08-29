@@ -22,6 +22,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -84,7 +85,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
     private int currentCategoryIndex = 0;
     private final List<TextView> categoryTabViews = new ArrayList<>();
 
-    // Floating Ball drag coordinates (Full-screen free movement)
+    // Floating Ball drag coordinates (Full-screen hardware translation)
     private float dX = 0f;
     private float dY = 0f;
     private float downRawX = 0f;
@@ -143,6 +144,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
         int width = right - left;
         int height = bottom - top;
 
@@ -170,29 +172,22 @@ public class SiyoXOverlayLayout extends FrameLayout {
                 panelContainer.layout(pl, pt, pl + pw, pt + ph);
             }
         }
-
-        if (floatingBall != null && floatingBall.getVisibility() != GONE) {
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) floatingBall.getLayoutParams();
-            int bw = floatingBall.getMeasuredWidth();
-            int bh = floatingBall.getMeasuredHeight();
-            floatingBall.layout(lp.leftMargin, lp.topMargin, lp.leftMargin + bw, lp.topMargin + bh);
-        }
     }
 
     private void initUI() {
         // 1. 全屏居中横屏验证窗口 (暗黑/浅色自适应)
         buildFullScreenVerifyWindow();
 
-        // 2. 游戏内悬浮功能面板 (暗黑/浅色自适应，分类：资源管理/辅助功能/脚本列表/个人中心/关于软件)
+        // 2. 游戏内悬浮功能面板 (暗黑/浅色自适应，精致紧凑尺寸)
         buildInGamePanel();
 
-        // 3. 全屏幕可自由拖拽悬浮球 (无蓝边，无黑边，支持全屏移动)
+        // 3. 全屏幕可自由拖拽悬浮球 (无边框裁剪，GPU平滑Translation移动)
         buildFloatingBall();
     }
 
     // ==========================================
     // 1. 全屏居中横屏验证窗口
-    // 自动检测暗黑模式，隐藏网络验证提供商，Siyo黑/白+X蓝，CheckBox勾选框
+    // 自动检测暗黑模式，隐藏网络验证提供商，Siyo黑/白+X蓝，CheckBox勾选框，退出按钮白色波纹
     // ==========================================
     private void buildFullScreenVerifyWindow() {
         boolean isDark = SiyoXTheme.isDarkMode(getContext());
@@ -215,8 +210,8 @@ public class SiyoXOverlayLayout extends FrameLayout {
 
         // 主居中卡片容器 (屏幕绝对正中心)
         cardWrapper = new FrameLayout(getContext());
-        int wrapWidth = (int) (screenW * 0.86f);
-        int wrapHeight = (int) (screenH * 0.84f);
+        int wrapWidth = (int) (screenW * 0.82f);
+        int wrapHeight = (int) (screenH * 0.82f);
         FrameLayout.LayoutParams wrapParams = new FrameLayout.LayoutParams(wrapWidth, wrapHeight, Gravity.CENTER);
         cardWrapper.setLayoutParams(wrapParams);
         cardWrapper.setBackground(createCardBg(SiyoXTheme.getCardBg(isDark), Color.TRANSPARENT, dp(20)));
@@ -454,19 +449,18 @@ public class SiyoXOverlayLayout extends FrameLayout {
         });
         cardKeyLayout.addView(fullStatusTip);
 
-
         // 底部按钮栏: 【退出按钮在左侧】 【验证按钮在右侧】
         LinearLayout bottomActions = new LinearLayout(getContext());
         bottomActions.setOrientation(LinearLayout.HORIZONTAL);
         bottomActions.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(44)));
 
-        // 退出按钮 (左侧)
+        // 3. 退出按钮 (左侧，白色波纹点击特效)
         fullBtnExit = new Button(getContext());
         fullBtnExit.setText("退出游戏");
         fullBtnExit.setTextSize(14f);
         fullBtnExit.setTypeface(Typeface.DEFAULT_BOLD);
         fullBtnExit.setTextColor(Color.parseColor("#FF3B30"));
-        fullBtnExit.setBackground(createRippleDrawable(SiyoXTheme.getExitBtnBg(isDark), Color.parseColor("#5A2020"), dp(12)));
+        fullBtnExit.setBackground(createExitRippleDrawable(SiyoXTheme.getExitBtnBg(isDark), dp(12)));
         fullBtnExit.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.1f));
         fullBtnExit.setOnClickListener(new OnClickListener() {
             @Override
@@ -503,9 +497,8 @@ public class SiyoXOverlayLayout extends FrameLayout {
     }
 
     // ==========================================
-    // 2. 游戏内悬浮功能面板
+    // 2. 游戏内悬浮功能面板 (精致紧凑尺寸 0.76f)
     // 分类：资源管理、辅助功能、脚本列表、个人中心、关于软件
-    // 右上角仅保留到期时间（删掉收起按钮）
     // ==========================================
     private void buildInGamePanel() {
         boolean isDark = SiyoXTheme.isDarkMode(getContext());
@@ -536,10 +529,10 @@ public class SiyoXOverlayLayout extends FrameLayout {
         int screenW = size[0];
         int screenH = size[1];
 
-        // 功能面板容器 (居中正对齐，位于半透明黑色波纹背景上方，无黑边)
+        // 5. 功能面板容器 (缩小为 0.76f 更加精致)
         panelContainer = new FrameLayout(getContext());
-        int panelWidth = (int) (screenW * 0.86f);
-        int panelHeight = (int) (screenH * 0.84f);
+        int panelWidth = (int) (screenW * 0.76f);
+        int panelHeight = (int) (screenH * 0.76f);
         FrameLayout.LayoutParams panelParams = new FrameLayout.LayoutParams(panelWidth, panelHeight, Gravity.CENTER);
         panelContainer.setLayoutParams(panelParams);
         panelContainer.setBackground(createCardBg(SiyoXTheme.getCardBg(isDark), Color.TRANSPARENT, dp(20)));
@@ -576,23 +569,23 @@ public class SiyoXOverlayLayout extends FrameLayout {
         titleContainer.setPadding(dp10, 0, 0, 0);
         titleContainer.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
 
-        titleContainer.addView(createSiyoXTitle(18f, isDark));
+        titleContainer.addView(createSiyoXTitle(17f, isDark));
 
         TextView titleSub = new TextView(getContext());
         titleSub.setText(" 功能面板");
-        titleSub.setTextSize(15f);
+        titleSub.setTextSize(14.5f);
         titleSub.setTypeface(Typeface.DEFAULT_BOLD);
         titleSub.setTextColor(SiyoXTheme.getTextPrimary(isDark));
         titleContainer.addView(titleSub);
         topBar.addView(titleContainer);
 
-        // 右上角：删掉“收起”，只保留到期时间徽章
+        // 右上角：到期时间徽章
         tvTopExpireBadge = new TextView(getContext());
         tvTopExpireBadge.setText("到期时间: " + VerifyManager.formatDate(verifyManager.getExpireTimestamp()));
-        tvTopExpireBadge.setTextSize(11.5f);
+        tvTopExpireBadge.setTextSize(11f);
         tvTopExpireBadge.setTypeface(Typeface.DEFAULT_BOLD);
         tvTopExpireBadge.setTextColor(SiyoXTheme.getAccentBlue());
-        tvTopExpireBadge.setPadding(dp12, dp(5), dp12, dp(5));
+        tvTopExpireBadge.setPadding(dp10, dp(4), dp10, dp(4));
         tvTopExpireBadge.setBackground(createCardBg(SiyoXTheme.getExpireBadgeBg(isDark), Color.TRANSPARENT, dp(8)));
         topBar.addView(tvTopExpireBadge);
 
@@ -605,10 +598,10 @@ public class SiyoXOverlayLayout extends FrameLayout {
         mainContentRow.setOrientation(LinearLayout.HORIZONTAL);
         mainContentRow.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0, 1f));
 
-        // 1. 左侧功能分类栏 (Width 130dp, 无黑边)
+        // 1. 左侧功能分类栏 (Width 118dp)
         LinearLayout leftSidebar = new LinearLayout(getContext());
         leftSidebar.setOrientation(LinearLayout.VERTICAL);
-        leftSidebar.setLayoutParams(new LinearLayout.LayoutParams(dp(130), LayoutParams.MATCH_PARENT));
+        leftSidebar.setLayoutParams(new LinearLayout.LayoutParams(dp(118), LayoutParams.MATCH_PARENT));
         leftSidebar.setBackground(createCardBg(SiyoXTheme.getSidebarBg(isDark), Color.TRANSPARENT, dp(14)));
         leftSidebar.setPadding(dp8, dp8, dp8, dp8);
 
@@ -616,7 +609,6 @@ public class SiyoXOverlayLayout extends FrameLayout {
         categoryListLayout.setOrientation(LinearLayout.VERTICAL);
         categoryListLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        // 分类：资源管理、辅助功能、脚本列表、个人中心、关于软件
         String[] categories = new String[]{"资源管理", "辅助功能", "脚本列表", "个人中心", "关于软件"};
         categoryTabViews.clear();
 
@@ -624,11 +616,11 @@ public class SiyoXOverlayLayout extends FrameLayout {
             final int index = i;
             TextView tabView = new TextView(getContext());
             tabView.setText(categories[i]);
-            tabView.setTextSize(13f);
-            tabView.setPadding(dp12, dp10, dp12, dp10);
+            tabView.setTextSize(12.5f);
+            tabView.setPadding(dp10, dp8, dp10, dp8);
             tabView.setGravity(Gravity.CENTER_VERTICAL);
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            p.setMargins(0, dp(4), 0, dp(4));
+            p.setMargins(0, dp(3), 0, dp(3));
             tabView.setLayoutParams(p);
 
             tabView.setOnClickListener(new OnClickListener() {
@@ -718,7 +710,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         featureListContent.addView(titleTv);
 
         if (categoryIndex == 0) {
-            // 1. 资源管理 (仅保留资源目录与复制按钮)
+            // 1. 资源管理 (标题、路径与复制按钮在同一行)
             String resPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Resources/";
             featureListContent.addView(createDirectoryCard("资源目录", resPath, "已复制资源目录路径", isDark));
 
@@ -746,17 +738,16 @@ public class SiyoXOverlayLayout extends FrameLayout {
             }));
 
         } else if (categoryIndex == 2) {
-            // 3. 脚本列表 (仅保留脚本目录与复制按钮)
+            // 3. 脚本列表 (标题、路径与复制按钮在同一行)
             String scriptPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Script/";
             featureListContent.addView(createDirectoryCard("脚本目录", scriptPath, "已复制脚本目录路径", isDark));
 
         } else if (categoryIndex == 3) {
-            // 4. 个人中心 (User Center - 不展示验证提供商)
+            // 4. 个人中心 (HWID，卡密，到期时间，退出登录)
             LinearLayout profileCard = createInnerCard(isDark);
             profileCard.setPadding(dp16, dp14, dp16, dp14);
 
             profileCard.addView(createInfoRowItem("HWID", verifyManager.getHWID(), isDark));
-
             profileCard.addView(createDivider(isDark));
             profileCard.addView(createInfoRowItem("授权卡密", appSettings.getCard().isEmpty() ? "未绑定" : appSettings.getCard(), isDark));
             profileCard.addView(createDivider(isDark));
@@ -764,13 +755,13 @@ public class SiyoXOverlayLayout extends FrameLayout {
 
             featureListContent.addView(profileCard);
 
-            // 退出登录按钮
+            // 退出登录按钮 (白色波纹点击特效)
             Button btnLogout = new Button(getContext());
             btnLogout.setText("退出登录");
             btnLogout.setTextSize(14f);
             btnLogout.setTypeface(Typeface.DEFAULT_BOLD);
             btnLogout.setTextColor(Color.parseColor("#FF3B30"));
-            btnLogout.setBackground(createRippleDrawable(SiyoXTheme.getExitBtnBg(isDark), Color.parseColor("#5A2020"), dp(12)));
+            btnLogout.setBackground(createExitRippleDrawable(SiyoXTheme.getExitBtnBg(isDark), dp(12)));
             LinearLayout.LayoutParams lpLogout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(44));
             lpLogout.setMargins(0, dp14, 0, 0);
             btnLogout.setLayoutParams(lpLogout);
@@ -789,7 +780,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
             featureListContent.addView(btnLogout);
 
         } else if (categoryIndex == 4) {
-            // 5. 关于软件 (仅显示：客户端名称, 客户端作者, 软件名称, 软件版本, 软件作者, 当前作用域)
+            // 5. 关于软件 (客户端名称, 客户端作者, 软件名称, 软件版本, 软件作者, 当前作用域)
             LinearLayout aboutCard = createInnerCard(isDark);
             aboutCard.setPadding(dp16, dp14, dp16, dp14);
 
@@ -809,35 +800,42 @@ public class SiyoXOverlayLayout extends FrameLayout {
         }
     }
 
-    // 4. 资源与脚本目录卡片 (右侧带复制图标，点击一键复制路径)
+    // 4. 目录的标题、目录路径和复制按钮在同一行里
     private View createDirectoryCard(final String title, final String path, final String toastMsg, boolean isDark) {
         LinearLayout card = new LinearLayout(getContext());
-        card.setOrientation(LinearLayout.VERTICAL);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
         LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         cardParams.setMargins(0, 0, 0, dp(10));
         card.setLayoutParams(cardParams);
         card.setBackground(createCardBg(SiyoXTheme.getInnerCardBg(isDark), Color.TRANSPARENT, dp(14)));
-        card.setPadding(dp(16), dp(14), dp(16), dp(14));
+        card.setPadding(dp(16), dp(12), dp(16), dp(12));
 
-        // 顶部行：标签 + 复制按钮/图标
-        LinearLayout topRow = new LinearLayout(getContext());
-        topRow.setOrientation(LinearLayout.HORIZONTAL);
-        topRow.setGravity(Gravity.CENTER_VERTICAL);
-        topRow.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
+        // 1. 标题 (Fixed wrap)
         TextView tvLabel = new TextView(getContext());
-        tvLabel.setText(title);
-        tvLabel.setTextSize(13.5f);
+        tvLabel.setText(title + ": ");
+        tvLabel.setTextSize(13f);
         tvLabel.setTypeface(Typeface.DEFAULT_BOLD);
         tvLabel.setTextColor(SiyoXTheme.getTextSecondary(isDark));
-        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
-        topRow.addView(tvLabel);
+        card.addView(tvLabel);
 
-        // 复制按钮 (包含 CopyIconView 图标与文字)
+        // 2. 路径 (占满中间，单行显示，省略中间)
+        TextView tvPath = new TextView(getContext());
+        tvPath.setText(path);
+        tvPath.setTextSize(12f);
+        tvPath.setSingleLine(true);
+        tvPath.setEllipsize(TextUtils.TruncateAt.MIDDLE);
+        tvPath.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        LinearLayout.LayoutParams pathParams = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f);
+        pathParams.setMargins(0, 0, dp(8), 0);
+        tvPath.setLayoutParams(pathParams);
+        card.addView(tvPath);
+
+        // 3. 复制按钮 (图标 + "复制")
         LinearLayout btnCopy = new LinearLayout(getContext());
         btnCopy.setOrientation(LinearLayout.HORIZONTAL);
         btnCopy.setGravity(Gravity.CENTER_VERTICAL);
-        btnCopy.setPadding(dp(10), dp(5), dp(10), dp(5));
+        btnCopy.setPadding(dp(8), dp(4), dp(8), dp(4));
         btnCopy.setBackground(createRippleDrawable(SiyoXTheme.getActiveTabBg(isDark), Color.parseColor("#0066CC"), dp(8)));
         btnCopy.setClickable(true);
 
@@ -846,12 +844,12 @@ public class SiyoXOverlayLayout extends FrameLayout {
         btnCopy.addView(copyIcon);
 
         View spacerIcon = new View(getContext());
-        spacerIcon.setLayoutParams(new LinearLayout.LayoutParams(dp(5), 1));
+        spacerIcon.setLayoutParams(new LinearLayout.LayoutParams(dp(4), 1));
         btnCopy.addView(spacerIcon);
 
         TextView tvCopy = new TextView(getContext());
         tvCopy.setText("复制");
-        tvCopy.setTextSize(12f);
+        tvCopy.setTextSize(11.5f);
         tvCopy.setTypeface(Typeface.DEFAULT_BOLD);
         tvCopy.setTextColor(SiyoXTheme.getAccentBlue());
         btnCopy.addView(tvCopy);
@@ -868,20 +866,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
             }
         });
 
-        topRow.addView(btnCopy);
-        card.addView(topRow);
-
-        card.addView(createDivider(isDark));
-
-        // 路径展示行
-        TextView tvPath = new TextView(getContext());
-        tvPath.setText(path);
-        tvPath.setTextSize(12.5f);
-        tvPath.setTextColor(SiyoXTheme.getTextPrimary(isDark));
-        tvPath.setPadding(0, dp(4), 0, 0);
-        tvPath.setTextIsSelectable(true);
-        card.addView(tvPath);
-
+        card.addView(btnCopy);
         return card;
     }
 
@@ -952,17 +937,19 @@ public class SiyoXOverlayLayout extends FrameLayout {
     }
 
     // ==========================================
-    // 3. 悬浮球 (全屏幕自由拖拽移动，无蓝边，无黑边，正常显示Logo图标)
+    // 3. 悬浮球 (全屏幕自由拖拽移动，无蓝边，无黑边，GPU平滑Translation移动)
     // ==========================================
     private void buildFloatingBall() {
         int ballSize = dp(54);
         floatingBall = new FrameLayout(getContext());
         LayoutParams ballParams = new LayoutParams(ballSize, ballSize);
         ballParams.gravity = Gravity.TOP | Gravity.START;
-        ballParams.leftMargin = dp(20);
-        ballParams.topMargin = dp(80);
         floatingBall.setLayoutParams(ballParams);
+        floatingBall.setTranslationX(dp(20));
+        floatingBall.setTranslationY(dp(80));
         floatingBall.setVisibility(View.GONE);
+        floatingBall.setClipChildren(false);
+        floatingBall.setClipToPadding(false);
 
         // 无蓝色边框，圆角白色背景，无黑边
         GradientDrawable bg = new GradientDrawable();
@@ -975,7 +962,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         logoImg.setPadding(pad, pad, pad, pad);
         logoImg.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         Bitmap bmp = LogoLoader.getLogo(getContext());
-        if (logoImg != null && bmp != null) {
+        if (bmp != null) {
             logoImg.setImageBitmap(bmp);
         } else {
             logoImg.setImageResource(android.R.drawable.sym_def_app_icon);
@@ -1000,29 +987,23 @@ public class SiyoXOverlayLayout extends FrameLayout {
                     case MotionEvent.ACTION_DOWN:
                         downRawX = event.getRawX();
                         downRawY = event.getRawY();
-                        FrameLayout.LayoutParams curLp = (FrameLayout.LayoutParams) v.getLayoutParams();
-                        dX = curLp.leftMargin - event.getRawX();
-                        dY = curLp.topMargin - event.getRawY();
+                        dX = v.getTranslationX() - event.getRawX();
+                        dY = v.getTranslationY() - event.getRawY();
                         return true;
 
                     case MotionEvent.ACTION_MOVE:
-                        // 全屏幕无阻碍自由拖拽移动
-                        int newLeft = (int) Math.max(0, Math.min(event.getRawX() + dX, screenW - v.getWidth()));
-                        int newTop = (int) Math.max(0, Math.min(event.getRawY() + dY, screenH - v.getHeight()));
-                        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
-                        lp.leftMargin = newLeft;
-                        lp.topMargin = newTop;
-                        lp.gravity = Gravity.TOP | Gravity.START;
-                        v.setLayoutParams(lp);
-                        v.requestLayout();
+                        // 1. GPU平滑Translation位移，彻底消除边缘缺失与裁剪
+                        float targetX = Math.max(0, Math.min(event.getRawX() + dX, screenW - v.getWidth()));
+                        float targetY = Math.max(0, Math.min(event.getRawY() + dY, screenH - v.getHeight()));
+                        v.setTranslationX(targetX);
+                        v.setTranslationY(targetY);
                         return true;
 
                     case MotionEvent.ACTION_UP:
                         float diffX = Math.abs(event.getRawX() - downRawX);
                         float diffY = Math.abs(event.getRawY() - downRawY);
                         if (diffX < touchSlop && diffY < touchSlop) {
-                            FrameLayout.LayoutParams curPos = (FrameLayout.LayoutParams) v.getLayoutParams();
-                            openPanelWithRipple(curPos.leftMargin + v.getWidth() / 2f, curPos.topMargin + v.getHeight() / 2f);
+                            openPanelWithRipple(v.getTranslationX() + v.getWidth() / 2f, v.getTranslationY() + v.getHeight() / 2f);
                         }
                         return true;
                 }
@@ -1112,7 +1093,6 @@ public class SiyoXOverlayLayout extends FrameLayout {
                                 fullLoadingBar.setVisibility(View.GONE);
                                 fullBtnVerify.setEnabled(true);
                                 fullStatusTip.setText("HWID: " + verifyManager.getHWID() + " (点击复制)");
-
 
                                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
@@ -1301,6 +1281,13 @@ public class SiyoXOverlayLayout extends FrameLayout {
         GradientDrawable content = createCardBg(normalColor, Color.TRANSPARENT, radius);
         GradientDrawable mask = createCardBg(Color.WHITE, Color.TRANSPARENT, radius);
         return new RippleDrawable(ColorStateList.valueOf(pressedColor), content, mask);
+    }
+
+    // 3. 退出按钮纯白柔和波纹特效
+    private RippleDrawable createExitRippleDrawable(int normalColor, int radius) {
+        GradientDrawable content = createCardBg(normalColor, Color.TRANSPARENT, radius);
+        GradientDrawable mask = createCardBg(Color.WHITE, Color.TRANSPARENT, radius);
+        return new RippleDrawable(ColorStateList.valueOf(Color.parseColor("#40FFFFFF")), content, mask);
     }
 
     private int dp(int v) {
