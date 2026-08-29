@@ -142,7 +142,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         int screenH = size[1];
 
         setMeasuredDimension(screenW, screenH);
-        measureChildren(
+        super.onMeasure(
                 MeasureSpec.makeMeasureSpec(screenW, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(screenH, MeasureSpec.EXACTLY)
         );
@@ -150,39 +150,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        int width = right - left;
-        int height = bottom - top;
-
-        if (fullScreenVerifyView != null && fullScreenVerifyView.getVisibility() != GONE) {
-            fullScreenVerifyView.layout(0, 0, width, height);
-            if (cardWrapper != null) {
-                int cw = cardWrapper.getMeasuredWidth();
-                int ch = cardWrapper.getMeasuredHeight();
-                int cl = (width - cw) / 2;
-                int ct = (height - ch) / 2;
-                cardWrapper.layout(cl, ct, cl + cw, ct + ch);
-            }
-        }
-
-        if (inGamePanelScrim != null && inGamePanelScrim.getVisibility() != GONE) {
-            inGamePanelScrim.layout(0, 0, width, height);
-            if (rippleWaveView != null) {
-                rippleWaveView.layout(0, 0, width, height);
-            }
-            if (panelContainer != null) {
-                int pw = panelContainer.getMeasuredWidth();
-                int ph = panelContainer.getMeasuredHeight();
-                int pl = (width - pw) / 2;
-                int pt = (height - ph) / 2;
-                panelContainer.layout(pl, pt, pl + pw, pt + ph);
-            }
-        }
-
-        if (floatingBall != null && floatingBall.getVisibility() != GONE) {
-            int bw = floatingBall.getMeasuredWidth();
-            int bh = floatingBall.getMeasuredHeight();
-            floatingBall.layout(0, 0, bw, bh);
-        }
+        super.onLayout(changed, left, top, right, bottom);
     }
 
     private void initUI() {
@@ -1411,16 +1379,16 @@ public class SiyoXOverlayLayout extends FrameLayout {
     }
 
     // ==========================================
-    // 3. 悬浮球 (全屏幕平滑自由拖拽，GPU硬件加速变换，绝无残缺/出界，小巧精致图标)
+    // 3. 悬浮球 (全屏幕自由拖拽，严格父容器边界约束，绝不跑出界外，小巧精致图标)
     // ==========================================
     private void buildFloatingBall() {
         int ballSize = dp(44);
         floatingBall = new FrameLayout(getContext());
         LayoutParams ballParams = new LayoutParams(ballSize, ballSize);
         ballParams.gravity = Gravity.TOP | Gravity.START;
+        ballParams.leftMargin = dp(20);
+        ballParams.topMargin = dp(80);
         floatingBall.setLayoutParams(ballParams);
-        floatingBall.setX(dp(20));
-        floatingBall.setY(dp(80));
         floatingBall.setVisibility(View.GONE);
         floatingBall.setClipChildren(false);
         floatingBall.setClipToPadding(false);
@@ -1462,8 +1430,9 @@ public class SiyoXOverlayLayout extends FrameLayout {
                     case MotionEvent.ACTION_DOWN:
                         downRawX = event.getRawX();
                         downRawY = event.getRawY();
-                        dX = v.getX() - event.getRawX();
-                        dY = v.getY() - event.getRawY();
+                        FrameLayout.LayoutParams curLp = (FrameLayout.LayoutParams) v.getLayoutParams();
+                        dX = curLp.leftMargin - event.getRawX();
+                        dY = curLp.topMargin - event.getRawY();
                         return true;
 
                     case MotionEvent.ACTION_MOVE:
@@ -1471,21 +1440,25 @@ public class SiyoXOverlayLayout extends FrameLayout {
                         int bh = v.getHeight() > 0 ? v.getHeight() : dp(44);
                         int maxX = Math.max(0, parentW - bw);
                         int maxY = Math.max(0, parentH - bh);
-                        float targetX = event.getRawX() + dX;
-                        float targetY = event.getRawY() + dY;
-                        float newX = Math.max(0, Math.min(targetX, maxX));
-                        float newY = Math.max(0, Math.min(targetY, maxY));
 
-                        // 采用硬件加速 setX / setY 平滑渲染，0延迟，绝不出界
-                        v.setX(newX);
-                        v.setY(newY);
+                        int newLeft = (int) Math.max(0, Math.min(event.getRawX() + dX, maxX));
+                        int newTop = (int) Math.max(0, Math.min(event.getRawY() + dY, maxY));
+
+                        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
+                        if (lp.leftMargin != newLeft || lp.topMargin != newTop) {
+                            lp.leftMargin = newLeft;
+                            lp.topMargin = newTop;
+                            lp.gravity = Gravity.TOP | Gravity.START;
+                            v.setLayoutParams(lp);
+                        }
                         return true;
 
                     case MotionEvent.ACTION_UP:
                         float diffX = Math.abs(event.getRawX() - downRawX);
                         float diffY = Math.abs(event.getRawY() - downRawY);
                         if (diffX < touchSlop && diffY < touchSlop) {
-                            openPanelWithRipple(v.getX() + v.getWidth() / 2f, v.getY() + v.getHeight() / 2f);
+                            FrameLayout.LayoutParams curPos = (FrameLayout.LayoutParams) v.getLayoutParams();
+                            openPanelWithRipple(curPos.leftMargin + v.getWidth() / 2f, curPos.topMargin + v.getHeight() / 2f);
                         }
                         return true;
                 }
