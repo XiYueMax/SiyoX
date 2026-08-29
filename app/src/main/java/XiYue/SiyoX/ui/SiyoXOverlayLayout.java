@@ -594,9 +594,11 @@ public class SiyoXOverlayLayout extends FrameLayout {
     private void renderFeatureList(int categoryIndex) {
         featureListContent.removeAllViews();
 
+        int dp16 = dp(16);
         int dp14 = dp(14);
         int dp12 = dp(12);
         int dp8 = dp(8);
+
 
         String catName = categoryTabViews.get(categoryIndex).getText().toString();
         TextView titleTv = new TextView(getContext());
