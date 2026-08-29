@@ -62,22 +62,22 @@ public class FloatingOverlayManager {
                         return;
                     }
 
-                    XposedBridge.log("[" + TAG + "] Mounting SiyoX Java Overlay to " + activity.getClass().getName());
+                    XposedBridge.log("[" + TAG + "] Mounting SiyoX Java Overlay to DecorView in " + activity.getClass().getName());
 
                     SiyoXOverlayLayout overlay = new SiyoXOverlayLayout(activity);
                     overlay.setTag(OVERLAY_VIEW_TAG);
                     activeOverlay = overlay;
 
-                    ViewGroup.LayoutParams rootParams = new ViewGroup.LayoutParams(
+                    FrameLayout.LayoutParams rootParams = new FrameLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
                     );
 
-                    activity.addContentView(overlay, rootParams);
+                    decorView.addView(overlay, rootParams);
                     overlay.bringToFront();
                     decorView.requestLayout();
 
-                    XposedBridge.log("[" + TAG + "] SiyoX Java Overlay mounted successfully with addContentView!");
+                    XposedBridge.log("[" + TAG + "] SiyoX Java Overlay mounted successfully to root DecorView!");
 
                 } catch (Throwable t) {
                     XposedBridge.log("[" + TAG + "] Error attaching SiyoX overlay: " + t.getMessage());
