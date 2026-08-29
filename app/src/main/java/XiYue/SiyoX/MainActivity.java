@@ -151,53 +151,9 @@ public class MainActivity extends Activity {
 
         // 4) 模块作者
         statusCard.addView(createInfoRow("模块作者", SiyoXConfig.AUTHOR, isDark)); // @XiYueMax
-        statusCard.addView(createDivider(isDark));
 
-        // 5) HWID (点击复制)
-        final String hwid = verifyManager.getAndroidId();
-        LinearLayout hwidRow = new LinearLayout(this);
-        hwidRow.setOrientation(LinearLayout.HORIZONTAL);
-        hwidRow.setGravity(Gravity.CENTER_VERTICAL);
-        hwidRow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        hwidRow.setPadding(0, dp(4), 0, dp(4));
-
-        TextView tvHwidLabel = new TextView(this);
-        tvHwidLabel.setText("HWID");
-        tvHwidLabel.setTextSize(13f);
-        tvHwidLabel.setTextColor(SiyoXTheme.getTextSecondary(isDark));
-        tvHwidLabel.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        hwidRow.addView(tvHwidLabel);
-
-        TextView tvHwidVal = new TextView(this);
-        tvHwidVal.setText(hwid);
-        tvHwidVal.setTextSize(12.5f);
-        tvHwidVal.setTypeface(Typeface.DEFAULT_BOLD);
-        tvHwidVal.setTextColor(SiyoXTheme.getTextPrimary(isDark));
-        hwidRow.addView(tvHwidVal);
-
-        View spacerH = new View(this);
-        spacerH.setLayoutParams(new LinearLayout.LayoutParams(dp(8), 1));
-        hwidRow.addView(spacerH);
-
-        CopyIconView copyHwidIcon = new CopyIconView(this);
-        copyHwidIcon.setIconColor(SiyoXTheme.getAccentBlue());
-        copyHwidIcon.setClickable(true);
-        hwidRow.addView(copyHwidIcon);
-
-        hwidRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                if (cm != null) {
-                    ClipData clip = ClipData.newPlainText("HWID", hwid);
-                    cm.setPrimaryClip(clip);
-                    Toast.makeText(MainActivity.this, "已复制 HWID: " + hwid, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        statusCard.addView(hwidRow);
         contentLayout.addView(statusCard);
+
 
         // ==========================================
         // 3. 第三个卡片：GitHub 开源链接，点击即可跳转

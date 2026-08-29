@@ -113,14 +113,19 @@ public class VerifyManager {
     }
 
     @SuppressLint("HardwareIds")
-    public String getAndroidId() {
+    public String getHWID() {
         try {
             String id = Settings.Secure.getString(appContext.getContentResolver(), Settings.Secure.ANDROID_ID);
-            return id != null ? id : "unknown_android_id";
+            return id != null ? id : "unknown_hwid";
         } catch (Exception e) {
-            return "unknown_android_id";
+            return "unknown_hwid";
         }
     }
+
+    public String getAndroidId() {
+        return getHWID();
+    }
+
 
     public void loadSoftwareNotice(final NoticeCallback callback) {
         new Thread(new Runnable() {

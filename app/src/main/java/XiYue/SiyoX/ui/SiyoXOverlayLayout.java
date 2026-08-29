@@ -432,10 +432,10 @@ public class SiyoXOverlayLayout extends FrameLayout {
         fullLoadingBar.setLayoutParams(barParams);
         cardKeyLayout.addView(fullLoadingBar);
 
-        // 设备 ID 点击复制提示
+        // HWID 点击复制提示
         fullStatusTip = new TextView(getContext());
-        final String androidId = verifyManager.getAndroidId();
-        fullStatusTip.setText("设备 ID: " + androidId + " (点击复制)");
+        final String hwid = verifyManager.getHWID();
+        fullStatusTip.setText("HWID: " + hwid + " (点击复制)");
         fullStatusTip.setTextSize(11f);
         fullStatusTip.setTextColor(SiyoXTheme.getTextSecondary(isDark));
         fullStatusTip.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -446,13 +446,14 @@ public class SiyoXOverlayLayout extends FrameLayout {
             public void onClick(View v) {
                 ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 if (cm != null) {
-                    ClipData clip = ClipData.newPlainText("AndroidID", androidId);
+                    ClipData clip = ClipData.newPlainText("HWID", hwid);
                     cm.setPrimaryClip(clip);
-                    Toast.makeText(getContext(), "已复制设备 ID", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "已复制 HWID", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         cardKeyLayout.addView(fullStatusTip);
+
 
         // 底部按钮栏: 【退出按钮在左侧】 【验证按钮在右侧】
         LinearLayout bottomActions = new LinearLayout(getContext());
@@ -754,7 +755,8 @@ public class SiyoXOverlayLayout extends FrameLayout {
             LinearLayout profileCard = createInnerCard(isDark);
             profileCard.setPadding(dp16, dp14, dp16, dp14);
 
-            profileCard.addView(createInfoRowItem("设备 Android ID", verifyManager.getAndroidId(), isDark));
+            profileCard.addView(createInfoRowItem("HWID", verifyManager.getHWID(), isDark));
+
             profileCard.addView(createDivider(isDark));
             profileCard.addView(createInfoRowItem("授权卡密", appSettings.getCard().isEmpty() ? "未绑定" : appSettings.getCard(), isDark));
             profileCard.addView(createDivider(isDark));
@@ -1109,7 +1111,8 @@ public class SiyoXOverlayLayout extends FrameLayout {
                             public void run() {
                                 fullLoadingBar.setVisibility(View.GONE);
                                 fullBtnVerify.setEnabled(true);
-                                fullStatusTip.setText("设备 ID: " + verifyManager.getAndroidId() + " (点击复制)");
+                                fullStatusTip.setText("HWID: " + verifyManager.getHWID() + " (点击复制)");
+
 
                                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
