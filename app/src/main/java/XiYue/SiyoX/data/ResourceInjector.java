@@ -10,6 +10,8 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import XiYue.SiyoX.SiyoXConfig;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -150,19 +152,32 @@ public class ResourceInjector {
     }
 
     /**
-     * 下载网络直链资源包 (带进度回调)
+     * 下载网络直链资源包 (带进度回调与原子化 Temp 保护)
      */
     public static void downloadResource(final Context context, final String urlStr, final String fileName, final DownloadCallback callback) {
+        downloadResource(context, urlStr, fileName, null, callback);
+    }
+
+    /**
+     * 下载网络直链资源包 (带进度回调、预期 MD5 校验与原子化 Temp 保护)
+     */
+    public static void downloadResource(final Context context, final String urlStr, final String fileName, final String expectedMd5, final DownloadCallback callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 InputStream is = null;
                 OutputStream os = null;
                 HttpURLConnection conn = null;
+                File tempFile = null;
                 try {
                     File resDir = getResFilesDir(context);
                     final File targetFile = new File(resDir, fileName);
-                    File tempFile = new File(resDir, fileName + ".tmp");
+                    tempFile = new File(resDir, fileName + ".tmp");
+
+                    // 1. 若上次遗留了残缺临时文件，先清理干净
+                    if (tempFile.exists()) {
+                        tempFile.delete();
+                    }
 
                     URL url = new URL(urlStr);
                     conn = (HttpURLConnection) url.openConnection();
@@ -223,10 +238,27 @@ public class ResourceInjector {
                     is.close();
                     is = null;
 
+                    // 2. MD5 完整性原子校验 (在临时文件上校验，校验失败立即销毁，绝不污染正式文件)
+                    if (expectedMd5 != null && !expectedMd5.trim().isEmpty() && SiyoXConfig.ENABLE_RESOURCE_MD5_VERIFY) {
+                        String tempMd5 = computeFileMd5(tempFile);
+                        if (tempMd5 == null || !tempMd5.equalsIgnoreCase(expectedMd5.trim())) {
+                            if (tempFile.exists()) {
+                                tempFile.delete();
+                            }
+                            throw new Exception("MD5 校验不匹配 (预期: " + expectedMd5 + ", 实际: " + tempMd5 + ")");
+                        }
+                    }
+
+                    // 3. 原子重命名：将校验通过的 .tmp 覆盖替换至正式文件
                     if (targetFile.exists()) {
                         targetFile.delete();
                     }
-                    tempFile.renameTo(targetFile);
+                    boolean renamed = tempFile.renameTo(targetFile);
+                    if (!renamed) {
+                        // 降级兜底复制
+                        copyFile(tempFile, targetFile);
+                        tempFile.delete();
+                    }
 
                     mainHandler.post(new Runnable() {
                         @Override
@@ -239,6 +271,9 @@ public class ResourceInjector {
 
                 } catch (final Throwable t) {
                     Log.e(TAG, "Download error: " + t.getMessage(), t);
+                    if (tempFile != null && tempFile.exists()) {
+                        tempFile.delete();
+                    }
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -482,6 +517,18 @@ public class ResourceInjector {
             in.close();
             out.close();
         }
+    }
+
+    private static void copyFile(File src, File dest) throws Exception {
+        InputStream in = new FileInputStream(src);
+        OutputStream out = new FileOutputStream(dest);
+        byte[] buf = new byte[8192];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
     }
 
     private static void deleteDirectory(File dir) {

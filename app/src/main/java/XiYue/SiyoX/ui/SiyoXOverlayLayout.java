@@ -179,10 +179,9 @@ public class SiyoXOverlayLayout extends FrameLayout {
         }
 
         if (floatingBall != null && floatingBall.getVisibility() != GONE) {
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) floatingBall.getLayoutParams();
             int bw = floatingBall.getMeasuredWidth();
             int bh = floatingBall.getMeasuredHeight();
-            floatingBall.layout(lp.leftMargin, lp.topMargin, lp.leftMargin + bw, lp.topMargin + bh);
+            floatingBall.layout(0, 0, bw, bh);
         }
     }
 
@@ -1062,7 +1061,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
                     tvStatus.setText("连接中...");
                     tvStatus.setTextColor(SiyoXTheme.getAccentBlue());
 
-                    ResourceInjector.downloadResource(getContext(), res.url, res.getFileName(), new ResourceInjector.DownloadCallback() {
+                    ResourceInjector.downloadResource(getContext(), res.url, res.getFileName(), res.md5, new ResourceInjector.DownloadCallback() {
                         @Override
                         public void onProgress(int percent, long currentBytes, long totalBytes) {
                             if (percent >= 0) {
@@ -1075,26 +1074,16 @@ public class SiyoXOverlayLayout extends FrameLayout {
 
                         @Override
                         public void onSuccess(File downloadedFile) {
-                            // 开启 MD5 校验时，下载完成后自动验证完整性
-                            if (SiyoXConfig.ENABLE_RESOURCE_MD5_VERIFY && res.md5 != null && !res.md5.trim().isEmpty()) {
-                                String fileMd5 = ResourceInjector.computeFileMd5(downloadedFile);
-                                if (fileMd5 == null || !fileMd5.equalsIgnoreCase(res.md5.trim())) {
-                                    downloadedFile.delete();
-                                    btnAction.setEnabled(true);
-                                    btnAction.setText("下载");
-                                    pbDownload.setVisibility(View.GONE);
-                                    tvStatus.setText("MD5校验失败");
-                                    tvStatus.setTextColor(Color.parseColor("#FF3B30"));
-                                    Toast.makeText(getContext(), "资源包 MD5 校验失败，文件已损坏或被篡改！", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                            }
-
                             btnAction.setEnabled(true);
                             btnAction.setText("注入");
                             pbDownload.setVisibility(View.GONE);
-                            tvStatus.setText("已就绪 (MD5校验通过)");
-                            Toast.makeText(getContext(), "下载完成并通过完整性校验，点击“注入”即可生效！", Toast.LENGTH_SHORT).show();
+                            if (SiyoXConfig.ENABLE_RESOURCE_MD5_VERIFY && res.md5 != null && !res.md5.trim().isEmpty()) {
+                                tvStatus.setText("已就绪 (MD5校验通过)");
+                                Toast.makeText(getContext(), "下载完成并通过完整性校验，点击“注入”即可生效！", Toast.LENGTH_SHORT).show();
+                            } else {
+                                tvStatus.setText("已就绪");
+                                Toast.makeText(getContext(), "下载完成，点击“注入”即可生效！", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override
@@ -1422,28 +1411,28 @@ public class SiyoXOverlayLayout extends FrameLayout {
     }
 
     // ==========================================
-    // 3. 悬浮球 (全屏幕自由拖拽移动，无蓝边，无黑边，正常显示Logo图标)
+    // 3. 悬浮球 (全屏幕平滑自由拖拽，GPU硬件加速变换，绝无残缺/出界，小巧精致图标)
     // ==========================================
     private void buildFloatingBall() {
-        int ballSize = dp(54);
+        int ballSize = dp(44);
         floatingBall = new FrameLayout(getContext());
         LayoutParams ballParams = new LayoutParams(ballSize, ballSize);
         ballParams.gravity = Gravity.TOP | Gravity.START;
-        ballParams.leftMargin = dp(20);
-        ballParams.topMargin = dp(80);
         floatingBall.setLayoutParams(ballParams);
+        floatingBall.setX(dp(20));
+        floatingBall.setY(dp(80));
         floatingBall.setVisibility(View.GONE);
         floatingBall.setClipChildren(false);
         floatingBall.setClipToPadding(false);
 
-        // 无蓝色边框，圆角白色背景，无黑边
+        // 无蓝色边框，圆角白色背景，精致无黑边
         GradientDrawable bg = new GradientDrawable();
         bg.setColor(Color.parseColor("#FFFFFF"));
-        bg.setCornerRadius(dp(16));
+        bg.setCornerRadius(dp(13));
         floatingBall.setBackground(bg);
 
         ImageView logoImg = new ImageView(getContext());
-        int pad = dp(6);
+        int pad = dp(5);
         logoImg.setPadding(pad, pad, pad, pad);
         logoImg.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         Bitmap bmp = LogoLoader.getLogo(getContext());
@@ -1466,42 +1455,37 @@ public class SiyoXOverlayLayout extends FrameLayout {
                 int[] size = getRealScreenSize();
                 int screenW = size[0];
                 int screenH = size[1];
+                int parentW = getWidth() > 0 ? getWidth() : screenW;
+                int parentH = getHeight() > 0 ? getHeight() : screenH;
 
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         downRawX = event.getRawX();
                         downRawY = event.getRawY();
-                        FrameLayout.LayoutParams curLp = (FrameLayout.LayoutParams) v.getLayoutParams();
-                        dX = curLp.leftMargin - event.getRawX();
-                        dY = curLp.topMargin - event.getRawY();
+                        dX = v.getX() - event.getRawX();
+                        dY = v.getY() - event.getRawY();
                         return true;
 
                     case MotionEvent.ACTION_MOVE:
-                        // 全屏幕无阻碍自由拖拽移动
-                        int newLeft = (int) Math.max(0, Math.min(event.getRawX() + dX, screenW - v.getWidth()));
-                        int newTop = (int) Math.max(0, Math.min(event.getRawY() + dY, screenH - v.getHeight()));
+                        int bw = v.getWidth() > 0 ? v.getWidth() : dp(44);
+                        int bh = v.getHeight() > 0 ? v.getHeight() : dp(44);
+                        int maxX = Math.max(0, parentW - bw);
+                        int maxY = Math.max(0, parentH - bh);
+                        float targetX = event.getRawX() + dX;
+                        float targetY = event.getRawY() + dY;
+                        float newX = Math.max(0, Math.min(targetX, maxX));
+                        float newY = Math.max(0, Math.min(targetY, maxY));
 
-                        // 1. 即时同步布局坐标，彻底消除 GPU RenderNode 脏矩形裁剪滞后与边缘残缺
-                        v.layout(newLeft, newTop, newLeft + v.getWidth(), newTop + v.getHeight());
-
-                        // 2. 更新 LayoutParams 保存当前坐标
-                        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
-                        lp.leftMargin = newLeft;
-                        lp.topMargin = newTop;
-                        lp.gravity = Gravity.TOP | Gravity.START;
-                        v.setLayoutParams(lp);
-
-                        // 3. 触发父容器即时重绘
-                        invalidate();
+                        // 采用硬件加速 setX / setY 平滑渲染，0延迟，绝不出界
+                        v.setX(newX);
+                        v.setY(newY);
                         return true;
-
 
                     case MotionEvent.ACTION_UP:
                         float diffX = Math.abs(event.getRawX() - downRawX);
                         float diffY = Math.abs(event.getRawY() - downRawY);
                         if (diffX < touchSlop && diffY < touchSlop) {
-                            FrameLayout.LayoutParams curPos = (FrameLayout.LayoutParams) v.getLayoutParams();
-                            openPanelWithRipple(curPos.leftMargin + v.getWidth() / 2f, curPos.topMargin + v.getHeight() / 2f);
+                            openPanelWithRipple(v.getX() + v.getWidth() / 2f, v.getY() + v.getHeight() / 2f);
                         }
                         return true;
                 }
