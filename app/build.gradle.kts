@@ -70,10 +70,28 @@ android {
                 "/META-INF/**/NOTICE*",
                 "/META-INF/**/license*",
                 "/META-INF/**/notice*",
-                "/META-INF/**/*.properties"
+                "/META-INF/**/*.properties",
+                "/META-INF/*.kotlin_module",
+                "META-INF/*.kotlin_module",
+                "/kotlin/**",
+                "kotlin/**",
+                "**/*.kotlin_builtins",
+                "**/*.kotlin_metadata",
+                "DebugProbesKt.bin",
+                "/DebugProbesKt.bin",
+                "**/*.bin",
+                "/assets/dexopt/**",
+                "assets/dexopt/**",
+                "**/*.prof",
+                "**/*.profm"
             )
         }
     }
+}
+
+// 彻底禁用 ART Profile / Baseline Profile 生成，移除 assets/dexopt
+tasks.matching { it.name.contains("ArtProfile") || it.name.contains("BaselineProfile") }.configureEach {
+    enabled = false
 }
 
 dependencies {

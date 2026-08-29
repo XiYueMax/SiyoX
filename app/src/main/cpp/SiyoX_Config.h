@@ -1,4 +1,4 @@
-﻿// Copyright 2026, SiyoX contributors
+// Copyright 2026, SiyoX contributors
 // SPDX-License-Identifier: Apache-2.0
 
 #ifndef SIYOX_CONFIG_H
