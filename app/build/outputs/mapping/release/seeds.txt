@@ -1,0 +1,1452 @@
+XiYue.SiyoX.ui.LogoLoader
+XiYue.SiyoX.hook.MainHook
+androidx.appcompat.widget.Toolbar
+androidx.profileinstaller.ProfileInstallReceiver
+androidx.lifecycle.ReportFragment$LifecycleCallbacks
+XiYue.SiyoX.data.VerifyManager$2
+XiYue.SiyoX.ui.MiuiXSwitch$1
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18
+epic.verify.api.InstallReceiver
+androidx.appcompat.widget.ButtonBarLayout
+androidx.appcompat.widget.ContentFrameLayout
+XiYue.SiyoX.R$drawable
+epic.verify.api.EpicVerifySDK$Version
+epic.verify.api.Json$Null
+epic.verify.api.EpicUpdater$Callback
+androidx.appcompat.widget.ActionBarContainer
+androidx.window.reflection.Consumer2
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1
+epic.verify.api.Resp
+androidx.window.reflection.JFunction2
+XiYue.SiyoX.MainActivity$1
+epic.verify.api.EpicUpdater$3
+XiYue.SiyoX.ui.SiyoXOverlayLayout$6
+XiYue.SiyoX.ui.SiyoXOverlayLayout$13
+org.jetbrains.compose.resources.AndroidContextProvider
+XiYue.SiyoX.data.VerifyManager$VerifyCallback
+XiYue.SiyoX.data.VerifyManager$NoticeCallback
+androidx.core.app.RemoteActionCompat
+XiYue.SiyoX.ui.CopyIconView
+XiYue.SiyoX.hook.MainHook$1
+XiYue.SiyoX.ui.SiyoXOverlayLayout$2
+XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener
+XiYue.SiyoX.data.VerifyManager
+XiYue.SiyoX.SiyoXConfig
+XiYue.SiyoX.ui.FloatingOverlayManager$1
+androidx.annotation.Keep
+epic.verify.api.EpicUpdater$2
+XiYue.SiyoX.ui.SiyoXOverlayLayout$1
+XiYue.SiyoX.ui.SiyoXOverlayLayout$3
+androidx.appcompat.widget.ViewStubCompat
+XiYue.SiyoX.ui.MiuiXSwitch$2
+XiYue.SiyoX.ui.SiyoXOverlayLayout$10
+XiYue.SiyoX.ui.FloatingOverlayManager$1$1
+XiYue.SiyoX.data.VerifyManager$1
+XiYue.SiyoX.data.SiyoXDirManager
+androidx.appcompat.view.menu.ActionMenuItemView
+epic.verify.api.EpicVerifySDK$Notice
+XiYue.SiyoX.ui.SiyoXOverlayLayout
+XiYue.SiyoX.SiyoXApp
+XiYue.SiyoX.ui.MiuiXSwitch
+XiYue.SiyoX.hook.MainHook$3
+XiYue.SiyoX.ui.SiyoXOverlayLayout$7
+epic.verify.api.EpicVerifyException
+XiYue.SiyoX.ui.MiuiXCheckBox$2
+XiYue.SiyoX.data.VerifyManager$3
+androidx.lifecycle.ProcessLifecycleOwner$attach$1$onActivityPreCreated$1
+android.support.v4.graphics.drawable.IconCompatParcelizer
+XiYue.SiyoX.data.VerifyManager$6
+androidx.appcompat.widget.FitWindowsLinearLayout
+androidx.window.reflection.Predicate2
+XiYue.SiyoX.ui.SiyoXOverlayLayout$15
+XiYue.SiyoX.ui.SiyoXOverlayLayout$14
+XiYue.SiyoX.ui.MiuiXCheckBox$1
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16
+androidx.appcompat.widget.ActionBarContextView
+androidx.window.area.reflectionguard.ExtensionWindowAreaPresentationRequirements
+XiYue.SiyoX.SiyoXConfig$T3Config
+androidx.core.graphics.drawable.IconCompat
+androidx.appcompat.view.menu.ExpandedMenuView
+epic.verify.api.GZip
+XiYue.SiyoX.ui.FloatingOverlayManager$2
+androidx.startup.InitializationProvider
+XiYue.SiyoX.R$string
+epic.verify.api.Json$Value
+androidx.core.widget.NestedScrollView
+XiYue.SiyoX.data.VerifyManager$4
+androidx.appcompat.app.AlertController$RecycleListView
+XiYue.SiyoX.ui.MiuiXCheckBox
+XiYue.SiyoX.data.NativeVerify
+androidx.lifecycle.ReportFragment
+epic.verify.api.Json$Arr
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView$1
+epic.verify.api.RSAUtil
+epic.verify.api.EpicVerifySDK$1
+androidx.profileinstaller.ProfileInstallerInitializer
+epic.verify.api.EpicUpdater$1
+XiYue.SiyoX.ui.SiyoXOverlayLayout$8
+androidx.core.graphics.drawable.IconCompatParcelizer
+XiYue.SiyoX.ui.MiuiXCheckBox$OnCheckedChangeListener
+epic.verify.api.Json$Parser
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1$1
+androidx.graphics.path.PathIteratorPreApi34Impl
+XiYue.SiyoX.ui.SiyoXOverlayLayout$9
+androidx.appcompat.widget.ActionMenuView
+XiYue.SiyoX.hook.MainHook$2
+epic.verify.api.EpicVerifySDK$HeartbeatListener
+androidx.core.app.RemoteActionCompatParcelizer
+androidx.window.area.reflectionguard.ExtensionWindowAreaStatusRequirements
+epic.verify.api.InstallReceiver$Listener
+androidx.versionedparcelable.CustomVersionedParcelable
+XiYue.SiyoX.hook.MainHook$4
+epic.verify.api.EpicVerifySDK
+androidx.appcompat.widget.SearchView$SearchAutoComplete
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17$1
+androidx.lifecycle.ProcessLifecycleOwner$attach$1
+XiYue.SiyoX.data.AppSettings
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView
+XiYue.SiyoX.R
+XiYue.SiyoX.ui.SiyoXOverlayLayout$11
+XiYue.SiyoX.data.VerifyManager$5
+epic.verify.api.Json$Obj
+epic.verify.api.AppKeyConverter
+epic.verify.api.Json$Num
+XiYue.SiyoX.ui.FloatingOverlayManager
+androidx.appcompat.widget.DialogTitle
+epic.verify.api.Proto
+XiYue.SiyoX.R$color
+epic.verify.api.EpicVerifySDK$HeartbeatFailListener
+androidx.appcompat.widget.FitWindowsFrameLayout
+epic.verify.api.EpicVerifySDK$Pass
+androidx.versionedparcelable.ParcelImpl
+XiYue.SiyoX.R$style
+epic.verify.api.Base64
+XiYue.SiyoX.BuildConfig
+XiYue.SiyoX.SiyoXConfig$VerifyType
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17
+androidx.emoji2.text.EmojiCompatInitializer
+androidx.appcompat.widget.ActionBarOverlayLayout
+android.support.v4.app.RemoteActionCompatParcelizer
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18$1
+XiYue.SiyoX.ui.SiyoXOverlayLayout$4
+androidx.appcompat.widget.ActivityChooserView$InnerLayout
+XiYue.SiyoX.ui.SiyoXTheme
+androidx.lifecycle.LifecycleDispatcher$DispatcherActivityCallback
+epic.verify.api.EpicVerifySDK$LoginResult
+XiYue.SiyoX.MainActivity
+XiYue.SiyoX.ui.SiyoXOverlayLayout$12
+androidx.appcompat.widget.AlertDialogLayout
+androidx.core.app.CoreComponentFactory
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements
+epic.verify.api.EpicUpdater
+epic.verify.api.EpicVerifySDK$Btn
+androidx.lifecycle.ProcessLifecycleInitializer
+androidx.graphics.path.ConicConverter
+epic.verify.api.Json$Str
+androidx.appcompat.view.menu.ListMenuItemView
+epic.verify.api.EpicVerifySDK$VerifyConfig
+epic.verify.api.Json$Bool
+XiYue.SiyoX.ui.SiyoXOverlayLayout$5
+XiYue.SiyoX.SiyoXConfig$WeiYanConfig
+XiYue.SiyoX.ui.LogoData
+epic.verify.api.Json
+XiYue.SiyoX.SiyoXConfig$EpicConfig
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1: XiYue.SiyoX.ui.SiyoXOverlayLayout$16 this$1
+XiYue.SiyoX.R$string: int app_name
+XiYue.SiyoX.ui.SiyoXOverlayLayout$3: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.SiyoXConfig$T3Config: java.lang.String NOTICE_CODE
+epic.verify.api.EpicVerifySDK: java.lang.String packageName
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1$1: java.lang.String val$key
+XiYue.SiyoX.data.AppSettings: java.lang.String KEY_REMEMBER_CARD
+XiYue.SiyoX.ui.SiyoXOverlayLayout$13: java.lang.String val$toastMsg
+XiYue.SiyoX.data.VerifyManager$5: java.lang.String val$msg
+XiYue.SiyoX.data.VerifyManager: java.lang.String statusMessage
+XiYue.SiyoX.SiyoXConfig$VerifyType: XiYue.SiyoX.SiyoXConfig$VerifyType WEIYAN
+XiYue.SiyoX.R$color: int secondary
+XiYue.SiyoX.ui.MiuiXCheckBox: android.graphics.Path checkPath
+epic.verify.api.EpicVerifySDK$Version: boolean hasUpdate
+XiYue.SiyoX.ui.MiuiXSwitch$1: XiYue.SiyoX.ui.MiuiXSwitch this$0
+epic.verify.api.Resp: epic.verify.api.Json$Obj publicTemplate
+XiYue.SiyoX.SiyoXConfig: java.lang.String VERSION_NAME
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp lastSoftConfig
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView$1: XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView this$0
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.Button fullBtnVerify
+XiYue.SiyoX.SiyoXConfig$VerifyType: XiYue.SiyoX.SiyoXConfig$VerifyType T3
+XiYue.SiyoX.SiyoXApp: XiYue.SiyoX.SiyoXApp instance
+androidx.concurrent.futures.AbstractResolvableFuture: androidx.concurrent.futures.AbstractResolvableFuture$Waiter waiters
+XiYue.SiyoX.ui.MiuiXSwitch: android.graphics.RectF trackRect
+XiYue.SiyoX.ui.SiyoXOverlayLayout$5: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.data.VerifyManager$3: java.lang.String val$cardKey
+XiYue.SiyoX.data.AppSettings: XiYue.SiyoX.data.AppSettings instance
+epic.verify.api.EpicVerifySDK$Notice: int announcementMode
+XiYue.SiyoX.ui.MiuiXSwitch: XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener listener
+epic.verify.api.EpicVerifySDK$Pass: java.lang.String title
+epic.verify.api.EpicVerifySDK$Version: int dialogStyle
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event ON_DESTROY
+XiYue.SiyoX.SiyoXConfig$T3Config: java.lang.String APP_KEY
+XiYue.SiyoX.data.VerifyManager$2: java.lang.String val$content
+XiYue.SiyoX.data.VerifyManager$3: XiYue.SiyoX.data.VerifyManager this$0
+epic.verify.api.EpicVerifySDK$VerifyConfig: java.lang.String cardPlaceholder
+XiYue.SiyoX.ui.SiyoXOverlayLayout$8: int val$index
+XiYue.SiyoX.data.AppSettings: java.lang.String KEY_CARD
+XiYue.SiyoX.data.VerifyManager: java.lang.String noticeContent
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.LinearLayout categoryListLayout
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event ON_ANY
+XiYue.SiyoX.BuildConfig: boolean DEBUG
+epic.verify.api.EpicVerifySDK$Version: java.lang.String ignoreBtn
+epic.verify.api.EpicVerifySDK$Pass: java.lang.String content
+XiYue.SiyoX.R$color: int translucent_bg
+androidx.lifecycle.ProcessLifecycleOwner$attach$1: androidx.lifecycle.ProcessLifecycleOwner this$0
+XiYue.SiyoX.SiyoXConfig: java.lang.String GITHUB_URL
+XiYue.SiyoX.ui.MiuiXCheckBox: android.animation.ValueAnimator animator
+XiYue.SiyoX.R$string: int heartbeat_active
+XiYue.SiyoX.ui.MiuiXSwitch: boolean isChecked
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.FrameLayout inGamePanelScrim
+XiYue.SiyoX.ui.MiuiXCheckBox: XiYue.SiyoX.ui.MiuiXCheckBox$OnCheckedChangeListener listener
+epic.verify.api.EpicVerifySDK: java.lang.String locale
+XiYue.SiyoX.ui.SiyoXOverlayLayout$13: java.lang.String val$title
+XiYue.SiyoX.ui.SiyoXOverlayLayout: float downRawY
+epic.verify.api.EpicVerifySDK$Version: java.lang.String upgradeBtn
+androidx.concurrent.futures.AbstractResolvableFuture: java.lang.Object value
+XiYue.SiyoX.BuildConfig: java.lang.String BUILD_TYPE
+epic.verify.api.EpicVerifySDK$Pass: java.lang.String raw
+androidx.concurrent.futures.AbstractResolvableFuture$Waiter: androidx.concurrent.futures.AbstractResolvableFuture$Waiter next
+epic.verify.api.EpicUpdater$2: epic.verify.api.EpicUpdater$Callback val$cb
+XiYue.SiyoX.data.VerifyManager$1: XiYue.SiyoX.data.VerifyManager this$0
+XiYue.SiyoX.ui.SiyoXOverlayLayout: XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView rippleWaveView
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1$1: XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1 this$2
+XiYue.SiyoX.R$string: int card_unbind
+XiYue.SiyoX.ui.MiuiXSwitch: android.animation.ValueAnimator animator
+epic.verify.api.EpicVerifySDK$Notice: int dialogStyle
+XiYue.SiyoX.R$string: int module_scope
+XiYue.SiyoX.ui.SiyoXOverlayLayout$13: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.MainActivity: XiYue.SiyoX.data.VerifyManager verifyManager
+androidx.lifecycle.Lifecycle$Event: kotlin.enums.EnumEntries $ENTRIES
+epic.verify.api.EpicVerifySDK: java.lang.String statusMachine
+XiYue.SiyoX.R$color: int primary
+epic.verify.api.EpicVerifySDK$LoginResult: java.lang.String token
+epic.verify.api.EpicVerifySDK: java.lang.String appKey
+XiYue.SiyoX.SiyoXConfig: int VERSION_CODE
+epic.verify.api.Resp: epic.verify.api.Json$Obj data
+epic.verify.api.EpicVerifySDK$Pass: epic.verify.api.EpicVerifySDK$Btn extra
+epic.verify.api.EpicVerifySDK$VerifyConfig: epic.verify.api.EpicVerifySDK$Btn cancel
+androidx.core.widget.NestedScrollView$SavedState: android.os.Parcelable$Creator CREATOR
+epic.verify.api.Json$Num: java.lang.String raw
+XiYue.SiyoX.data.VerifyManager: java.lang.String noticeTitle
+XiYue.SiyoX.data.VerifyManager$1: XiYue.SiyoX.data.VerifyManager$NoticeCallback val$callback
+XiYue.SiyoX.ui.SiyoXOverlayLayout$15: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.Button fullBtnExit
+XiYue.SiyoX.ui.MiuiXSwitch$2: XiYue.SiyoX.ui.MiuiXSwitch this$0
+XiYue.SiyoX.ui.LogoLoader: android.graphics.Bitmap cachedLogo
+XiYue.SiyoX.SiyoXConfig$T3Config: java.lang.String VERSION_CODE_STR
+epic.verify.api.EpicVerifySDK$Version: java.lang.String downloadUrl
+epic.verify.api.Resp: epic.verify.api.Json$Obj layout
+XiYue.SiyoX.ui.FloatingOverlayManager$1$1: android.app.Activity val$activity
+epic.verify.api.EpicVerifySDK$VerifyConfig: java.lang.String secretKey
+XiYue.SiyoX.ui.MiuiXSwitch: int ON_COLOR
+epic.verify.api.EpicVerifySDK$Pass: int showType
+epic.verify.api.EpicVerifySDK$1: epic.verify.api.EpicVerifySDK this$0
+epic.verify.api.EpicVerifySDK$Btn: java.lang.String value
+epic.verify.api.InstallReceiver: epic.verify.api.InstallReceiver$Listener listener
+XiYue.SiyoX.ui.CopyIconView: int iconColor
+epic.verify.api.EpicVerifySDK$Btn: int event
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: float centerY
+XiYue.SiyoX.BuildConfig: java.lang.String APPLICATION_ID
+XiYue.SiyoX.SiyoXConfig$WeiYanConfig: java.lang.String RC4_KEY
+epic.verify.api.EpicVerifySDK$Version: java.lang.String content
+androidx.customview.view.AbsSavedState: android.os.Parcelable$Creator CREATOR
+XiYue.SiyoX.data.SiyoXDirManager: java.lang.String TAG
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.TextView fullNoticeTitle
+XiYue.SiyoX.R$string: int join_group
+XiYue.SiyoX.SiyoXConfig$T3Config: java.lang.String LOGIN_CODE
+XiYue.SiyoX.ui.SiyoXOverlayLayout: float dY
+epic.verify.api.EpicVerifySDK$VerifyConfig: int heartbeatTime
+epic.verify.api.EpicVerifySDK$Notice: epic.verify.api.EpicVerifySDK$Btn extra
+XiYue.SiyoX.data.VerifyManager: long expireTimestamp
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17$1: java.lang.String val$content
+XiYue.SiyoX.data.VerifyManager$2: boolean val$success
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.EditText fullCardInput
+XiYue.SiyoX.data.VerifyManager$2: java.lang.String val$title
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event$Companion Companion
+epic.verify.api.EpicUpdater$3: boolean val$ok
+epic.verify.api.EpicVerifySDK$Pass: java.lang.String pass
+XiYue.SiyoX.SiyoXConfig: java.lang.String CLIENT_AUTHOR
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.FrameLayout cardWrapper
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.ProgressBar fullLoadingBar
+epic.verify.api.Json$Null: epic.verify.api.Json$Null INSTANCE
+XiYue.SiyoX.ui.MiuiXCheckBox$2: XiYue.SiyoX.ui.MiuiXCheckBox this$0
+XiYue.SiyoX.ui.MiuiXCheckBox: float progress
+XiYue.SiyoX.SiyoXConfig$VerifyType: XiYue.SiyoX.SiyoXConfig$VerifyType EPIC
+androidx.lifecycle.ProcessLifecycleOwner$attach$1$onActivityPreCreated$1: androidx.lifecycle.ProcessLifecycleOwner this$0
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event ON_STOP
+XiYue.SiyoX.SiyoXConfig$VerifyType: XiYue.SiyoX.SiyoXConfig$VerifyType[] $VALUES
+XiYue.SiyoX.data.VerifyManager: android.content.Context appContext
+XiYue.SiyoX.ui.SiyoXOverlayLayout$6: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event ON_RESUME
+XiYue.SiyoX.data.VerifyManager: android.os.Handler mainHandler
+XiYue.SiyoX.ui.FloatingOverlayManager: java.lang.String TAG
+XiYue.SiyoX.ui.MiuiXSwitch: android.graphics.Paint thumbPaint
+XiYue.SiyoX.ui.SiyoXOverlayLayout: float downRawX
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.FrameLayout fullScreenVerifyView
+XiYue.SiyoX.R$style: int Theme_SiyoX
+XiYue.SiyoX.ui.MiuiXSwitch: android.graphics.Paint shadowPaint
+XiYue.SiyoX.data.VerifyManager$5: XiYue.SiyoX.data.VerifyManager$VerifyCallback val$callback
+XiYue.SiyoX.SiyoXConfig$EpicConfig: int PORT
+epic.verify.api.EpicVerifySDK: int MAX_PAYLOAD
+XiYue.SiyoX.ui.FloatingOverlayManager$2: android.app.Activity val$activity
+epic.verify.api.EpicVerifySDK$VerifyConfig: int heartbeatEvent
+XiYue.SiyoX.ui.SiyoXOverlayLayout: XiYue.SiyoX.data.VerifyManager verifyManager
+epic.verify.api.EpicVerifySDK$Version: java.lang.String title
+epic.verify.api.EpicVerifySDK$Version: boolean ignoreEnable
+XiYue.SiyoX.ui.SiyoXOverlayLayout$1: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.SiyoXConfig: java.lang.String CLIENT_NAME
+epic.verify.api.EpicVerifySDK$Notice: java.lang.String title
+XiYue.SiyoX.ui.SiyoXOverlayLayout$12: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.SiyoXConfig: java.lang.String PACKAGE_NAME
+XiYue.SiyoX.ui.MiuiXCheckBox$1: XiYue.SiyoX.ui.MiuiXCheckBox this$0
+XiYue.SiyoX.R$color: int surface_light
+XiYue.SiyoX.SiyoXConfig$WeiYanConfig: java.lang.String API_HOST
+epic.verify.api.EpicVerifySDK$Version: java.lang.String updateLog
+XiYue.SiyoX.R$color: int primary_variant
+XiYue.SiyoX.SiyoXConfig$EpicConfig: java.lang.String[] HOSTS
+XiYue.SiyoX.ui.SiyoXOverlayLayout$14: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.Resp: int code
+epic.verify.api.EpicVerifySDK$Pass: epic.verify.api.EpicVerifySDK$Btn cancel
+XiYue.SiyoX.ui.SiyoXOverlayLayout$7: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.EpicVerifySDK$Version: int updateType
+XiYue.SiyoX.hook.MainHook: java.lang.String TAG
+XiYue.SiyoX.ui.SiyoXOverlayLayout$13: java.lang.String val$path
+epic.verify.api.EpicVerifySDK$Btn: java.lang.String text
+epic.verify.api.EpicVerifySDK: java.lang.String[] hosts
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event ON_PAUSE
+epic.verify.api.EpicVerifySDK$VerifyConfig: java.lang.String heartbeatEventValue
+androidx.concurrent.futures.AbstractResolvableFuture$Waiter: java.lang.Thread thread
+epic.verify.api.Resp: java.lang.String msg
+XiYue.SiyoX.R$string: int app_desc
+epic.verify.api.EpicVerifySDK$VerifyConfig: java.lang.String title
+XiYue.SiyoX.R$style: int Theme_SiyoX_Translucent
+epic.verify.api.EpicVerifySDK$Pass: epic.verify.api.EpicVerifySDK$Btn confirm
+XiYue.SiyoX.SiyoXConfig$T3Config: java.lang.String RSA_PUBLIC_KEY
+epic.verify.api.Json$Bool: boolean value
+XiYue.SiyoX.data.VerifyManager$4: XiYue.SiyoX.data.VerifyManager this$0
+XiYue.SiyoX.SiyoXConfig$T3Config: java.lang.String API_HOST
+epic.verify.api.EpicVerifySDK: java.lang.String token
+epic.verify.api.Resp: long time
+XiYue.SiyoX.ui.FloatingOverlayManager: android.os.Handler mainHandler
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.LinearLayout featureListContent
+XiYue.SiyoX.ui.MiuiXCheckBox: android.graphics.Paint checkPaint
+epic.verify.api.Resp: epic.verify.api.Json$Obj privateTemplate
+epic.verify.api.EpicUpdater$1: epic.verify.api.EpicUpdater$Callback val$cb
+XiYue.SiyoX.ui.SiyoXOverlayLayout$11: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.Base64: int[] DECODE
+XiYue.SiyoX.ui.MiuiXCheckBox: android.graphics.Paint borderPaint
+XiYue.SiyoX.SiyoXConfig$WeiYanConfig: java.lang.String APP_KEY
+XiYue.SiyoX.SiyoXConfig: java.lang.String APP_NAME
+epic.verify.api.EpicVerifySDK$VerifyConfig: java.lang.String raw
+epic.verify.api.EpicVerifySDK$Version: int showType
+epic.verify.api.EpicUpdater$3: java.lang.String val$msg
+XiYue.SiyoX.ui.MiuiXCheckBox: int CHECKED_COLOR
+XiYue.SiyoX.MainActivity$1: XiYue.SiyoX.MainActivity this$0
+XiYue.SiyoX.R$string: int verify_success
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: float currentRadius
+XiYue.SiyoX.data.VerifyManager$4: XiYue.SiyoX.data.VerifyManager$VerifyCallback val$callback
+epic.verify.api.Json$Arr: java.util.List items
+XiYue.SiyoX.SiyoXConfig: java.lang.String AUTHOR
+XiYue.SiyoX.ui.SiyoXOverlayLayout$9: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.EpicVerifySDK: java.lang.String MAGIC
+XiYue.SiyoX.data.VerifyManager$2: XiYue.SiyoX.data.VerifyManager$NoticeCallback val$callback
+XiYue.SiyoX.ui.SiyoXOverlayLayout$10: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.SiyoXConfig$WeiYanConfig: java.lang.String APP_ID
+XiYue.SiyoX.ui.SiyoXOverlayLayout: int currentCategoryIndex
+XiYue.SiyoX.data.VerifyManager$5: XiYue.SiyoX.data.VerifyManager this$0
+XiYue.SiyoX.SiyoXConfig$T3Config: java.lang.String HEARTBEAT_CODE
+epic.verify.api.EpicUpdater$1: android.content.Context val$context
+epic.verify.api.EpicVerifySDK: java.lang.String PUBLIC_KEY_BASE64
+epic.verify.api.EpicVerifySDK$Version: boolean cancelEnable
+XiYue.SiyoX.ui.MiuiXSwitch: float progress
+epic.verify.api.EpicVerifySDK$LoginResult: long expire
+XiYue.SiyoX.ui.MiuiXSwitch: android.graphics.Paint trackPaint
+epic.verify.api.EpicVerifySDK$VerifyConfig: int dialogStyle
+epic.verify.api.RSAUtil: int KEY_SIZE
+XiYue.SiyoX.data.VerifyManager$3: XiYue.SiyoX.data.VerifyManager$VerifyCallback val$callback
+XiYue.SiyoX.data.AppSettings: java.lang.String KEY_AUTO_VERIFY
+androidx.appcompat.widget.Toolbar$SavedState: android.os.Parcelable$Creator CREATOR
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.ui.SiyoXOverlayLayout$2: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.EpicVerifySDK$Notice: int showType
+XiYue.SiyoX.data.VerifyManager: boolean isVerified
+androidx.versionedparcelable.ParcelImpl: android.os.Parcelable$Creator CREATOR
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1$1: java.lang.String val$message
+androidx.concurrent.futures.AbstractResolvableFuture: androidx.concurrent.futures.AbstractResolvableFuture$Listener listeners
+XiYue.SiyoX.data.VerifyManager: XiYue.SiyoX.data.VerifyManager instance
+XiYue.SiyoX.ui.SiyoXOverlayLayout: XiYue.SiyoX.ui.MiuiXCheckBox cbAutoLogin
+epic.verify.api.EpicVerifySDK$Notice: java.lang.String raw
+XiYue.SiyoX.ui.LogoLoader: java.lang.String TAG
+XiYue.SiyoX.ui.SiyoXOverlayLayout$4: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.app.Activity activity
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.EpicVerifySDK$Notice: epic.verify.api.EpicVerifySDK$Btn cancel
+epic.verify.api.Json$Str: java.lang.String value
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1: java.lang.String val$key
+XiYue.SiyoX.data.VerifyManager$6: int[] $SwitchMap$XiYue$SiyoX$SiyoXConfig$VerifyType
+XiYue.SiyoX.R$string: int verify_hint
+epic.verify.api.EpicVerifySDK: boolean autoHeartbeat
+XiYue.SiyoX.R$drawable: int ic_launcher
+epic.verify.api.EpicVerifySDK$Notice: epic.verify.api.EpicVerifySDK$Btn confirm
+XiYue.SiyoX.ui.MiuiXCheckBox: boolean isChecked
+XiYue.SiyoX.ui.SiyoXOverlayLayout: float dX
+epic.verify.api.EpicVerifySDK$VerifyConfig: epic.verify.api.EpicVerifySDK$Btn extra
+XiYue.SiyoX.ui.SiyoXOverlayLayout: XiYue.SiyoX.data.AppSettings appSettings
+epic.verify.api.Json$Parser: java.lang.String s
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17$1: java.lang.String val$title
+XiYue.SiyoX.ui.SiyoXOverlayLayout$5: java.lang.String val$hwid
+epic.verify.api.Json$Parser: int pos
+XiYue.SiyoX.ui.FloatingOverlayManager: XiYue.SiyoX.ui.SiyoXOverlayLayout activeOverlay
+epic.verify.api.RSAUtil: int MAX_ENCRYPT_BLOCK
+epic.verify.api.EpicVerifySDK: java.lang.String lastServer
+epic.verify.api.EpicVerifySDK: int TYPE_VERIFY
+epic.verify.api.EpicVerifySDK$VerifyConfig: epic.verify.api.EpicVerifySDK$Btn confirm
+epic.verify.api.EpicVerifySDK: java.lang.String deviceId
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event[] $VALUES
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$HeartbeatFailListener heartbeatFailListener
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18$1: boolean val$success
+XiYue.SiyoX.data.VerifyManager$4: java.lang.String val$card
+XiYue.SiyoX.ui.SiyoXOverlayLayout: boolean isPanelOpen
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17$1: XiYue.SiyoX.ui.SiyoXOverlayLayout$17 this$1
+XiYue.SiyoX.ui.SiyoXOverlayLayout: java.util.List categoryTabViews
+XiYue.SiyoX.R$string: int verify_btn
+epic.verify.api.EpicUpdater$3: epic.verify.api.EpicUpdater$Callback val$cb
+XiYue.SiyoX.R$color: int background_dark
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: float maxRadius
+XiYue.SiyoX.R$color: int background_light
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.TextView fullNoticeContent
+XiYue.SiyoX.R$string: int verify_title
+epic.verify.api.EpicVerifySDK: java.lang.String card
+epic.verify.api.EpicVerifySDK$VerifyConfig: java.lang.String content
+XiYue.SiyoX.R$color: int card_border
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.EpicVerifySDK$Notice: java.lang.String content
+epic.verify.api.Base64: char[] ALPHABET
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.TextView fullStatusTip
+XiYue.SiyoX.ui.SiyoXOverlayLayout: int touchSlop
+XiYue.SiyoX.SiyoXConfig: XiYue.SiyoX.SiyoXConfig$VerifyType CURRENT_VERIFY_TYPE
+epic.verify.api.RSAUtil: int MAX_DECRYPT_BLOCK
+XiYue.SiyoX.BuildConfig: int VERSION_CODE
+epic.verify.api.EpicVerifySDK: int appVersion
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: android.graphics.Paint wavePaint
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.FrameLayout panelContainer
+XiYue.SiyoX.data.VerifyManager$4: long val$expireMs
+epic.verify.api.EpicVerifySDK$Version: int version
+XiYue.SiyoX.data.AppSettings: java.lang.String SP_NAME
+XiYue.SiyoX.data.AppSettings: java.lang.String KEY_EXPIRE_TIME
+XiYue.SiyoX.R$drawable: int logo
+epic.verify.api.Json$Obj: java.util.Map map
+XiYue.SiyoX.BuildConfig: java.lang.String VERSION_NAME
+XiYue.SiyoX.ui.CopyIconView: android.graphics.Paint paint
+epic.verify.api.Proto: java.io.ByteArrayOutputStream out
+epic.verify.api.EpicVerifySDK: int port
+XiYue.SiyoX.data.AppSettings: android.content.SharedPreferences sp
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event ON_START
+kotlinx.coroutines.flow.StateFlowImpl: java.lang.Object _state$volatile
+epic.verify.api.EpicVerifySDK: long heartbeatIntervalMs
+XiYue.SiyoX.R$string: int verify_failed
+epic.verify.api.EpicVerifySDK: java.security.PublicKey publicKey
+XiYue.SiyoX.ui.MiuiXCheckBox: android.graphics.Paint boxPaint
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$HeartbeatListener heartbeatListener
+XiYue.SiyoX.R$string: int official_site
+XiYue.SiyoX.data.NativeVerify: boolean isNativeLoaded
+XiYue.SiyoX.R$color: int surface_dark
+epic.verify.api.EpicUpdater$1: java.lang.String val$url
+XiYue.SiyoX.SiyoXConfig: java.lang.String TARGET_PACKAGE
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18$1: XiYue.SiyoX.ui.SiyoXOverlayLayout$18 this$1
+XiYue.SiyoX.data.NativeVerify: java.lang.String TAG
+XiYue.SiyoX.ui.FloatingOverlayManager: java.lang.String OVERLAY_VIEW_TAG
+epic.verify.api.Resp: java.lang.String raw
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: androidx.lifecycle.ReportFragment$LifecycleCallbacks$Companion Companion
+epic.verify.api.EpicVerifySDK$Version: java.lang.String raw
+XiYue.SiyoX.ui.MiuiXCheckBox: android.graphics.RectF boxRect
+epic.verify.api.EpicVerifySDK$Notice: boolean diffShowEnable
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.TextView tvTopExpireBadge
+epic.verify.api.EpicVerifySDK: long expire
+XiYue.SiyoX.R$string: int card_query
+XiYue.SiyoX.ui.CopyIconView: android.graphics.RectF frontRect
+XiYue.SiyoX.ui.CopyIconView: android.graphics.RectF backRect
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp lastHeartbeat
+epic.verify.api.EpicVerifySDK: int CONNECT_TIMEOUT
+epic.verify.api.EpicVerifySDK: int retryCount
+epic.verify.api.EpicVerifySDK$VerifyConfig: int bindingType
+XiYue.SiyoX.ui.MiuiXSwitch: int OFF_COLOR
+epic.verify.api.EpicVerifySDK: java.util.Timer heartbeatTimer
+XiYue.SiyoX.ui.LogoData: java.lang.String LOGO_BASE64
+epic.verify.api.EpicVerifySDK: int READ_TIMEOUT
+epic.verify.api.EpicVerifySDK$Version: java.lang.String cancelBtn
+epic.verify.api.RSAUtil: java.lang.String ALGORITHM
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: float centerX
+epic.verify.api.EpicVerifySDK: boolean debug
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.FrameLayout floatingBall
+XiYue.SiyoX.ui.SiyoXOverlayLayout$8: XiYue.SiyoX.ui.SiyoXOverlayLayout this$0
+epic.verify.api.EpicVerifySDK$VerifyConfig: int heartbeatType
+XiYue.SiyoX.ui.SiyoXOverlayLayout: XiYue.SiyoX.ui.MiuiXCheckBox cbRememberCard
+XiYue.SiyoX.SiyoXConfig$EpicConfig: java.lang.String APP_KEY
+epic.verify.api.EpicVerifySDK: java.lang.String SDK_VERSION
+XiYue.SiyoX.R$string: int pass_login
+XiYue.SiyoX.ui.FloatingOverlayManager$1: android.app.Activity val$activity
+epic.verify.api.EpicVerifySDK$VerifyConfig: int showType
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event ON_CREATE
+epic.verify.api.EpicVerifySDK$Pass: int passType
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1$1: boolean val$success
+epic.verify.api.EpicUpdater$1: java.io.File val$file
+androidx.profileinstaller.FileSectionType: androidx.profileinstaller.FileSectionType[] values()
+android.support.v4.graphics.drawable.IconCompatParcelizer: void write(androidx.core.graphics.drawable.IconCompat,androidx.versionedparcelable.VersionedParcel)
+androidx.appcompat.view.menu.ListMenuItemView: void setIcon(android.graphics.drawable.Drawable)
+epic.verify.api.EpicVerifySDK: void handleLoginSuccess(epic.verify.api.Resp)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setIcon(android.graphics.drawable.Drawable)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: SiyoXOverlayLayout$RippleWaveView(android.content.Context)
+XiYue.SiyoX.ui.CopyIconView: void setIconColor(int)
+XiYue.SiyoX.ui.FloatingOverlayManager$2: void run()
+androidx.appcompat.widget.AppCompatTextView: androidx.appcompat.widget.AppCompatEmojiTextHelper getEmojiTextViewHelper()
+epic.verify.api.Proto: void writeInt64Field(int,long)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$11: void onCheckedChanged(XiYue.SiyoX.ui.MiuiXSwitch,boolean)
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.graphics.Insets getSystemGestureInsets()
+epic.verify.api.EpicUpdater: void downloadAndInstall(android.content.Context,java.lang.String,int,epic.verify.api.EpicUpdater$Callback)
+XiYue.SiyoX.data.SiyoXDirManager: java.io.InputStream openLogoInputStream(android.content.Context)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: ReportFragment$LifecycleCallbacks()
+epic.verify.api.Proto: void writeTag(int,int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18$1: void run()
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp requestCard(int,java.util.LinkedHashMap)
+epic.verify.api.Json$Obj: boolean has(java.lang.String)
+XiYue.SiyoX.ui.MiuiXSwitch$1: MiuiXSwitch$1(XiYue.SiyoX.ui.MiuiXSwitch)
+androidx.core.widget.EdgeEffectCompat$Api31Impl: android.widget.EdgeEffect create(android.content.Context,android.util.AttributeSet)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.graphics.Insets getInsets(int,boolean)
+epic.verify.api.EpicVerifySDK$Notice: EpicVerifySDK$Notice()
+androidx.appcompat.widget.AppCompatTextView: void setSupportBackgroundTintMode(android.graphics.PorterDuff$Mode)
+androidx.appcompat.widget.AppCompatImageView: void setSupportImageTintMode(android.graphics.PorterDuff$Mode)
+androidx.core.view.WindowInsetsCompat$Impl28: WindowInsetsCompat$Impl28(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl28)
+androidx.core.widget.NestedScrollView: void setOnScrollChangeListener(androidx.core.widget.NestedScrollView$OnScrollChangeListener)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void onVerifySuccess()
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.view.WindowInsetsCompat consumeDisplayCutout()
+androidx.appcompat.widget.ActionMenuView: ActionMenuView(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.SearchView$Api29Impl: void setInputMethodMode(androidx.appcompat.widget.SearchView$SearchAutoComplete,int)
+XiYue.SiyoX.ui.MiuiXCheckBox: void init()
+androidx.appcompat.widget.LinearLayoutCompat: int getBaselineAlignedChildIndex()
+XiYue.SiyoX.ui.MiuiXCheckBox: void onDraw(android.graphics.Canvas)
+XiYue.SiyoX.MainActivity: int dp(int)
+XiYue.SiyoX.MainActivity$1: void onClick(android.view.View)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void buildInGamePanel()
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setSupportBackgroundTintList(android.content.res.ColorStateList)
+androidx.core.widget.NestedScrollView: androidx.core.view.ScrollFeedbackProviderCompat getScrollFeedbackProvider()
+androidx.appcompat.widget.SearchView$SearchAutoComplete: SearchView$SearchAutoComplete(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.Toolbar: int getContentInsetStartWithNavigation()
+androidx.core.view.WindowInsetsCompat$Impl: void initDisplayShape(android.view.View)
+androidx.appcompat.widget.DropDownListView$Api33Impl: boolean isSelectedChildViewEnabled(android.widget.AbsListView)
+androidx.appcompat.widget.Toolbar: android.graphics.drawable.Drawable getOverflowIcon()
+androidx.appcompat.widget.AppCompatTextView: int[] getAutoSizeTextAvailableSizes()
+androidx.appcompat.widget.AppCompatTextHelper$Api26Impl: boolean setFontVariationSettings(android.widget.TextView,java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl20: WindowInsetsCompat$Impl20(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+XiYue.SiyoX.SiyoXConfig$WeiYanConfig: SiyoXConfig$WeiYanConfig()
+androidx.core.app.RemoteActionCompatParcelizer: androidx.core.app.RemoteActionCompat read(androidx.versionedparcelable.VersionedParcel)
+androidx.appcompat.widget.AppCompatImageView: void setImageResource(int)
+XiYue.SiyoX.data.AppSettings: void setExpireTime(long)
+androidx.appcompat.widget.Toolbar: android.view.MenuInflater getMenuInflater()
+XiYue.SiyoX.hook.MainHook$3: void afterHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: SiyoXOverlayLayout(android.app.Activity)
+epic.verify.api.InstallReceiver: void onReceive(android.content.Context,android.content.Intent)
+androidx.core.widget.NestedScrollView: void setSmoothScrollingEnabled(boolean)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: void setMandatorySystemGestureInsets(androidx.core.graphics.Insets)
+epic.verify.api.Json$Parser: epic.verify.api.Json$Obj parseObject()
+XiYue.SiyoX.data.AppSettings: XiYue.SiyoX.data.AppSettings init(android.content.Context)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setActionBarVisibilityCallback(androidx.appcompat.widget.ActionBarOverlayLayout$ActionBarVisibilityCallback)
+epic.verify.api.Proto: void writeStringField(int,java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl28: WindowInsetsCompat$Impl28(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+XiYue.SiyoX.ui.MiuiXSwitch: void onDraw(android.graphics.Canvas)
+XiYue.SiyoX.data.NativeVerify: NativeVerify()
+XiYue.SiyoX.ui.MiuiXCheckBox: int evaluateColor(float,int,int)
+epic.verify.api.Json: java.lang.String quote(java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl31: WindowInsetsCompat$Impl31(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setCustomSelectionActionModeCallback(android.view.ActionMode$Callback)
+androidx.core.view.WindowInsetsCompat$Impl: void copyWindowDataInto(androidx.core.view.WindowInsetsCompat)
+androidx.core.view.WindowInsetsCompat$BuilderImpl31: WindowInsetsCompat$BuilderImpl31()
+androidx.appcompat.widget.Toolbar: java.lang.CharSequence getSubtitle()
+androidx.core.view.WindowInsetsCompat$Impl20: void setTypeMaxBoundingRectsMap(android.graphics.Rect[][])
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createMiuiXFeatureCard(java.lang.String,java.lang.String,boolean,boolean,XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void setupListeners()
+epic.verify.api.Proto: void writeVarint(long)
+androidx.appcompat.widget.AppCompatTextView: int getFirstBaselineToTopHeight()
+androidx.appcompat.widget.ActionBarContainer: void setSplitBackground(android.graphics.drawable.Drawable)
+androidx.core.view.WindowInsetsCompat$Impl20: boolean systemBarVisibilityEquals(int,int)
+epic.verify.api.Json$Num: double doubleValue()
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createSiyoXTitle(float,boolean)
+androidx.appcompat.widget.Toolbar: void setTitleMarginStart(int)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void endRearDisplaySession()
+XiYue.SiyoX.ui.LogoLoader: LogoLoader()
+XiYue.SiyoX.data.VerifyManager$2: void run()
+XiYue.SiyoX.MainActivity: void initUI()
+XiYue.SiyoX.ui.MiuiXSwitch: void toggle()
+XiYue.SiyoX.ui.SiyoXTheme: int getSidebarBg(boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: int[] getRealScreenSize()
+androidx.lifecycle.ProcessLifecycleInitializer: ProcessLifecycleInitializer()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18$1: SiyoXOverlayLayout$18$1(XiYue.SiyoX.ui.SiyoXOverlayLayout$18,boolean)
+XiYue.SiyoX.data.VerifyManager: long getExpireTimestamp()
+androidx.appcompat.widget.ActionBarContextView: java.lang.CharSequence getTitle()
+androidx.core.view.ViewCompat$Api29Impl: void saveAttributeDataForStyleable(android.view.View,android.content.Context,int[],android.util.AttributeSet,android.content.res.TypedArray,int,int)
+androidx.appcompat.widget.SearchView$SearchAutoComplete: int getSearchViewTextMinWidthDp()
+androidx.core.view.WindowInsetsCompat$Impl: boolean isRound()
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void onLayout(boolean,int,int,int,int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void initUI()
+androidx.profileinstaller.ProfileInstallerInitializer: ProfileInstallerInitializer()
+epic.verify.api.EpicVerifySDK: byte[] buildSoftRequest()
+androidx.appcompat.widget.ActionBarContextView: void setCustomView(android.view.View)
+androidx.core.view.WindowInsetsCompat$Impl28: boolean equals(java.lang.Object)
+epic.verify.api.EpicVerifyException: EpicVerifyException(java.lang.String,java.lang.Throwable)
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.graphics.Insets getMandatorySystemGestureInsets()
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: void setSystemWindowInsets(androidx.core.graphics.Insets)
+epic.verify.api.Json$Parser: void skipWs()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17$1: SiyoXOverlayLayout$17$1(XiYue.SiyoX.ui.SiyoXOverlayLayout$17,java.lang.String,java.lang.String)
+androidx.appcompat.widget.ActionBarContextView: ActionBarContextView(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.ui.CopyIconView: CopyIconView(android.content.Context)
+androidx.graphics.path.PathIteratorPreApi34Impl: int internalPathIteratorSize(long)
+androidx.appcompat.widget.Toolbar: void setLogo(int)
+XiYue.SiyoX.data.VerifyManager: void onVerifyFailed(java.lang.String,XiYue.SiyoX.data.VerifyManager$VerifyCallback)
+XiYue.SiyoX.data.VerifyManager: java.lang.String getHWID()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$1: SiyoXOverlayLayout$1(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+XiYue.SiyoX.MainActivity$1: MainActivity$1(XiYue.SiyoX.MainActivity)
+androidx.core.view.WindowInsetsCompat$Impl34: void initDisplayShape(android.view.View)
+epic.verify.api.Json$Arr: Json$Arr()
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl23: AppCompatTextViewAutoSizeHelper$Impl23()
+epic.verify.api.EpicVerifySDK: byte[] buildMapEntry(java.lang.String,byte[])
+androidx.core.view.WindowInsetsCompat$Impl34: WindowInsetsCompat$Impl34(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setHideOnContentScrollEnabled(boolean)
+androidx.appcompat.widget.Toolbar: void setCollapseContentDescription(int)
+androidx.core.view.WindowInsetsCompat$BuilderImpl34: WindowInsetsCompat$BuilderImpl34()
+epic.verify.api.EpicVerifySDK$Btn: boolean enabled()
+androidx.graphics.path.PathIteratorPreApi34Impl: int internalPathIteratorRawSize(long)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$2: SiyoXOverlayLayout$2(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+XiYue.SiyoX.data.VerifyManager: VerifyManager(android.content.Context)
+epic.verify.api.Proto: void writeBytesField(int,byte[])
+androidx.appcompat.widget.Toolbar: void setCollapsible(boolean)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$13: SiyoXOverlayLayout$13(XiYue.SiyoX.ui.SiyoXOverlayLayout,java.lang.String,java.lang.String,java.lang.String)
+androidx.profileinstaller.ProfileInstallReceiver: ProfileInstallReceiver()
+androidx.appcompat.view.menu.ActionMenuItemView: void setTitle(java.lang.CharSequence)
+androidx.appcompat.widget.AppCompatImageView: android.content.res.ColorStateList getSupportBackgroundTintList()
+epic.verify.api.EpicVerifySDK: void parseBtn(epic.verify.api.Json$Obj,epic.verify.api.EpicVerifySDK$Btn,java.lang.String)
+androidx.lifecycle.LifecycleDispatcher$DispatcherActivityCallback: void onActivityCreated(android.app.Activity,android.os.Bundle)
+epic.verify.api.EpicVerifySDK: EpicVerifySDK(java.lang.String,int,java.lang.String)
+epic.verify.api.EpicVerifySDK$Pass: EpicVerifySDK$Pass()
+androidx.appcompat.widget.AppCompatImageButton: void setImageURI(android.net.Uri)
+androidx.core.view.WindowInsetsCompat$Impl29: androidx.core.graphics.Insets getMandatorySystemGestureInsets()
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$VerifyConfig parseVerifyConfig(epic.verify.api.Resp)
+androidx.core.app.CoreComponentFactory: CoreComponentFactory()
+XiYue.SiyoX.data.VerifyManager: java.lang.String getNoticeTitle()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17: void onResult(boolean,java.lang.String,java.lang.String)
+XiYue.SiyoX.ui.CopyIconView: int dp(float)
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.view.DisplayCutoutCompat getDisplayCutout()
+androidx.appcompat.widget.AppCompatImageButton: void setImageResource(int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17: SiyoXOverlayLayout$17(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+epic.verify.api.RSAUtil: java.security.PublicKey readPublicKey(java.lang.String)
+androidx.appcompat.widget.Toolbar: void setNavigationOnClickListener(android.view.View$OnClickListener)
+androidx.appcompat.view.menu.ActionMenuItemView: void setChecked(boolean)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.graphics.Insets getSystemWindowInsets()
+androidx.appcompat.widget.AppCompatTextView: void setSupportCompoundDrawablesTintList(android.content.res.ColorStateList)
+androidx.appcompat.view.menu.ListMenuItemView: void setChecked(boolean)
+androidx.core.view.ViewCompat$Api30Impl: java.lang.CharSequence getStateDescription(android.view.View)
+androidx.core.view.WindowInsetsCompat$Impl30: androidx.core.graphics.Insets getInsets(int)
+XiYue.SiyoX.data.VerifyManager: java.lang.String md5(java.lang.String)
+androidx.appcompat.widget.Toolbar: void setContentInsetEndWithActions(int)
+epic.verify.api.EpicVerifySDK: void setDeviceId(java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl20: java.util.List getBoundingRects(int)
+XiYue.SiyoX.data.VerifyManager$3: void run()
+androidx.appcompat.widget.Toolbar: int getCurrentContentInsetStart()
+androidx.appcompat.widget.Toolbar: void setTitle(java.lang.CharSequence)
+androidx.appcompat.widget.AppCompatTextClassifierHelper$Api26Impl: android.view.textclassifier.TextClassifier getTextClassifier(android.widget.TextView)
+androidx.graphics.path.ConicConverter: int internalConicToQuadratics(float[],int,float[],float,float)
+XiYue.SiyoX.SiyoXConfig$VerifyType: SiyoXConfig$VerifyType(java.lang.String,int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16: SiyoXOverlayLayout$16(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.core.view.WindowInsetsCompat$Impl29: WindowInsetsCompat$Impl29(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl29)
+androidx.core.view.ViewCompat$Api29Impl: android.view.View$AccessibilityDelegate getAccessibilityDelegate(android.view.View)
+epic.verify.api.EpicVerifySDK: long getTimeRemaining()
+androidx.core.view.WindowInsetsCompat$Impl20: android.graphics.Rect[] getBoundingRectsFromInsets(androidx.core.graphics.Insets)
+XiYue.SiyoX.SiyoXConfig$T3Config: SiyoXConfig$T3Config()
+epic.verify.api.Json$Parser: epic.verify.api.Json$Value parseValue()
+XiYue.SiyoX.ui.LogoData: android.graphics.Bitmap getEmbeddedLogo()
+epic.verify.api.EpicVerifySDK: byte[] buildBasic()
+XiYue.SiyoX.ui.MiuiXSwitch: MiuiXSwitch(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.ContentFrameLayout: void setAttachListener(androidx.appcompat.widget.ContentFrameLayout$OnAttachListener)
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp cardValid()
+androidx.appcompat.widget.AppCompatTextView: android.view.ActionMode$Callback getCustomSelectionActionModeCallback()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView$1: SiyoXOverlayLayout$RippleWaveView$1(XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView)
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.graphics.Insets getStableInsets()
+androidx.appcompat.widget.Toolbar: int getTitleMarginStart()
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: void setStableInsets(androidx.core.graphics.Insets)
+epic.verify.api.EpicVerifySDK$Pass: boolean hasPass()
+XiYue.SiyoX.data.AppSettings: boolean isAutoVerify()
+androidx.appcompat.widget.Toolbar: java.util.ArrayList getCurrentMenuItems()
+androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView: void setSelector(android.graphics.drawable.Drawable)
+epic.verify.api.Json: Json()
+androidx.appcompat.widget.AppCompatTextView: void setTextClassifier(android.view.textclassifier.TextClassifier)
+XiYue.SiyoX.ui.LogoLoader: android.graphics.Bitmap getLogo(android.content.Context)
+androidx.core.view.WindowInsetsCompat$BuilderImpl36: WindowInsetsCompat$BuilderImpl36(androidx.core.view.WindowInsetsCompat)
+XiYue.SiyoX.ui.MiuiXCheckBox: boolean isChecked()
+XiYue.SiyoX.data.AppSettings: boolean isRememberCard()
+epic.verify.api.EpicVerifySDK: java.lang.String getCard()
+androidx.appcompat.widget.ContentFrameLayout: android.util.TypedValue getFixedHeightMinor()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$12: void onClick(android.view.View)
+XiYue.SiyoX.R$style: R$style()
+androidx.core.view.WindowInsetsCompat$Impl21: androidx.core.view.WindowInsetsCompat consumeStableInsets()
+XiYue.SiyoX.MainActivity: android.view.View createDivider(boolean)
+androidx.appcompat.widget.Toolbar: int getContentInsetEndWithActions()
+androidx.lifecycle.ProcessLifecycleOwner$attach$1: void onActivityStopped(android.app.Activity)
+XiYue.SiyoX.data.VerifyManager: XiYue.SiyoX.data.VerifyManager init(android.content.Context)
+epic.verify.api.EpicVerifySDK: EpicVerifySDK(java.lang.String,int,java.lang.String,java.lang.String)
+androidx.core.view.WindowInsetsCompat$BuilderImpl20: WindowInsetsCompat$BuilderImpl20(androidx.core.view.WindowInsetsCompat)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void renderFeatureList(int)
+XiYue.SiyoX.ui.MiuiXCheckBox: void toggle()
+androidx.appcompat.widget.AppCompatTextView: int getAutoSizeMinTextSize()
+XiYue.SiyoX.data.NativeVerify: java.lang.String nativeFetchNotice(int)
+androidx.appcompat.widget.Toolbar: int getCurrentContentInsetEnd()
+androidx.appcompat.widget.Toolbar: void setTitleTextColor(android.content.res.ColorStateList)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$VerifyConfig getVerifyConfig()
+androidx.appcompat.widget.SearchView$SearchAutoComplete: void setImeVisibility(boolean)
+androidx.appcompat.widget.SearchView$SearchAutoComplete: void setSearchView(androidx.appcompat.widget.SearchView)
+XiYue.SiyoX.ui.MiuiXCheckBox: void animateToProgress(float)
+XiYue.SiyoX.SiyoXConfig$EpicConfig: SiyoXConfig$EpicConfig()
+androidx.core.view.WindowInsetsCompat$Impl: void setTypeMaxBoundingRectsMap(android.graphics.Rect[][])
+epic.verify.api.Proto: void writeInt32Field(int,int)
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl23: void computeAndSetTextDirection(android.text.StaticLayout$Builder,android.widget.TextView)
+androidx.core.view.ViewCompat$Api23Impl: androidx.core.view.WindowInsetsCompat getRootWindowInsets(android.view.View)
+epic.verify.api.Json$Obj: epic.verify.api.Json$Arr getArray(java.lang.String)
+XiYue.SiyoX.ui.FloatingOverlayManager: void detach(android.app.Activity)
+androidx.appcompat.widget.Toolbar: void setLogoDescription(java.lang.CharSequence)
+androidx.appcompat.view.menu.ListMenuItemView: android.view.LayoutInflater getInflater()
+XiYue.SiyoX.data.AppSettings: AppSettings(android.content.Context)
+XiYue.SiyoX.data.SiyoXDirManager: java.io.File getPrivateLogoFile(android.content.Context)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createDivider(boolean)
+androidx.appcompat.widget.ActionBarOverlayLayout: int getNestedScrollAxes()
+XiYue.SiyoX.SiyoXApp: XiYue.SiyoX.SiyoXApp getInstance()
+XiYue.SiyoX.hook.MainHook: void handleLoadPackage(de.robv.android.xposed.callbacks.XC_LoadPackage$LoadPackageParam)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: androidx.window.extensions.area.ExtensionWindowAreaPresentation getRearDisplayPresentation()
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl: AppCompatTextViewAutoSizeHelper$Impl()
+XiYue.SiyoX.hook.MainHook: void hookActivityLifecycle(de.robv.android.xposed.callbacks.XC_LoadPackage$LoadPackageParam)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityStarted(android.app.Activity)
+androidx.core.view.WindowInsetsCompat$Impl28: int hashCode()
+android.support.v4.app.RemoteActionCompatParcelizer: androidx.core.app.RemoteActionCompat read(androidx.versionedparcelable.VersionedParcel)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setDropDownBackgroundResource(int)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityStopped(android.app.Activity)
+androidx.appcompat.widget.AppCompatTextView: android.graphics.PorterDuff$Mode getSupportCompoundDrawablesTintMode()
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: WindowInsetsCompat$BuilderImpl29(androidx.core.view.WindowInsetsCompat)
+androidx.appcompat.widget.ActivityChooserView$InnerLayout: ActivityChooserView$InnerLayout(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void loadNotice()
+androidx.appcompat.widget.AppCompatTextView: void setSupportBackgroundTintList(android.content.res.ColorStateList)
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Api23Impl: android.text.StaticLayout createStaticLayoutForMeasuring(java.lang.CharSequence,android.text.Layout$Alignment,int,int,android.widget.TextView,android.text.TextPaint,androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl)
+androidx.lifecycle.EmptyActivityLifecycleCallbacks: void onActivityStarted(android.app.Activity)
+XiYue.SiyoX.ui.MiuiXCheckBox$1: void onClick(android.view.View)
+epic.verify.api.EpicVerifySDK$1: EpicVerifySDK$1(epic.verify.api.EpicVerifySDK)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: android.content.res.ColorStateList getSupportBackgroundTintList()
+XiYue.SiyoX.ui.CopyIconView: void init()
+XiYue.SiyoX.ui.MiuiXCheckBox: void setOnCheckedChangeListener(XiYue.SiyoX.ui.MiuiXCheckBox$OnCheckedChangeListener)
+androidx.appcompat.widget.Toolbar: android.widget.TextView getSubtitleTextView()
+androidx.appcompat.widget.LinearLayoutCompat: android.graphics.drawable.Drawable getDividerDrawable()
+androidx.core.view.WindowInsetsCompat$Impl35: WindowInsetsCompat$Impl35(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+androidx.appcompat.widget.AppCompatImageButton: void setBackgroundResource(int)
+androidx.appcompat.widget.ActionBarContainer: ActionBarContainer(android.content.Context,android.util.AttributeSet)
+androidx.core.view.ViewCompat$Api28Impl: java.lang.CharSequence getAccessibilityPaneTitle(android.view.View)
+androidx.lifecycle.EmptyActivityLifecycleCallbacks: void onActivityPaused(android.app.Activity)
+epic.verify.api.EpicUpdater$3: EpicUpdater$3(epic.verify.api.EpicUpdater$Callback,boolean,java.lang.String)
+androidx.appcompat.widget.ActionBarContextView: int getContentHeight()
+androidx.appcompat.widget.AppCompatImageButton: void setSupportBackgroundTintMode(android.graphics.PorterDuff$Mode)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: WindowInsetsCompat$BuilderImpl()
+androidx.appcompat.view.menu.ListMenuItemView: void setSubMenuArrowVisible(boolean)
+androidx.appcompat.widget.AppCompatTextHelper$Api26Impl: void setAutoSizeTextTypeUniformWithConfiguration(android.widget.TextView,int,int,int,int)
+androidx.core.widget.NestedScrollView: int getNestedScrollAxes()
+epic.verify.api.Json$Bool: Json$Bool(boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$11: SiyoXOverlayLayout$11(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.widget.ActionBarContextView: int getAnimatedVisibility()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18: void onResult(boolean,java.lang.String)
+epic.verify.api.Json$Obj: java.lang.String optString(java.lang.String,java.lang.String)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: void applyInsetTypes()
+epic.verify.api.Proto: byte[] toByteArray()
+androidx.appcompat.widget.ListPopupWindow$Api24Impl: int getMaxAvailableHeight(android.widget.PopupWindow,android.view.View,int,boolean)
+androidx.appcompat.widget.Toolbar: void setCollapseIcon(android.graphics.drawable.Drawable)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createInfoRowItem(java.lang.String,java.lang.String,boolean)
+androidx.core.view.WindowInsetsCompat$Impl29: WindowInsetsCompat$Impl29(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+androidx.appcompat.widget.Toolbar: void setOverflowIcon(android.graphics.drawable.Drawable)
+epic.verify.api.Base64: byte[] decode(java.lang.String)
+epic.verify.api.EpicVerifySDK: void doHeartbeat()
+androidx.appcompat.widget.Toolbar: int getContentInsetEnd()
+androidx.core.widget.EdgeEffectCompat$Api31Impl: float onPullDistance(android.widget.EdgeEffect,float,float)
+androidx.appcompat.widget.AppCompatTextView: androidx.appcompat.widget.AppCompatTextView$SuperCaller getSuperCaller()
+epic.verify.api.RSAUtil: java.lang.String encryptWithPublicKey(java.lang.String,java.security.PublicKey)
+XiYue.SiyoX.ui.MiuiXSwitch: float dpF(float)
+androidx.window.reflection.JFunction2: java.lang.Object apply(java.lang.Object)
+androidx.appcompat.widget.Toolbar: java.lang.CharSequence getNavigationContentDescription()
+androidx.core.view.WindowInsetsCompat$Impl: void setRootViewData(androidx.core.graphics.Insets)
+epic.verify.api.EpicVerifySDK$VerifyConfig: EpicVerifySDK$VerifyConfig()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1: SiyoXOverlayLayout$16$1(XiYue.SiyoX.ui.SiyoXOverlayLayout$16,java.lang.String)
+androidx.appcompat.view.menu.ListMenuItemView: androidx.appcompat.view.menu.MenuItemImpl getItemData()
+androidx.appcompat.widget.LinearLayoutCompat: void setOrientation(int)
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl29: boolean isHorizontallyScrollable(android.widget.TextView)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$VerifyConfig getVerifyConfig(epic.verify.api.Resp)
+epic.verify.api.EpicVerifySDK: void setAutoHeartbeat(boolean)
+androidx.window.area.reflectionguard.ExtensionWindowAreaStatusRequirements: int getWindowAreaStatus()
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void buildFullScreenVerifyWindow()
+androidx.core.view.WindowInsetsCompat$Impl35: void initTypeBoundingRectsMaps()
+epic.verify.api.Json$Obj: epic.verify.api.Json$Value get(java.lang.String)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityDestroyed(android.app.Activity)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$5: SiyoXOverlayLayout$5(XiYue.SiyoX.ui.SiyoXOverlayLayout,java.lang.String)
+androidx.lifecycle.Lifecycle$State: androidx.lifecycle.Lifecycle$State valueOf(java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl20: void initDisplayShape(android.view.View)
+androidx.appcompat.widget.AppCompatImageButton: void setSupportImageTintMode(android.graphics.PorterDuff$Mode)
+androidx.core.widget.NestedScrollView: float getBottomFadingEdgeStrength()
+androidx.appcompat.widget.AppCompatTextView: android.content.res.ColorStateList getSupportCompoundDrawablesTintList()
+XiYue.SiyoX.data.SiyoXDirManager: SiyoXDirManager()
+androidx.appcompat.widget.LinearLayoutCompat: float getWeightSum()
+epic.verify.api.EpicVerifySDK$Btn: EpicVerifySDK$Btn()
+androidx.core.view.ViewCompat$Api21Impl: androidx.core.view.WindowInsetsCompat computeSystemWindowInsets(android.view.View,androidx.core.view.WindowInsetsCompat,android.graphics.Rect)
+androidx.appcompat.widget.Toolbar: android.graphics.drawable.Drawable getLogo()
+androidx.appcompat.widget.Toolbar: android.widget.TextView getTitleTextView()
+epic.verify.api.EpicVerifySDK: java.lang.String pick(epic.verify.api.Json$Obj,java.lang.String,java.lang.String)
+epic.verify.api.EpicVerifySDK$LoginResult: boolean isValid()
+androidx.appcompat.widget.Toolbar$Api33Impl: android.window.OnBackInvokedDispatcher findOnBackInvokedDispatcher(android.view.View)
+androidx.core.view.WindowInsetsCompat$Impl30: WindowInsetsCompat$Impl30(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+androidx.appcompat.widget.ActionMenuView: android.view.Menu getMenu()
+androidx.core.app.RemoteActionCompatParcelizer: void write(androidx.core.app.RemoteActionCompat,androidx.versionedparcelable.VersionedParcel)
+XiYue.SiyoX.ui.MiuiXCheckBox: float dpF(float)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: android.content.res.ColorStateList getSupportCompoundDrawablesTintList()
+XiYue.SiyoX.ui.MiuiXSwitch$1: void onClick(android.view.View)
+XiYue.SiyoX.data.VerifyManager$2: VerifyManager$2(XiYue.SiyoX.data.VerifyManager,XiYue.SiyoX.data.VerifyManager$NoticeCallback,boolean,java.lang.String,java.lang.String)
+androidx.appcompat.widget.Toolbar: android.content.Context getPopupContext()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$4: SiyoXOverlayLayout$4(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.widget.Toolbar: int getTitleMarginEnd()
+androidx.core.widget.NestedScrollView: NestedScrollView(android.content.Context,android.util.AttributeSet)
+androidx.core.view.WindowInsetsCompat$BuilderImpl20: androidx.core.view.WindowInsetsCompat build()
+androidx.appcompat.widget.Toolbar: android.graphics.drawable.Drawable getCollapseIcon()
+epic.verify.api.EpicVerifySDK$1: void run()
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityPreStopped(android.app.Activity)
+androidx.appcompat.widget.AppCompatTextHelper$Api28Impl: android.graphics.Typeface create(android.graphics.Typeface,int,boolean)
+XiYue.SiyoX.SiyoXConfig$VerifyType: XiYue.SiyoX.SiyoXConfig$VerifyType valueOf(java.lang.String)
+epic.verify.api.EpicVerifySDK: java.lang.String requestJson(byte[])
+androidx.appcompat.widget.Toolbar: void setSubtitleTextColor(int)
+androidx.core.view.WindowInsetsCompat$Impl34: WindowInsetsCompat$Impl34(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl34)
+epic.verify.api.InstallReceiver$Listener: void onResult(boolean,java.lang.String)
+androidx.appcompat.widget.AppCompatImageView: void setImageURI(android.net.Uri)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1$1: SiyoXOverlayLayout$16$1$1(XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1,java.lang.String,boolean,java.lang.String)
+XiYue.SiyoX.data.AppSettings: void setCard(java.lang.String)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setOverlayMode(boolean)
+XiYue.SiyoX.data.VerifyManager$1: VerifyManager$1(XiYue.SiyoX.data.VerifyManager,XiYue.SiyoX.data.VerifyManager$NoticeCallback)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void closePanel()
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createSiyoXTitleView(android.content.Context,float,boolean)
+androidx.core.widget.NestedScrollView: int getScrollRange()
+androidx.core.widget.NestedScrollView: int getMaxScrollAmount()
+XiYue.SiyoX.data.AppSettings: XiYue.SiyoX.data.AppSettings get()
+androidx.core.view.WindowInsetsCompat$Impl20: java.util.List getBoundingRectsIgnoringVisibility(int)
+androidx.appcompat.widget.AppCompatImageButton: void setSupportImageTintList(android.content.res.ColorStateList)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createDirectoryCard(java.lang.String,java.lang.String,java.lang.String,boolean)
+epic.verify.api.EpicUpdater$2: EpicUpdater$2(epic.verify.api.EpicUpdater$Callback)
+androidx.core.view.WindowInsetsCompat$Impl20: void setOverriddenInsets(androidx.core.graphics.Insets[])
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createSiyoXTitleView(android.content.Context,float)
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: void setMandatorySystemGestureInsets(androidx.core.graphics.Insets)
+androidx.core.view.WindowInsetsCompat$Impl29: androidx.core.graphics.Insets getTappableElementInsets()
+androidx.core.view.ViewCompat$Api28Impl: void setScreenReaderFocusable(android.view.View,boolean)
+androidx.appcompat.widget.LinearLayoutCompat: void setShowDividers(int)
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl29: void computeAndSetTextDirection(android.text.StaticLayout$Builder,android.widget.TextView)
+androidx.appcompat.widget.ActionBarContextView: void setTitleOptional(boolean)
+androidx.appcompat.widget.ContentFrameLayout: android.util.TypedValue getFixedHeightMajor()
+epic.verify.api.Json: epic.verify.api.Json$Value parse(java.lang.String)
+XiYue.SiyoX.ui.MiuiXSwitch: int evaluateColor(float,int,int)
+XiYue.SiyoX.ui.FloatingOverlayManager$1: FloatingOverlayManager$1(android.app.Activity)
+androidx.core.view.WindowInsetsCompat$Impl: java.util.List getBoundingRectsIgnoringVisibility(int)
+androidx.appcompat.widget.Toolbar: int getCurrentContentInsetRight()
+androidx.appcompat.widget.AppCompatTextView: void setLastBaselineToBottomHeight(int)
+XiYue.SiyoX.data.AppSettings: void setRememberCard(boolean)
+XiYue.SiyoX.R: R()
+epic.verify.api.Resp: java.lang.String toString()
+XiYue.SiyoX.data.VerifyManager$NoticeCallback: void onResult(boolean,java.lang.String,java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl20: void setDisplayShape(androidx.core.view.DisplayShapeCompat)
+XiYue.SiyoX.ui.MiuiXCheckBox: void setChecked(boolean,boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$3: SiyoXOverlayLayout$3(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.widget.AppCompatImageButton: android.content.res.ColorStateList getSupportBackgroundTintList()
+androidx.core.view.WindowInsetsCompat$Impl34: androidx.core.graphics.Insets getInsetsIgnoringVisibility(int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$6: void onClick(android.view.View)
+epic.verify.api.AppKeyConverter: AppKeyConverter()
+XiYue.SiyoX.ui.SiyoXTheme: int getTextPrimary(boolean)
+XiYue.SiyoX.MainActivity: android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int)
+androidx.appcompat.widget.Toolbar: Toolbar(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.data.AppSettings: void setAutoVerify(boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1: void onResult(boolean,java.lang.String)
+androidx.appcompat.widget.ListPopupWindow$Api29Impl: void setEpicenterBounds(android.widget.PopupWindow,android.graphics.Rect)
+androidx.appcompat.app.AlertController$RecycleListView: AlertController$RecycleListView(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.data.VerifyManager: void logout()
+androidx.appcompat.widget.ActionBarOverlayLayout: ActionBarOverlayLayout(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setSupportBackgroundTintMode(android.graphics.PorterDuff$Mode)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.graphics.Insets getVisibleInsets(android.view.View)
+androidx.appcompat.widget.Toolbar: void setNavigationIcon(int)
+androidx.appcompat.widget.ViewStubCompat: android.view.LayoutInflater getLayoutInflater()
+androidx.core.view.WindowInsetsCompat$Impl20: java.util.List getBoundingRects(android.graphics.Rect[][],int)
+androidx.core.view.WindowInsetsCompat$Impl21: WindowInsetsCompat$Impl21(androidx.core.view.WindowInsetsCompat,android.view.WindowInsets)
+androidx.appcompat.widget.AppCompatImageButton: void setImageDrawable(android.graphics.drawable.Drawable)
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: void setTappableElementInsets(androidx.core.graphics.Insets)
+androidx.appcompat.widget.AppCompatTextView: void setAllCaps(boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$9: SiyoXOverlayLayout$9(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.view.menu.ListMenuItemView: void setCheckable(boolean)
+androidx.appcompat.widget.ActionBarContextView: java.lang.CharSequence getSubtitle()
+androidx.appcompat.view.menu.ListMenuItemView: void setForceShowIcon(boolean)
+epic.verify.api.EpicVerifySDK: void setDebug(boolean)
+androidx.core.view.WindowInsetsCompat$BuilderImpl20: WindowInsetsCompat$BuilderImpl20()
+androidx.appcompat.view.menu.ExpandedMenuView: ExpandedMenuView(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.data.VerifyManager: java.lang.String httpPost(java.lang.String,java.lang.String)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void buildFloatingBall()
+epic.verify.api.AppKeyConverter: java.lang.String convert(java.lang.String)
+epic.verify.api.EpicUpdater$1: void run()
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp requestSoft()
+epic.verify.api.EpicVerifySDK: void setLocale(java.lang.String)
+androidx.appcompat.widget.AppCompatTextView: void setPrecomputedText(androidx.core.text.PrecomputedTextCompat)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setActionBarHideOffset(int)
+androidx.emoji2.text.ConcurrencyHelpers$Handler28Impl: android.os.Handler createAsync(android.os.Looper)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: void setSystemGestureInsets(androidx.core.graphics.Insets)
+androidx.core.widget.NestedScrollView: void setNestedScrollingEnabled(boolean)
+androidx.appcompat.widget.LinearLayoutCompat: void setGravity(int)
+androidx.core.view.WindowInsetsCompat$Impl20: void setSystemUiVisibility(int)
+androidx.appcompat.widget.Toolbar: void setTitleMarginBottom(int)
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.graphics.Insets getInsets(int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$12: SiyoXOverlayLayout$12(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$13: void onClick(android.view.View)
+androidx.appcompat.widget.LinearLayoutCompat: void setHorizontalGravity(int)
+epic.verify.api.InstallReceiver: InstallReceiver()
+XiYue.SiyoX.data.VerifyManager$VerifyCallback: void onResult(boolean,java.lang.String)
+androidx.window.area.reflectionguard.ExtensionWindowAreaPresentationRequirements: android.content.Context getPresentationContext()
+epic.verify.api.InstallReceiver: void clearListener()
+androidx.appcompat.widget.AlertDialogLayout: AlertDialogLayout(android.content.Context,android.util.AttributeSet)
+epic.verify.api.InstallReceiver: void setListener(epic.verify.api.InstallReceiver$Listener)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.view.View createCustomInfoRow(java.lang.String,android.view.View,boolean)
+androidx.appcompat.widget.AppCompatImageButton: void setImageLevel(int)
+epic.verify.api.Json: java.lang.String indent(int)
+epic.verify.api.EpicVerifySDK: EpicVerifySDK(java.lang.String[],int,java.lang.String,java.lang.String)
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl: boolean isHorizontallyScrollable(android.widget.TextView)
+epic.verify.api.Resp: Resp()
+XiYue.SiyoX.ui.SiyoXTheme: int getInputBg(boolean)
+epic.verify.api.Json$Null: Json$Null()
+androidx.window.reflection.Predicate2: boolean test(java.lang.Object)
+androidx.core.view.WindowInsetsCompat$Impl20: boolean equals(java.lang.Object)
+androidx.appcompat.widget.ActionBarContextView: void setContentHeight(int)
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp getSoftwareConfig()
+androidx.appcompat.widget.FitWindowsLinearLayout: void setOnFitSystemWindowsListener(androidx.appcompat.widget.FitWindowsViewGroup$OnFitSystemWindowsListener)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$9: void onCheckedChanged(XiYue.SiyoX.ui.MiuiXSwitch,boolean)
+androidx.core.view.WindowInsetsCompat$Impl34: androidx.core.graphics.Insets getInsets(int)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void addRearDisplayPresentationStatusListener(androidx.window.extensions.core.util.function.Consumer)
+epic.verify.api.EpicVerifySDK$Notice: boolean hasNotice()
+androidx.appcompat.widget.Toolbar: void setLogo(android.graphics.drawable.Drawable)
+androidx.core.view.WindowInsetsCompat$Impl: java.util.List getBoundingRects(int)
+androidx.appcompat.widget.Toolbar: androidx.appcompat.widget.ActionMenuPresenter getOuterActionMenuPresenter()
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Version getSoftwareLatestVersion(java.lang.String,epic.verify.api.Resp)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setSupportCompoundDrawablesTintMode(android.graphics.PorterDuff$Mode)
+androidx.core.view.WindowInsetsCompat$Impl20: void setTypeBoundingRectsMap(android.graphics.Rect[][])
+XiYue.SiyoX.ui.MiuiXCheckBox: MiuiXCheckBox(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.data.VerifyManager$1: void run()
+XiYue.SiyoX.hook.MainHook$2: MainHook$2(XiYue.SiyoX.hook.MainHook)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$15: void onAnimationEnd(android.animation.Animator)
+androidx.appcompat.widget.AppCompatTextView: android.view.textclassifier.TextClassifier getTextClassifier()
+androidx.appcompat.widget.ActionBarContextView: void setTitle(java.lang.CharSequence)
+XiYue.SiyoX.ui.MiuiXSwitch$2: void onAnimationUpdate(android.animation.ValueAnimator)
+XiYue.SiyoX.data.SiyoXDirManager: boolean extractLogoTo(android.content.Context,java.io.File)
+androidx.appcompat.widget.Toolbar: android.view.Menu getMenu()
+XiYue.SiyoX.ui.MiuiXCheckBox$1: MiuiXCheckBox$1(XiYue.SiyoX.ui.MiuiXCheckBox)
+androidx.appcompat.widget.LinearLayoutCompat: void setMeasureWithLargestChildEnabled(boolean)
+androidx.lifecycle.EmptyActivityLifecycleCallbacks: void onActivitySaveInstanceState(android.app.Activity,android.os.Bundle)
+androidx.appcompat.widget.AppCompatTextView: androidx.core.text.PrecomputedTextCompat$Params getTextMetricsParamsCompat()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$8: SiyoXOverlayLayout$8(XiYue.SiyoX.ui.SiyoXOverlayLayout,int)
+XiYue.SiyoX.ui.SiyoXTheme: int getInputHint(boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void onMeasure(int,int)
+epic.verify.api.EpicVerifySDK$VerifyConfig: boolean hasVerify()
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp parseResp(java.lang.String)
+androidx.appcompat.widget.ViewStubCompat: int getLayoutResource()
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.view.WindowInsetsCompat consumeStableInsets()
+androidx.core.view.WindowInsetsCompat$Impl20: void loadReflectionField()
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.view.WindowInsetsCompat consumeSystemWindowInsets()
+androidx.lifecycle.ProcessLifecycleOwner$attach$1$onActivityPreCreated$1: void onActivityPostStarted(android.app.Activity)
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp getLastSoftConfig()
+androidx.appcompat.view.menu.ActionMenuItemView: void setIcon(android.graphics.drawable.Drawable)
+XiYue.SiyoX.SiyoXConfig$VerifyType: XiYue.SiyoX.SiyoXConfig$VerifyType[] values()
+androidx.appcompat.view.menu.ActionMenuItemView: void setCheckable(boolean)
+epic.verify.api.RSAUtil: byte[] join(java.util.List)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void switchCategory(int)
+XiYue.SiyoX.data.VerifyManager$5: VerifyManager$5(XiYue.SiyoX.data.VerifyManager,java.lang.String,XiYue.SiyoX.data.VerifyManager$VerifyCallback)
+XiYue.SiyoX.BuildConfig: BuildConfig()
+androidx.appcompat.widget.AppCompatTextView: android.content.res.ColorStateList getSupportBackgroundTintList()
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Notice getSoftwareNotice(epic.verify.api.Resp)
+androidx.appcompat.widget.AppCompatTextView: void setTextMetricsParamsCompat(androidx.core.text.PrecomputedTextCompat$Params)
+androidx.appcompat.widget.LinearLayoutCompat: void setDividerPadding(int)
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl29: AppCompatTextViewAutoSizeHelper$Impl29()
+androidx.appcompat.widget.AppCompatImageView: void setSupportBackgroundTintMode(android.graphics.PorterDuff$Mode)
+androidx.core.view.WindowInsetsCompat$BuilderImpl20: void setStableInsets(androidx.core.graphics.Insets)
+androidx.appcompat.widget.ContentFrameLayout: android.util.TypedValue getFixedWidthMajor()
+androidx.core.view.WindowInsetsCompat$Impl: void setStableInsets(androidx.core.graphics.Insets)
+XiYue.SiyoX.R$string: R$string()
+XiYue.SiyoX.ui.FloatingOverlayManager$1$1: FloatingOverlayManager$1$1(XiYue.SiyoX.ui.FloatingOverlayManager$1,android.app.Activity)
+androidx.core.view.WindowInsetsCompat$Impl: int hashCode()
+androidx.appcompat.widget.Toolbar: void setCollapseIcon(int)
+epic.verify.api.Json$Parser: Json$Parser(java.lang.String)
+androidx.emoji2.text.EmojiExclusions$EmojiExclusions_Api34: java.util.Set getExclusions()
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setKeyListener(android.text.method.KeyListener)
+androidx.core.view.ViewCompat$Api30Impl: void setStateDescription(android.view.View,java.lang.CharSequence)
+androidx.appcompat.view.menu.ActionMenuItemView: void setPopupCallback(androidx.appcompat.view.menu.ActionMenuItemView$PopupCallback)
+XiYue.SiyoX.MainActivity: android.view.View createInfoRow(java.lang.String,java.lang.String,boolean)
+androidx.core.view.WindowInsetsCompat$Impl35: WindowInsetsCompat$Impl35(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl35)
+org.jetbrains.compose.resources.AndroidContextProvider: AndroidContextProvider()
+epic.verify.api.Base64: java.lang.String encode(byte[])
+XiYue.SiyoX.ui.SiyoXOverlayLayout$14: SiyoXOverlayLayout$14(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.widget.AppCompatImageButton: android.graphics.PorterDuff$Mode getSupportImageTintMode()
+XiYue.SiyoX.ui.SiyoXTheme: int getDivider(boolean)
+androidx.appcompat.widget.Toolbar: void setNavigationIcon(android.graphics.drawable.Drawable)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void startRearDisplayPresentationSession(android.app.Activity,androidx.window.extensions.core.util.function.Consumer)
+androidx.window.area.reflectionguard.ExtensionWindowAreaPresentationRequirements: void setPresentationView(android.view.View)
+androidx.core.view.WindowInsetsCompat$TypeImpl30: int toPlatformType(int)
+XiYue.SiyoX.data.NativeVerify: boolean isNativeLoaded()
+XiYue.SiyoX.SiyoXApp: void onCreate()
+androidx.appcompat.widget.ActionBarContainer: void setStackedBackground(android.graphics.drawable.Drawable)
+XiYue.SiyoX.ui.MiuiXCheckBox$OnCheckedChangeListener: void onCheckedChanged(XiYue.SiyoX.ui.MiuiXCheckBox,boolean)
+androidx.core.view.WindowInsetsCompat$Impl: void setSystemUiVisibility(int)
+XiYue.SiyoX.hook.MainHook$1: MainHook$1(XiYue.SiyoX.hook.MainHook)
+androidx.appcompat.widget.AppCompatImageView: void setBackgroundResource(int)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void startRearDisplaySession(android.app.Activity,androidx.window.extensions.core.util.function.Consumer)
+androidx.appcompat.widget.AppCompatImageView: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+epic.verify.api.EpicVerifySDK: byte[] roundTrip(byte[])
+androidx.appcompat.widget.Toolbar: android.graphics.drawable.Drawable getNavigationIcon()
+epic.verify.api.Json$Parser: epic.verify.api.Json$Arr parseArray()
+epic.verify.api.AppKeyConverter: void main(java.lang.String[])
+androidx.appcompat.widget.ActionBarContextView: void setSubtitle(java.lang.CharSequence)
+epic.verify.api.EpicUpdater$3: void run()
+androidx.appcompat.widget.LinearLayoutCompat: int getOrientation()
+XiYue.SiyoX.ui.SiyoXTheme: int getAccentBlue()
+androidx.appcompat.widget.AppCompatTextHelper$Api26Impl: int getAutoSizeStepGranularity(android.widget.TextView)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.graphics.drawable.RippleDrawable createRippleDrawable(int,int,int)
+androidx.appcompat.widget.ViewStubCompat: void setLayoutResource(int)
+androidx.graphics.path.PathIteratorPreApi34Impl: boolean internalPathIteratorHasNext(long)
+XiYue.SiyoX.data.VerifyManager: void onVerifySuccess(java.lang.String,long,XiYue.SiyoX.data.VerifyManager$VerifyCallback)
+androidx.core.view.WindowInsetsCompat$Impl21: androidx.core.view.WindowInsetsCompat consumeSystemWindowInsets()
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: androidx.core.view.WindowInsetsCompat build()
+epic.verify.api.EpicVerifySDK: void release()
+androidx.window.area.reflectionguard.ExtensionWindowAreaStatusRequirements: android.util.DisplayMetrics getWindowAreaDisplayMetrics()
+androidx.startup.InitializationProvider: InitializationProvider()
+androidx.core.view.WindowInsetsCompat$BuilderImpl: WindowInsetsCompat$BuilderImpl(androidx.core.view.WindowInsetsCompat)
+XiYue.SiyoX.ui.CopyIconView: CopyIconView(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16: void onClick(android.view.View)
+epic.verify.api.EpicVerifySDK: void setCard(java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl: void setTypeBoundingRectsMap(android.graphics.Rect[][])
+XiYue.SiyoX.ui.SiyoXTheme: int getActiveTabBg(boolean)
+androidx.window.reflection.Consumer2: void accept(java.lang.Object)
+androidx.core.view.WindowInsetsCompat$Impl: WindowInsetsCompat$Impl(androidx.core.view.WindowInsetsCompat)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: android.util.DisplayMetrics getRearDisplayMetrics()
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Version parseVersion(epic.verify.api.Resp,java.lang.String)
+XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener: void onCheckedChanged(XiYue.SiyoX.ui.MiuiXSwitch,boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.TextView createSectionTitle(java.lang.String,boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$4: void onClick(android.view.View)
+XiYue.SiyoX.data.VerifyManager: XiYue.SiyoX.data.VerifyManager get()
+androidx.appcompat.widget.LinearLayoutCompat: void setBaselineAligned(boolean)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$LoginResult getLoginResult()
+androidx.core.view.ViewCompat$Api28Impl: void setAccessibilityPaneTitle(android.view.View,java.lang.CharSequence)
+androidx.lifecycle.ProcessLifecycleOwner$attach$1$onActivityPreCreated$1: ProcessLifecycleOwner$attach$1$onActivityPreCreated$1(androidx.lifecycle.ProcessLifecycleOwner)
+androidx.appcompat.widget.AppCompatImageButton: void setSupportBackgroundTintList(android.content.res.ColorStateList)
+XiYue.SiyoX.SiyoXConfig$VerifyType: XiYue.SiyoX.SiyoXConfig$VerifyType[] $values()
+androidx.appcompat.widget.ViewStubCompat: void setLayoutInflater(android.view.LayoutInflater)
+androidx.appcompat.widget.ActionMenuView: void setPresenter(androidx.appcompat.widget.ActionMenuPresenter)
+androidx.core.app.RemoteActionCompatParcelizer: RemoteActionCompatParcelizer()
+androidx.core.view.ViewCompat$Api28Impl: boolean isAccessibilityHeading(android.view.View)
+epic.verify.api.RSAUtil: RSAUtil()
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setEmojiCompatEnabled(boolean)
+epic.verify.api.EpicVerifySDK$Version: EpicVerifySDK$Version()
+XiYue.SiyoX.data.VerifyManager: java.lang.String formatDate(long)
+androidx.core.view.WindowInsetsCompat$Impl29: androidx.core.graphics.Insets getSystemGestureInsets()
+androidx.appcompat.widget.AppCompatTextView: void setSupportCompoundDrawablesTintMode(android.graphics.PorterDuff$Mode)
+androidx.core.view.WindowInsetsCompat$BuilderImpl35: void initTypeBoundingRects(androidx.core.view.WindowInsetsCompat)
+XiYue.SiyoX.ui.MiuiXCheckBox: void onMeasure(int,int)
+androidx.appcompat.widget.Toolbar: int getContentInsetRight()
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.graphics.Insets getTappableElementInsets()
+androidx.core.graphics.drawable.IconCompatParcelizer: IconCompatParcelizer()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$1: void onCheckedChanged(XiYue.SiyoX.ui.MiuiXCheckBox,boolean)
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: WindowInsetsCompat$BuilderImpl29()
+epic.verify.api.EpicVerifySDK: void setOnHeartbeatFailListener(epic.verify.api.EpicVerifySDK$HeartbeatFailListener)
+androidx.appcompat.widget.ActionMenuView: void setOverflowReserved(boolean)
+androidx.appcompat.widget.LinearLayoutCompat: int getVirtualChildCount()
+androidx.appcompat.widget.ActionMenuView: void setOnMenuItemClickListener(androidx.appcompat.widget.ActionMenuView$OnMenuItemClickListener)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityPostResumed(android.app.Activity)
+androidx.core.view.ViewCompat$Api28Impl: void setAccessibilityHeading(android.view.View,boolean)
+androidx.appcompat.widget.ButtonBarLayout: ButtonBarLayout(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.ActionMenuView: void setOverflowIcon(android.graphics.drawable.Drawable)
+XiYue.SiyoX.MainActivity: void onCreate(android.os.Bundle)
+androidx.appcompat.widget.Toolbar: int getPopupTheme()
+androidx.appcompat.widget.MenuPopupWindow$Api29Impl: void setTouchModal(android.widget.PopupWindow,boolean)
+androidx.lifecycle.EmptyActivityLifecycleCallbacks: void onActivityCreated(android.app.Activity,android.os.Bundle)
+XiYue.SiyoX.data.VerifyManager: java.lang.String getStatusMessage()
+epic.verify.api.Proto: Proto()
+androidx.appcompat.widget.ActionBarOverlayLayout: void setIcon(int)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setHasNonEmbeddedTabs(boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$10: void onCheckedChanged(XiYue.SiyoX.ui.MiuiXSwitch,boolean)
+XiYue.SiyoX.ui.MiuiXSwitch: void onMeasure(int,int)
+androidx.appcompat.widget.AppCompatImageView: android.graphics.PorterDuff$Mode getSupportImageTintMode()
+androidx.appcompat.widget.AppCompatTextView: void setLineHeight(int)
+androidx.core.view.WindowInsetsCompat$BuilderImpl20: android.view.WindowInsets createWindowInsetsInstance()
+androidx.core.view.WindowInsetsCompat$Impl31: WindowInsetsCompat$Impl31(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl31)
+androidx.appcompat.widget.ViewStubCompat: void setInflatedId(int)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setWindowCallback(android.view.Window$Callback)
+androidx.appcompat.widget.DropDownListView: void setListSelectionHidden(boolean)
+androidx.core.widget.NestedScrollView: void setFillViewport(boolean)
+XiYue.SiyoX.ui.SiyoXTheme: int getWindowBg(boolean)
+androidx.appcompat.widget.LinearLayoutCompat: int getDividerPadding()
+androidx.appcompat.widget.ActionMenuView: void setExpandedActionViewsExclusive(boolean)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void removeRearDisplayStatusListener(androidx.window.extensions.core.util.function.Consumer)
+epic.verify.api.EpicVerifySDK: void setAppVersion(int)
+epic.verify.api.EpicVerifySDK: void setRetryCount(int)
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp cardUnbind()
+XiYue.SiyoX.ui.CopyIconView: void onMeasure(int,int)
+XiYue.SiyoX.ui.MiuiXCheckBox$2: void onAnimationUpdate(android.animation.ValueAnimator)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setBackgroundResource(int)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: void setSystemWindowInsets(androidx.core.graphics.Insets)
+epic.verify.api.Json$Parser: java.lang.String parseString()
+androidx.core.view.WindowInsetsCompat$Impl20: WindowInsetsCompat$Impl20(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl20)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.graphics.drawable.RippleDrawable createExitRippleDrawable(int,int)
+androidx.appcompat.widget.LinearLayoutCompat: void setDividerDrawable(android.graphics.drawable.Drawable)
+androidx.appcompat.widget.AppCompatImageButton: void setImageBitmap(android.graphics.Bitmap)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.view.DisplayShapeCompat createDisplayShape(android.view.View)
+epic.verify.api.Resp: boolean isSuccess()
+epic.verify.api.GZip: byte[] uncompress(byte[])
+androidx.appcompat.widget.AppCompatTextHelper$Api24Impl: android.os.LocaleList forLanguageTags(java.lang.String)
+android.support.v4.app.RemoteActionCompatParcelizer: void write(androidx.core.app.RemoteActionCompat,androidx.versionedparcelable.VersionedParcel)
+XiYue.SiyoX.ui.SiyoXTheme: int getTextSiyo(boolean)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivitySaveInstanceState(android.app.Activity,android.os.Bundle)
+androidx.appcompat.widget.FitWindowsFrameLayout: FitWindowsFrameLayout(android.content.Context,android.util.AttributeSet)
+XiYue.SiyoX.ui.MiuiXCheckBox: int dp(float)
+android.support.v4.graphics.drawable.IconCompatParcelizer: androidx.core.graphics.drawable.IconCompat read(androidx.versionedparcelable.VersionedParcel)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: void setTappableElementInsets(androidx.core.graphics.Insets)
+androidx.appcompat.widget.ActionBarContainer: void setPrimaryBackground(android.graphics.drawable.Drawable)
+androidx.appcompat.widget.ActionBarContainer: void setTransitioning(boolean)
+androidx.core.view.WindowInsetsCompat$Impl29: void setStableInsets(androidx.core.graphics.Insets)
+epic.verify.api.Json$Num: long longValue()
+androidx.lifecycle.ProcessLifecycleOwner$attach$1: void onActivityPaused(android.app.Activity)
+epic.verify.api.EpicVerifySDK: byte[] buildCardRequest(int,java.util.LinkedHashMap)
+androidx.appcompat.widget.ActionMenuView: int getWindowAnimations()
+epic.verify.api.Json$Parser: char peek()
+androidx.appcompat.widget.AppCompatTextView: void setBackgroundResource(int)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void addRearDisplayStatusListener(androidx.window.extensions.core.util.function.Consumer)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Pass getSoftwarePass()
+XiYue.SiyoX.data.VerifyManager: java.lang.String getActiveProviderName()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView$1: void onAnimationUpdate(android.animation.ValueAnimator)
+epic.verify.api.Json$Parser: boolean atEnd()
+androidx.appcompat.widget.AppCompatTextView: void setFilters(android.text.InputFilter[])
+androidx.core.widget.NestedScrollView: float getVerticalScrollFactorCompat()
+androidx.appcompat.widget.ContentFrameLayout: android.util.TypedValue getMinWidthMajor()
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: android.view.ActionMode$Callback getCustomSelectionActionModeCallback()
+androidx.appcompat.widget.Toolbar: void setNavigationContentDescription(java.lang.CharSequence)
+androidx.appcompat.widget.AppCompatTextHelper$Api26Impl: void setAutoSizeTextTypeUniformWithPresetSizes(android.widget.TextView,int[],int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$16$1$1: void run()
+epic.verify.api.Json$Obj: long getLong(java.lang.String)
+epic.verify.api.EpicVerifySDK: void setStatusMachine(java.lang.String)
+androidx.lifecycle.ProcessLifecycleOwner$attach$1: void onActivityPreCreated(android.app.Activity,android.os.Bundle)
+androidx.appcompat.widget.ButtonBarLayout: void setStacked(boolean)
+androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl: void computeAndSetTextDirection(android.text.StaticLayout$Builder,android.widget.TextView)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void removeRearDisplayPresentationStatusListener(androidx.window.extensions.core.util.function.Consumer)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$15: SiyoXOverlayLayout$15(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.view.menu.ActionMenuItemView: androidx.appcompat.view.menu.MenuItemImpl getItemData()
+androidx.appcompat.widget.AppCompatImageButton: android.graphics.PorterDuff$Mode getSupportBackgroundTintMode()
+XiYue.SiyoX.ui.MiuiXSwitch: void setChecked(boolean)
+XiYue.SiyoX.ui.MiuiXCheckBox$2: MiuiXCheckBox$2(XiYue.SiyoX.ui.MiuiXCheckBox)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$14: boolean onTouch(android.view.View,android.view.MotionEvent)
+androidx.appcompat.widget.Toolbar: void setPopupTheme(int)
+epic.verify.api.EpicVerifySDK: EpicVerifySDK(java.lang.String[],int,java.lang.String)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: android.graphics.PorterDuff$Mode getSupportCompoundDrawablesTintMode()
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event valueOf(java.lang.String)
+androidx.appcompat.widget.AppCompatTextView: java.lang.CharSequence getText()
+XiYue.SiyoX.ui.MiuiXSwitch: void setChecked(boolean,boolean)
+XiYue.SiyoX.ui.SiyoXTheme: int getInnerCardBg(boolean)
+androidx.appcompat.widget.Toolbar: void setBackInvokedCallbackEnabled(boolean)
+androidx.appcompat.widget.LinearLayoutCompat: void setVerticalGravity(int)
+androidx.appcompat.widget.Toolbar: void setSubtitleTextColor(android.content.res.ColorStateList)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setLogo(int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$10: SiyoXOverlayLayout$10(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.widget.Toolbar: void setCollapseContentDescription(java.lang.CharSequence)
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp getHeartbeatResult()
+epic.verify.api.EpicVerifySDK$HeartbeatListener: void onHeartbeat(epic.verify.api.Resp)
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.graphics.Insets getSystemWindowInsets()
+XiYue.SiyoX.ui.SiyoXTheme: int getExpireBadgeBg(boolean)
+androidx.core.view.WindowInsetsCompat$Impl: boolean equals(java.lang.Object)
+androidx.appcompat.widget.ContentFrameLayout: android.util.TypedValue getFixedWidthMinor()
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityPreDestroyed(android.app.Activity)
+XiYue.SiyoX.data.AppSettings: long getExpireTime()
+androidx.appcompat.widget.ActionMenuView: int getPopupTheme()
+XiYue.SiyoX.data.VerifyManager$3: VerifyManager$3(XiYue.SiyoX.data.VerifyManager,java.lang.String,XiYue.SiyoX.data.VerifyManager$VerifyCallback)
+androidx.appcompat.widget.FitWindowsFrameLayout: void setOnFitSystemWindowsListener(androidx.appcompat.widget.FitWindowsViewGroup$OnFitSystemWindowsListener)
+androidx.appcompat.view.menu.ActionMenuItemView: java.lang.CharSequence getAccessibilityClassName()
+androidx.core.view.WindowInsetsCompat$Impl21: boolean isConsumed()
+epic.verify.api.EpicUpdater: EpicUpdater()
+androidx.appcompat.widget.Toolbar: void setSubtitle(int)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.graphics.Insets getInsetsForType(int,boolean)
+androidx.appcompat.widget.AppCompatTextView: int getAutoSizeStepGranularity()
+epic.verify.api.Json$Obj: epic.verify.api.Json$Obj getObject(java.lang.String)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$17$1: void run()
+epic.verify.api.EpicUpdater$2: void onResult(boolean,java.lang.String)
+XiYue.SiyoX.ui.MiuiXSwitch: void setOnCheckedChangeListener(XiYue.SiyoX.ui.MiuiXSwitch$OnCheckedChangeListener)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.graphics.Insets getRootStableInsets()
+androidx.core.view.WindowInsetsCompat$Impl30: void copyRootViewBounds(android.view.View)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$8: void onClick(android.view.View)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityResumed(android.app.Activity)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityPostStarted(android.app.Activity)
+androidx.appcompat.widget.ViewStubCompat: void setVisibility(int)
+androidx.appcompat.widget.ContentFrameLayout: ContentFrameLayout(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.LinearLayoutCompat: void setWeightSum(float)
+androidx.core.view.ViewCompat$Api30Impl: android.view.WindowInsets dispatchApplyWindowInsets(android.view.View,android.view.WindowInsets)
+androidx.appcompat.widget.MenuPopupWindow$Api23Impl: void setExitTransition(android.widget.PopupWindow,android.transition.Transition)
+epic.verify.api.EpicVerifySDK$LoginResult: EpicVerifySDK$LoginResult()
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp cardVerify()
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Pass getSoftwarePass(epic.verify.api.Resp)
+XiYue.SiyoX.hook.MainHook: void initZygote(de.robv.android.xposed.IXposedHookZygoteInit$StartupParam)
+XiYue.SiyoX.data.NativeVerify: java.lang.String nativeVerifyCard(int,java.lang.String,java.lang.String)
+epic.verify.api.EpicVerifySDK: void setPackageName(java.lang.String)
+epic.verify.api.Base64: Base64()
+XiYue.SiyoX.data.VerifyManager: java.lang.String getAndroidId()
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityPrePaused(android.app.Activity)
+androidx.core.view.WindowInsetsCompat$Impl: void initTypeBoundingRectsMaps()
+androidx.profileinstaller.FileSectionType: androidx.profileinstaller.FileSectionType valueOf(java.lang.String)
+androidx.appcompat.widget.Toolbar: void setTitleMarginTop(int)
+XiYue.SiyoX.ui.MiuiXSwitch: void init()
+epic.verify.api.Json$Obj: Json$Obj()
+androidx.appcompat.widget.AppCompatTextView: void setFirstBaselineToTopHeight(int)
+androidx.appcompat.widget.ViewStubCompat: int getInflatedId()
+androidx.core.view.WindowInsetsCompat$BuilderImpl: void initTypeBoundingRects(androidx.core.view.WindowInsetsCompat)
+epic.verify.api.Json$Obj: int getInt(java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl21: void setStableInsets(androidx.core.graphics.Insets)
+XiYue.SiyoX.hook.MainHook$4: MainHook$4(XiYue.SiyoX.hook.MainHook)
+XiYue.SiyoX.R$color: R$color()
+androidx.core.widget.EdgeEffectCompat$Api31Impl: float getDistance(android.widget.EdgeEffect)
+androidx.lifecycle.EmptyActivityLifecycleCallbacks: void onActivityStopped(android.app.Activity)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$2: void onClick(android.view.View)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Pass parsePass(epic.verify.api.Resp)
+epic.verify.api.Json$Str: Json$Str(java.lang.String)
+XiYue.SiyoX.hook.MainHook$1: void afterHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam)
+XiYue.SiyoX.hook.MainHook$4: void afterHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam)
+androidx.appcompat.widget.Toolbar: int getTitleMarginBottom()
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void registerIn(android.app.Activity)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityCreated(android.app.Activity,android.os.Bundle)
+androidx.appcompat.widget.Toolbar: java.lang.CharSequence getTitle()
+epic.verify.api.EpicUpdater$1: EpicUpdater$1(java.lang.String,java.io.File,android.content.Context,epic.verify.api.EpicUpdater$Callback)
+XiYue.SiyoX.SiyoXApp: SiyoXApp()
+androidx.appcompat.widget.AppCompatTextView: int getLastBaselineToBottomHeight()
+androidx.core.view.WindowInsetsCompat$BuilderImpl31: WindowInsetsCompat$BuilderImpl31(androidx.core.view.WindowInsetsCompat)
+androidx.appcompat.widget.LinearLayoutCompat: int getBaseline()
+androidx.lifecycle.ProcessLifecycleOwner$attach$1: void onActivityCreated(android.app.Activity,android.os.Bundle)
+androidx.appcompat.widget.Toolbar: int getCurrentContentInsetLeft()
+androidx.appcompat.widget.AppCompatTextView: android.graphics.PorterDuff$Mode getSupportBackgroundTintMode()
+androidx.appcompat.widget.Toolbar: void setTitle(int)
+androidx.core.view.WindowInsetsCompat$Impl: void copyRootViewBounds(android.view.View)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setUiOptions(int)
+androidx.appcompat.widget.Toolbar: int getContentInsetLeft()
+androidx.appcompat.widget.Toolbar: void setTitleMarginEnd(int)
+androidx.appcompat.view.menu.ListMenuItemView: ListMenuItemView(android.content.Context,android.util.AttributeSet)
+androidx.core.view.ViewCompat$Api28Impl: boolean isScreenReaderFocusable(android.view.View)
+XiYue.SiyoX.hook.MainHook$2: void afterHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam)
+androidx.core.view.WindowInsetsCompat$Impl20: void setRootWindowInsets(androidx.core.view.WindowInsetsCompat)
+epic.verify.api.Json$Parser: void expect(java.lang.String)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityPaused(android.app.Activity)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: void startExpandAnimation(float,float)
+XiYue.SiyoX.data.SiyoXDirManager: void initDirectories(android.content.Context)
+androidx.appcompat.widget.Toolbar: void setOnMenuItemClickListener(androidx.appcompat.widget.Toolbar$OnMenuItemClickListener)
+XiYue.SiyoX.ui.MiuiXSwitch: MiuiXSwitch(android.content.Context)
+epic.verify.api.EpicVerifySDK: java.lang.String getLastServer()
+XiYue.SiyoX.ui.SiyoXTheme: int getCardBg(boolean)
+epic.verify.api.Json$Parser: epic.verify.api.Json$Num parseNumber()
+XiYue.SiyoX.ui.FloatingOverlayManager: FloatingOverlayManager()
+androidx.core.view.WindowInsetsCompat$BuilderImpl30: WindowInsetsCompat$BuilderImpl30()
+androidx.core.view.WindowInsetsCompat$Impl28: androidx.core.view.WindowInsetsCompat consumeDisplayCutout()
+androidx.core.view.ViewCompat$Api20Impl: android.view.WindowInsets dispatchApplyWindowInsets(android.view.View,android.view.WindowInsets)
+androidx.window.area.reflectionguard.WindowAreaComponentApi3Requirements: void endRearDisplayPresentationSession()
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.graphics.Insets getInsets(int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$7: void onClick(android.view.View)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: androidx.core.view.WindowInsetsCompat build()
+androidx.appcompat.widget.Toolbar$Api33Impl: android.window.OnBackInvokedCallback newOnBackInvokedCallback(java.lang.Runnable)
+androidx.lifecycle.EmptyActivityLifecycleCallbacks: void onActivityResumed(android.app.Activity)
+androidx.appcompat.widget.DropDownListView$Api21Impl: void drawableHotspotChanged(android.view.View,float,float)
+androidx.appcompat.widget.ActionBarOverlayLayout: int getActionBarHideOffset()
+androidx.appcompat.widget.Toolbar: void setLogoDescription(int)
+XiYue.SiyoX.data.VerifyManager: void verifyCard(java.lang.String,XiYue.SiyoX.data.VerifyManager$VerifyCallback)
+androidx.appcompat.widget.AppCompatTextView: void setAutoSizeTextTypeWithDefaults(int)
+androidx.core.view.WindowInsetsCompat$BuilderImpl: void setStableInsets(androidx.core.graphics.Insets)
+epic.verify.api.Json$Num: int intValue()
+epic.verify.api.Json$Value: Json$Value()
+epic.verify.api.Json: java.lang.String pretty(epic.verify.api.Json$Value,int)
+androidx.core.view.WindowInsetsCompat$TypeImpl34: int toPlatformType(int)
+XiYue.SiyoX.ui.SiyoXTheme: int getTextSecondary(boolean)
+androidx.appcompat.widget.Toolbar$Api33Impl: void tryRegisterOnBackInvokedCallback(java.lang.Object,java.lang.Object)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.view.WindowInsetsCompat inset(int,int,int,int)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Version getSoftwareLatestVersion(java.lang.String)
+XiYue.SiyoX.SiyoXConfig: SiyoXConfig()
+androidx.appcompat.widget.ActionMenuView: android.graphics.drawable.Drawable getOverflowIcon()
+epic.verify.api.EpicVerifySDK$HeartbeatFailListener: void onHeartbeatFail(epic.verify.api.Resp)
+epic.verify.api.Json$Num: Json$Num(java.lang.String)
+androidx.core.view.WindowInsetsCompat$BuilderImpl35: WindowInsetsCompat$BuilderImpl35(androidx.core.view.WindowInsetsCompat)
+androidx.core.view.WindowInsetsCompat$Impl: void setDisplayShape(androidx.core.view.DisplayShapeCompat)
+XiYue.SiyoX.ui.SiyoXTheme: SiyoXTheme()
+XiYue.SiyoX.data.VerifyManager$4: void run()
+androidx.appcompat.widget.ActionBarOverlayLayout: void setShowingForActionMode(boolean)
+XiYue.SiyoX.ui.MiuiXSwitch: void animateToProgress(float)
+epic.verify.api.RSAUtil: java.lang.String decryptWithPublicKey(java.lang.String,java.security.PublicKey)
+androidx.appcompat.widget.AppCompatTextView: void setCustomSelectionActionModeCallback(android.view.ActionMode$Callback)
+androidx.appcompat.widget.Toolbar: void setContentInsetStartWithNavigation(int)
+XiYue.SiyoX.ui.CopyIconView: void onDraw(android.graphics.Canvas)
+androidx.graphics.path.PathIteratorPreApi34Impl: long createInternalPathIterator(android.graphics.Path,int,float)
+XiYue.SiyoX.data.VerifyManager: boolean isVerified()
+androidx.core.view.WindowInsetsCompat$Impl: androidx.core.view.WindowInsetsCompat inset(int,int,int,int)
+androidx.appcompat.view.menu.ExpandedMenuView: int getWindowAnimations()
+epic.verify.api.EpicVerifySDK: java.lang.String encryptAppKey(java.lang.String)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$3: void onCheckedChanged(XiYue.SiyoX.ui.MiuiXCheckBox,boolean)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.graphics.drawable.GradientDrawable createCardBg(int,int,int)
+epic.verify.api.Json$Obj: java.lang.String getString(java.lang.String)
+androidx.appcompat.widget.ActionMenuView: void setPopupTheme(int)
+androidx.appcompat.widget.ContentFrameLayout: android.util.TypedValue getMinWidthMinor()
+androidx.appcompat.widget.ViewStubCompat: ViewStubCompat(android.content.Context,android.util.AttributeSet)
+androidx.core.view.WindowInsetsCompat$Impl21: WindowInsetsCompat$Impl21(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl21)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$RippleWaveView: void onDraw(android.graphics.Canvas)
+XiYue.SiyoX.data.VerifyManager: void loadSoftwareNotice(XiYue.SiyoX.data.VerifyManager$NoticeCallback)
+androidx.appcompat.widget.AppCompatImageView: android.graphics.PorterDuff$Mode getSupportBackgroundTintMode()
+XiYue.SiyoX.data.VerifyManager: java.lang.String getNoticeContent()
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void openPanelWithRipple(float,float)
+androidx.appcompat.widget.AppCompatTextView: void setEmojiCompatEnabled(boolean)
+XiYue.SiyoX.hook.MainHook: MainHook()
+androidx.tracing.TraceApi29Impl: boolean isEnabled()
+androidx.appcompat.widget.SearchView$SearchAutoComplete: void setThreshold(int)
+androidx.core.view.WindowInsetsCompat$BuilderImpl36: WindowInsetsCompat$BuilderImpl36()
+androidx.appcompat.widget.AppCompatTextView: void setTextFuture(java.util.concurrent.Future)
+androidx.appcompat.widget.ActionBarContainer: void setVisibility(int)
+androidx.core.view.WindowInsetsCompat$Impl35: java.util.List getBoundingRects(int)
+XiYue.SiyoX.MainActivity: android.view.View createCustomInfoRow(java.lang.String,android.view.View,boolean)
+androidx.core.view.WindowInsetsCompat$Impl30: WindowInsetsCompat$Impl30(androidx.core.view.WindowInsetsCompat,androidx.core.view.WindowInsetsCompat$Impl30)
+androidx.lifecycle.Lifecycle$State: androidx.lifecycle.Lifecycle$State[] values()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$6: SiyoXOverlayLayout$6(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+XiYue.SiyoX.MainActivity: MainActivity()
+XiYue.SiyoX.ui.LogoData: LogoData()
+epic.verify.api.EpicVerifySDK: void setHeartbeatInterval(long)
+androidx.appcompat.widget.ActionBarContainer: void setTabContainer(androidx.appcompat.widget.ScrollingTabContainerView)
+androidx.appcompat.widget.ActionBarOverlayLayout: java.lang.CharSequence getTitle()
+XiYue.SiyoX.ui.FloatingOverlayManager$2: FloatingOverlayManager$2(android.app.Activity)
+androidx.lifecycle.ReportFragment: ReportFragment()
+XiYue.SiyoX.ui.MiuiXCheckBox: MiuiXCheckBox(android.content.Context)
+androidx.core.view.WindowInsetsCompat$Impl20: void initTypeBoundingRectsMaps()
+androidx.graphics.path.PathIteratorPreApi34Impl: int internalPathIteratorNext(long,float[],int)
+androidx.appcompat.widget.ActionBarContainer: android.view.View getTabContainer()
+androidx.appcompat.widget.DropDownListView$Api33Impl: void setSelectedChildViewEnabled(android.widget.AbsListView,boolean)
+epic.verify.api.Json: java.lang.String toString(epic.verify.api.Json$Value)
+androidx.appcompat.widget.Toolbar: int getContentInsetStart()
+epic.verify.api.EpicUpdater: void notify(epic.verify.api.EpicUpdater$Callback,boolean,java.lang.String)
+XiYue.SiyoX.ui.MiuiXSwitch$2: MiuiXSwitch$2(XiYue.SiyoX.ui.MiuiXSwitch)
+XiYue.SiyoX.data.VerifyManager$4: VerifyManager$4(XiYue.SiyoX.data.VerifyManager,long,java.lang.String,XiYue.SiyoX.data.VerifyManager$VerifyCallback)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$18: SiyoXOverlayLayout$18(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.appcompat.widget.ActionBarOverlayLayout: void setWindowTitle(java.lang.CharSequence)
+androidx.appcompat.widget.AppCompatImageButton: android.content.res.ColorStateList getSupportImageTintList()
+androidx.graphics.path.PathIteratorPreApi34Impl: int internalPathIteratorPeek(long)
+epic.verify.api.GZip: byte[] compress(byte[])
+androidx.appcompat.view.menu.ActionMenuItemView: void setItemInvoker(androidx.appcompat.view.menu.MenuBuilder$ItemInvoker)
+androidx.core.view.WindowInsetsCompat$Impl21: androidx.core.graphics.Insets getStableInsets()
+androidx.appcompat.widget.Toolbar: androidx.appcompat.widget.DecorToolbar getWrapper()
+androidx.core.view.WindowInsetsCompat$Impl: boolean isConsumed()
+androidx.appcompat.widget.TooltipCompat$Api26Impl: void setTooltipText(android.view.View,java.lang.CharSequence)
+XiYue.SiyoX.ui.FloatingOverlayManager: void attach(android.app.Activity)
+androidx.appcompat.widget.AppCompatImageView: void setImageDrawable(android.graphics.drawable.Drawable)
+epic.verify.api.EpicVerifySDK: boolean isEncryptedAppKey(java.lang.String)
+androidx.core.view.WindowInsetsCompat$Impl20: void copyRootViewBounds(android.view.View)
+androidx.lifecycle.ProcessLifecycleOwner$attach$1: ProcessLifecycleOwner$attach$1(androidx.lifecycle.ProcessLifecycleOwner)
+androidx.appcompat.widget.AppCompatImageView: void setImageBitmap(android.graphics.Bitmap)
+androidx.core.view.WindowInsetsCompat$Impl20: boolean isRound()
+androidx.lifecycle.ProcessLifecycleOwner$attach$1$onActivityPreCreated$1: void onActivityPostResumed(android.app.Activity)
+XiYue.SiyoX.MainActivity: android.graphics.drawable.GradientDrawable createCardBg(int,int,int)
+androidx.core.view.WindowInsetsCompat$Impl: void setRootWindowInsets(androidx.core.view.WindowInsetsCompat)
+androidx.lifecycle.EmptyActivityLifecycleCallbacks: void onActivityDestroyed(android.app.Activity)
+androidx.core.view.WindowInsetsCompat$Impl: void setOverriddenInsets(androidx.core.graphics.Insets[])
+androidx.appcompat.widget.Toolbar: java.lang.CharSequence getCollapseContentDescription()
+androidx.appcompat.view.menu.ListMenuItemView: void setGroupDividerEnabled(boolean)
+androidx.appcompat.widget.Toolbar: java.lang.CharSequence getLogoDescription()
+androidx.core.view.WindowInsetsCompat$Impl20: void setRootViewData(androidx.core.graphics.Insets)
+androidx.appcompat.widget.AppCompatImageButton: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+androidx.appcompat.view.menu.ActionMenuItemView: void setExpandedFormat(boolean)
+androidx.appcompat.widget.Toolbar: int getTitleMarginTop()
+androidx.lifecycle.LifecycleDispatcher$DispatcherActivityCallback: LifecycleDispatcher$DispatcherActivityCallback()
+androidx.appcompat.widget.MenuPopupWindow$Api23Impl: void setEnterTransition(android.widget.PopupWindow,android.transition.Transition)
+androidx.lifecycle.ReportFragment$LifecycleCallbacks: void onActivityPostCreated(android.app.Activity,android.os.Bundle)
+androidx.appcompat.widget.AppCompatImageView: android.content.res.ColorStateList getSupportImageTintList()
+androidx.appcompat.widget.Toolbar: void setSubtitle(java.lang.CharSequence)
+XiYue.SiyoX.ui.CopyIconView: float dpF(float)
+androidx.appcompat.widget.AppCompatTextHelper$Api24Impl: void setTextLocales(android.widget.TextView,android.os.LocaleList)
+androidx.appcompat.widget.Toolbar$Api33Impl: void tryUnregisterOnBackInvokedCallback(java.lang.Object,java.lang.Object)
+androidx.appcompat.widget.AppCompatTextView: int getAutoSizeMaxTextSize()
+androidx.appcompat.widget.AppCompatTextView: int getAutoSizeTextType()
+XiYue.SiyoX.ui.SiyoXTheme: int getExitBtnBg(boolean)
+androidx.core.graphics.drawable.IconCompatParcelizer: void write(androidx.core.graphics.drawable.IconCompat,androidx.versionedparcelable.VersionedParcel)
+epic.verify.api.Json: java.lang.String toPrettyString(epic.verify.api.Json$Value)
+androidx.appcompat.widget.AppCompatImageView: void setSupportImageTintList(android.content.res.ColorStateList)
+androidx.appcompat.widget.AppCompatTextView: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+XiYue.SiyoX.ui.MiuiXCheckBox: void setChecked(boolean)
+epic.verify.api.Json$Obj: boolean getBoolean(java.lang.String)
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: void setSupportCompoundDrawablesTintList(android.content.res.ColorStateList)
+epic.verify.api.EpicUpdater$Callback: void onResult(boolean,java.lang.String)
+epic.verify.api.EpicUpdater: void installApk(android.content.Context,java.io.File,epic.verify.api.EpicUpdater$Callback)
+androidx.appcompat.widget.ButtonBarLayout: void setAllowStacking(boolean)
+XiYue.SiyoX.R$drawable: R$drawable()
+androidx.appcompat.widget.AppCompatAutoCompleteTextView: android.graphics.PorterDuff$Mode getSupportBackgroundTintMode()
+XiYue.SiyoX.ui.SiyoXTheme: boolean isDarkMode(android.content.Context)
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp cardQuery()
+androidx.appcompat.widget.ActionBarContextView: void setVisibility(int)
+androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView: void setHoverListener(androidx.appcompat.widget.MenuItemHoverListener)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Notice parseNotice(epic.verify.api.Resp)
+androidx.appcompat.widget.LinearLayoutCompat: int getGravity()
+androidx.appcompat.widget.FitWindowsLinearLayout: FitWindowsLinearLayout(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.SearchView$Api29Impl: void refreshAutoCompleteResults(android.widget.AutoCompleteTextView)
+epic.verify.api.EpicVerifySDK: epic.verify.api.EpicVerifySDK$Notice getSoftwareNotice()
+XiYue.SiyoX.ui.MiuiXSwitch: boolean isChecked()
+androidx.appcompat.widget.Toolbar: void setNavigationContentDescription(int)
+androidx.lifecycle.Lifecycle$Event: androidx.lifecycle.Lifecycle$Event[] values()
+androidx.core.view.WindowInsetsCompat$BuilderImpl35: WindowInsetsCompat$BuilderImpl35()
+androidx.core.view.WindowInsetsCompat$Impl29: androidx.core.view.WindowInsetsCompat inset(int,int,int,int)
+XiYue.SiyoX.data.VerifyManager: void handleEvent(android.content.Context,int,java.lang.String)
+XiYue.SiyoX.ui.SiyoXTheme: int getInputBorder(boolean)
+androidx.core.view.WindowInsetsCompat$BuilderImpl34: WindowInsetsCompat$BuilderImpl34(androidx.core.view.WindowInsetsCompat)
+androidx.appcompat.view.menu.ListMenuItemView: void setTitle(java.lang.CharSequence)
+androidx.core.view.WindowInsetsCompat$Impl20: void copyWindowDataInto(androidx.core.view.WindowInsetsCompat)
+XiYue.SiyoX.ui.SiyoXOverlayLayout$7: SiyoXOverlayLayout$7(XiYue.SiyoX.ui.SiyoXOverlayLayout)
+androidx.core.view.WindowInsetsCompat$Impl20: androidx.core.graphics.Insets getInsetsIgnoringVisibility(int)
+androidx.appcompat.widget.DialogTitle: DialogTitle(android.content.Context,android.util.AttributeSet)
+epic.verify.api.EpicVerifySDK: void setOnHeartbeatListener(epic.verify.api.EpicVerifySDK$HeartbeatListener)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void checkInitialState()
+epic.verify.api.GZip: GZip()
+epic.verify.api.EpicVerifySDK: void startHeartbeat()
+XiYue.SiyoX.ui.MiuiXSwitch: int dp(float)
+epic.verify.api.EpicVerifyException: EpicVerifyException(java.lang.String)
+androidx.core.graphics.drawable.IconCompatParcelizer: androidx.core.graphics.drawable.IconCompat read(androidx.versionedparcelable.VersionedParcel)
+XiYue.SiyoX.MainActivity: android.widget.LinearLayout createCard(boolean)
+androidx.graphics.path.PathIteratorPreApi34Impl: void destroyInternalPathIterator(long)
+XiYue.SiyoX.data.VerifyManager$5: void run()
+XiYue.SiyoX.ui.FloatingOverlayManager$1$1: void run()
+androidx.appcompat.widget.LinearLayoutCompat: int getDividerWidth()
+androidx.appcompat.widget.LinearLayoutCompat: void setBaselineAlignedChildIndex(int)
+androidx.core.view.WindowInsetsCompat$BuilderImpl30: WindowInsetsCompat$BuilderImpl30(androidx.core.view.WindowInsetsCompat)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: void setupBallDragListener(android.view.View)
+androidx.core.view.WindowInsetsCompat$Impl35: java.util.List getBoundingRectsIgnoringVisibility(int)
+XiYue.SiyoX.hook.MainHook$3: MainHook$3(XiYue.SiyoX.hook.MainHook)
+androidx.appcompat.widget.Toolbar: android.view.View getNavButtonView()
+XiYue.SiyoX.ui.SiyoXOverlayLayout: android.widget.LinearLayout createInnerCard(boolean)
+androidx.appcompat.widget.LinearLayoutCompat: int getShowDividers()
+XiYue.SiyoX.ui.SiyoXOverlayLayout$5: void onClick(android.view.View)
+androidx.core.view.WindowInsetsCompat$Impl28: androidx.core.view.DisplayCutoutCompat getDisplayCutout()
+androidx.appcompat.widget.ViewStubCompat: void setOnInflateListener(androidx.appcompat.widget.ViewStubCompat$OnInflateListener)
+androidx.appcompat.widget.ListPopupWindow$Api29Impl: void setIsClippedToScreen(android.widget.PopupWindow,boolean)
+android.support.v4.app.RemoteActionCompatParcelizer: RemoteActionCompatParcelizer()
+androidx.core.view.WindowInsetsCompat$Impl30: androidx.core.graphics.Insets getInsetsIgnoringVisibility(int)
+XiYue.SiyoX.ui.SiyoXOverlayLayout: int dp(int)
+androidx.core.widget.NestedScrollView: float getTopFadingEdgeStrength()
+XiYue.SiyoX.ui.FloatingOverlayManager$1: void run()
+epic.verify.api.EpicVerifySDK: epic.verify.api.Resp cardPass()
+androidx.appcompat.view.menu.ActionMenuItemView: ActionMenuItemView(android.content.Context,android.util.AttributeSet)
+androidx.appcompat.widget.Toolbar: void setTitleTextColor(int)
+XiYue.SiyoX.data.VerifyManager: void notifyNoticeResult(XiYue.SiyoX.data.VerifyManager$NoticeCallback,boolean,java.lang.String,java.lang.String)
+android.support.v4.graphics.drawable.IconCompatParcelizer: IconCompatParcelizer()
+androidx.emoji2.text.EmojiCompatInitializer: EmojiCompatInitializer()
+XiYue.SiyoX.data.AppSettings: java.lang.String getCard()
+androidx.core.view.WindowInsetsCompat$BuilderImpl29: void setSystemGestureInsets(androidx.core.graphics.Insets)
+androidx.appcompat.widget.AppCompatImageView: void setSupportBackgroundTintList(android.content.res.ColorStateList)
+androidx.appcompat.widget.AppCompatImageView: void setImageLevel(int)
+androidx.core.view.WindowInsetsCompat$BuilderImpl20: void setSystemWindowInsets(androidx.core.graphics.Insets)

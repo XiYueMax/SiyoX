@@ -85,7 +85,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
     private int currentCategoryIndex = 0;
     private final List<TextView> categoryTabViews = new ArrayList<>();
 
-    // Floating Ball drag coordinates (Full-screen hardware translation)
+    // Floating Ball drag coordinates
     private float dX = 0f;
     private float dY = 0f;
     private float downRawX = 0f;
@@ -171,6 +171,12 @@ public class SiyoXOverlayLayout extends FrameLayout {
                 int pt = (height - ph) / 2;
                 panelContainer.layout(pl, pt, pl + pw, pt + ph);
             }
+        }
+
+        if (floatingBall != null && floatingBall.getVisibility() != GONE) {
+            int bw = floatingBall.getMeasuredWidth();
+            int bh = floatingBall.getMeasuredHeight();
+            floatingBall.layout(0, 0, bw, bh);
         }
     }
 
@@ -942,8 +948,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
     private void buildFloatingBall() {
         int ballSize = dp(54);
         floatingBall = new FrameLayout(getContext());
-        LayoutParams ballParams = new LayoutParams(ballSize, ballSize);
-        ballParams.gravity = Gravity.TOP | Gravity.START;
+        LayoutParams ballParams = new LayoutParams(ballSize, ballSize, Gravity.TOP | Gravity.START);
         floatingBall.setLayoutParams(ballParams);
         floatingBall.setTranslationX(dp(20));
         floatingBall.setTranslationY(dp(80));
@@ -979,22 +984,29 @@ public class SiyoXOverlayLayout extends FrameLayout {
         ball.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int[] size = getRealScreenSize();
-                int screenW = size[0];
-                int screenH = size[1];
+                int[] loc = new int[2];
+                getLocationOnScreen(loc);
+                int overlayScreenX = loc[0];
+                int overlayScreenY = loc[1];
+
+                int parentW = getWidth() > 0 ? getWidth() : getRealScreenSize()[0];
+                int parentH = getHeight() > 0 ? getHeight() : getRealScreenSize()[1];
+
+                float localTouchX = event.getRawX() - overlayScreenX;
+                float localTouchY = event.getRawY() - overlayScreenY;
 
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         downRawX = event.getRawX();
                         downRawY = event.getRawY();
-                        dX = v.getTranslationX() - event.getRawX();
-                        dY = v.getTranslationY() - event.getRawY();
+                        dX = v.getTranslationX() - localTouchX;
+                        dY = v.getTranslationY() - localTouchY;
                         return true;
 
                     case MotionEvent.ACTION_MOVE:
-                        // 1. GPU平滑Translation位移，彻底消除边缘缺失与裁剪
-                        float targetX = Math.max(0, Math.min(event.getRawX() + dX, screenW - v.getWidth()));
-                        float targetY = Math.max(0, Math.min(event.getRawY() + dY, screenH - v.getHeight()));
+                        // 全屏幕无阻碍任意拖拽，严密对齐本地容器坐标
+                        float targetX = Math.max(0, Math.min(localTouchX + dX, parentW - v.getWidth()));
+                        float targetY = Math.max(0, Math.min(localTouchY + dY, parentH - v.getHeight()));
                         v.setTranslationX(targetX);
                         v.setTranslationY(targetY);
                         return true;

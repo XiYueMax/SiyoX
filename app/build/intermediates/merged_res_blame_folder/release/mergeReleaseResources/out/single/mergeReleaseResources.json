@@ -8,6 +8,14 @@
         "source": "XiYue.SiyoX.app-main-40:/drawable/logo.png"
     },
     {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\9.6.1\\XiYue.SiyoX.app-release-39:\\drawable_logo.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\9.6.1\\XiYue.SiyoX.app-main-40:\\drawable\\logo.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\9.6.1\\XiYue.SiyoX.app-release-39:\\drawable_ic_launcher.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\9.6.1\\XiYue.SiyoX.app-main-40:\\drawable\\ic_launcher.png"
+    },
+    {
         "merged": "XiYue.SiyoX.app-release-39:/drawable_ic_launcher.png.flat",
         "source": "XiYue.SiyoX.app-main-40:/drawable/ic_launcher.png"
     }
