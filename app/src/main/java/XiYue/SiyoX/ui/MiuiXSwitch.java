@@ -131,7 +131,7 @@ public class MiuiXSwitch extends View {
         canvas.drawRoundRect(trackRect, radius, radius, trackPaint);
 
         // 2. Draw Thumb Knob
-        float thumbPadding = dp(2);
+        float thumbPadding = dpF(2f);
         float thumbRadius = radius - thumbPadding;
         float minCenterX = thumbPadding + thumbRadius;
         float maxCenterX = w - thumbPadding - thumbRadius;
@@ -158,7 +158,12 @@ public class MiuiXSwitch extends View {
                 ((startB + (int) (fraction * (endB - startB))));
     }
 
-    private float dp(float v) {
+    private int dp(float v) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, getResources().getDisplayMetrics());
+    }
+
+    private float dpF(float v) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, getResources().getDisplayMetrics());
     }
 }
+
