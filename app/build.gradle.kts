@@ -22,9 +22,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = rootProject.file("SiyoX.jks")
-            storePassword = "SiyoX123"
+            storePassword = "SiyoX"
             keyAlias = "SiyoX"
-            keyPassword = "SiyoX123"
+            keyPassword = "SiyoX"
             enableV1Signing = true
             enableV2Signing = true
             enableV3Signing = true

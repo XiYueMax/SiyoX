@@ -10,3 +10,6 @@
 0	4	0	clean	1a5333f9ba8b1a6f
 1	161	8096887597452371	CMakeFiles/siyox_verify.dir/siyox_verify.c.o	8836d566d467ed54
 161	201	8096887597867097	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/arm64-v8a/libsiyox_verify.so	b3a3cc75f35fc10f
+0	5	0	clean	1a5333f9ba8b1a6f
+2	567	8097016779173729	CMakeFiles/siyox_verify.dir/siyox_verify.c.o	8836d566d467ed54
+567	876	8097016782245982	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/arm64-v8a/libsiyox_verify.so	b3a3cc75f35fc10f
