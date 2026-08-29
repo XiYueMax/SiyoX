@@ -91,6 +91,15 @@ public class VerifyManager {
         return noticeContent;
     }
 
+    public void logout() {
+        isVerified = false;
+        expireTimestamp = 0L;
+        statusMessage = "未验证";
+        AppSettings.get().setCard("");
+        AppSettings.get().setExpireTime(0L);
+    }
+
+
     public String getActiveProviderName() {
         switch (SiyoXConfig.CURRENT_VERIFY_TYPE) {
             case T3:

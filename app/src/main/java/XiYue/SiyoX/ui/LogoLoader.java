@@ -4,17 +4,14 @@
 package XiYue.SiyoX.ui;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+
+import XiYue.SiyoX.data.SiyoXDirManager;
 
 public class LogoLoader {
 
@@ -28,46 +25,36 @@ public class LogoLoader {
 
         if (context == null) return null;
 
-        // 1. Try from Module Resources via PackageManager
+        // 1. 优先从私有目录 /data/user/0/com.netease.x19/files/SiyoX/Logo.png 读取
         try {
-            PackageManager pm = context.getPackageManager();
-            Resources modRes = pm.getResourcesForApplication("XiYue.SiyoX");
-            int resId = modRes.getIdentifier("logo", "drawable", "XiYue.SiyoX");
-            if (resId != 0) {
-                cachedLogo = BitmapFactory.decodeResource(modRes, resId);
+            File privateLogo = SiyoXDirManager.getPrivateLogoFile(context);
+            if (privateLogo != null && privateLogo.exists() && privateLogo.length() > 0) {
+                cachedLogo = BitmapFactory.decodeFile(privateLogo.getAbsolutePath());
+                if (cachedLogo != null) return cachedLogo;
+            } else {
+                // 如果文件尚未提取，尝试提取一次
+                SiyoXDirManager.initDirectories(context);
+                privateLogo = SiyoXDirManager.getPrivateLogoFile(context);
+                if (privateLogo != null && privateLogo.exists() && privateLogo.length() > 0) {
+                    cachedLogo = BitmapFactory.decodeFile(privateLogo.getAbsolutePath());
+                    if (cachedLogo != null) return cachedLogo;
+                }
+            }
+        } catch (Throwable t) {
+            Log.e(TAG, "Error loading logo from private files dir: " + t.getMessage());
+        }
+
+        // 2. 从输入流读取
+        try {
+            InputStream is = SiyoXDirManager.openLogoInputStream(context);
+            if (is != null) {
+                cachedLogo = BitmapFactory.decodeStream(is);
+                is.close();
                 if (cachedLogo != null) return cachedLogo;
             }
         } catch (Throwable ignored) {}
 
-        // 2. Try from createPackageContext assets
-        try {
-            Context modCtx = context.createPackageContext("XiYue.SiyoX", Context.CONTEXT_IGNORE_SECURITY);
-            InputStream is = modCtx.getAssets().open("logo.png");
-            cachedLogo = BitmapFactory.decodeStream(is);
-            is.close();
-            if (cachedLogo != null) return cachedLogo;
-        } catch (Throwable ignored) {}
-
-        // 3. Try reading directly from module APK path
-        try {
-            PackageManager pm = context.getPackageManager();
-            ApplicationInfo appInfo = pm.getApplicationInfo("XiYue.SiyoX", 0);
-            if (appInfo.sourceDir != null) {
-                ZipFile zip = new ZipFile(new File(appInfo.sourceDir));
-                ZipEntry entry = zip.getEntry("assets/logo.png");
-                if (entry == null) entry = zip.getEntry("res/drawable/logo.png");
-                if (entry != null) {
-                    InputStream is = zip.getInputStream(entry);
-                    cachedLogo = BitmapFactory.decodeStream(is);
-                    is.close();
-                    zip.close();
-                    if (cachedLogo != null) return cachedLogo;
-                }
-                zip.close();
-            }
-        } catch (Throwable ignored) {}
-
-        // 4. Try current context's own resources
+        // 3. 从系统资源中获取
         try {
             int resId = context.getResources().getIdentifier("logo", "drawable", context.getPackageName());
             if (resId != 0) {

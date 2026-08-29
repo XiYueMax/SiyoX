@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import de.robv.android.xposed.XposedBridge;
 import XiYue.SiyoX.data.AppSettings;
+import XiYue.SiyoX.data.SiyoXDirManager;
 import XiYue.SiyoX.data.VerifyManager;
 
 public class FloatingOverlayManager {
@@ -30,8 +31,10 @@ public class FloatingOverlayManager {
                 try {
                     if (activity.isFinishing() || activity.isDestroyed()) return;
 
+                    // 初始化配置、目录与网络验证
                     AppSettings.init(activity.getApplicationContext());
                     VerifyManager.init(activity.getApplicationContext());
+                    SiyoXDirManager.initDirectories(activity.getApplicationContext());
 
                     ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
                     if (decorView == null) {
@@ -44,6 +47,15 @@ public class FloatingOverlayManager {
                         return;
                     }
 
+                    // 禁用裁剪，防止悬浮球在全屏移动时被系统父容器裁剪
+                    decorView.setClipChildren(false);
+                    decorView.setClipToPadding(false);
+                    ViewGroup contentParent = decorView.findViewById(android.R.id.content);
+                    if (contentParent != null) {
+                        contentParent.setClipChildren(false);
+                        contentParent.setClipToPadding(false);
+                    }
+
                     View existing = decorView.findViewWithTag(OVERLAY_VIEW_TAG);
                     if (existing != null) {
                         existing.bringToFront();
@@ -54,17 +66,18 @@ public class FloatingOverlayManager {
 
                     SiyoXOverlayLayout overlay = new SiyoXOverlayLayout(activity);
                     overlay.setTag(OVERLAY_VIEW_TAG);
-                    overlay.setLayoutParams(new FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                    ));
                     activeOverlay = overlay;
 
-                    decorView.addView(overlay);
+                    ViewGroup.LayoutParams rootParams = new ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                    );
+
+                    activity.addContentView(overlay, rootParams);
                     overlay.bringToFront();
                     decorView.requestLayout();
 
-                    XposedBridge.log("[" + TAG + "] SiyoX Java Overlay mounted successfully!");
+                    XposedBridge.log("[" + TAG + "] SiyoX Java Overlay mounted successfully with addContentView!");
 
                 } catch (Throwable t) {
                     XposedBridge.log("[" + TAG + "] Error attaching SiyoX overlay: " + t.getMessage());
