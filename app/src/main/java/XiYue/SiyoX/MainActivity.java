@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import XiYue.SiyoX.data.AppSettings;
 import XiYue.SiyoX.data.VerifyManager;
+import XiYue.SiyoX.ui.LogoLoader;
+
 
 public class MainActivity extends Activity {
 
