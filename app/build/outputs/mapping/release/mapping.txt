@@ -3,8 +3,8 @@
 # min_api: 26
 # common_typos_disable
 # {"id":"com.android.tools.r8.mapping","version":"2.2"}
-# pg_map_id: 9aa62b92e06c1629bd85fcd01bd666d8fea4957f37bd4123add48a40378e91ed
-# pg_map_hash: SHA-256 9aa62b92e06c1629bd85fcd01bd666d8fea4957f37bd4123add48a40378e91ed
+# pg_map_id: 258d5589820d8ccded84b6e924d88d8d7ce4179cdab028756e5dd3da5a4b24e4
+# pg_map_hash: SHA-256 258d5589820d8ccded84b6e924d88d8d7ce4179cdab028756e5dd3da5a4b24e4
 XiYue.SiyoX.BuildConfig -> XiYue.SiyoX.BuildConfig:
 # {"id":"sourceFile","fileName":"BuildConfig.java"}
     1:4:void <init>():6:6 -> <init>
@@ -183,8 +183,8 @@ XiYue.SiyoX.SiyoXApp -> XiYue.SiyoX.SiyoXApp:
     9:12:void onCreate():19:19 -> onCreate
 XiYue.SiyoX.SiyoXConfig -> XiYue.SiyoX.SiyoXConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:32:void <clinit>():69:69 -> <clinit>
-    33:37:void <clinit>():97:97 -> <clinit>
+    1:19:void <clinit>():69:69 -> <clinit>
+    20:24:void <clinit>():90:90 -> <clinit>
     1:4:void <init>():10:10 -> <init>
 XiYue.SiyoX.SiyoXConfig$DefaultResource -> XiYue.SiyoX.SiyoXConfig$DefaultResource:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
@@ -201,24 +201,24 @@ XiYue.SiyoX.SiyoXConfig$DefaultResource -> XiYue.SiyoX.SiyoXConfig$DefaultResour
     59:123:java.lang.String getFileName():61:61 -> getFileName
 XiYue.SiyoX.SiyoXConfig$EpicConfig -> XiYue.SiyoX.SiyoXConfig$EpicConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:15:void <clinit>():102:102 -> <clinit>
-    1:4:void <init>():100:100 -> <init>
+    1:15:void <clinit>():96:96 -> <clinit>
+    1:4:void <init>():93:93 -> <init>
 XiYue.SiyoX.SiyoXConfig$T3Config -> XiYue.SiyoX.SiyoXConfig$T3Config:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:4:void <init>():112:112 -> <init>
+    1:4:void <init>():106:106 -> <init>
 XiYue.SiyoX.SiyoXConfig$VerifyType -> XiYue.SiyoX.SiyoXConfig$VerifyType:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:11:XiYue.SiyoX.SiyoXConfig$VerifyType[] $values():85:85 -> $values
-    1:10:void <clinit>():86:86 -> <clinit>
-    11:20:void <clinit>():87:87 -> <clinit>
-    21:30:void <clinit>():88:88 -> <clinit>
-    31:37:void <clinit>():85:85 -> <clinit>
-    1:4:void <init>(java.lang.String,int):85:85 -> <init>
-    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType valueOf(java.lang.String):85:85 -> valueOf
-    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType[] values():85:85 -> values
+    1:11:XiYue.SiyoX.SiyoXConfig$VerifyType[] $values():78:78 -> $values
+    1:10:void <clinit>():79:79 -> <clinit>
+    11:20:void <clinit>():80:80 -> <clinit>
+    21:30:void <clinit>():81:81 -> <clinit>
+    31:37:void <clinit>():78:78 -> <clinit>
+    1:4:void <init>(java.lang.String,int):78:78 -> <init>
+    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType valueOf(java.lang.String):78:78 -> valueOf
+    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType[] values():78:78 -> values
 XiYue.SiyoX.SiyoXConfig$WeiYanConfig -> XiYue.SiyoX.SiyoXConfig$WeiYanConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:4:void <init>():123:123 -> <init>
+    1:4:void <init>():117:117 -> <init>
 XiYue.SiyoX.data.AppSettings -> XiYue.SiyoX.data.AppSettings:
 # {"id":"sourceFile","fileName":"AppSettings.java"}
     1:3:void <init>(android.content.Context):20:20 -> <init>

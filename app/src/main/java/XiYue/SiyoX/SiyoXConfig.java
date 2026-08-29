@@ -68,19 +68,12 @@ public class SiyoXConfig {
      */
     public static final DefaultResource[] DEFAULT_RESOURCES = new DefaultResource[]{
             new DefaultResource(
-                    "SiyoX 官方专属优化材质包",
-                    "https://example.com/res/siyox_default_texture.zip",
-                    "a1b2c3d4e5f67890123456789abcdef0",
-                    "官方定制超清纹理优化包，深度优化游戏加载与材质表现"
-            ),
-            new DefaultResource(
-                    "PVP 极速流畅材质包",
-                    "https://example.com/res/siyox_pvp_texture.zip",
-                    "0fedcba9876543210987654f3e2d1cba",
-                    "极致低延迟低粒子渲染，专为竞技与对战定制"
+                    "XingYueClient PVP 材质包",
+                    "https://1833946539.cdn.123clouddisk.com/1833946539/Resource/XingYueClientPVP.zip",
+                    "4fc67cf64c5affce96309c2035a62af5",
+                    "星月专属 PVP 定制材质包，已配置 MD5 完整性校验"
             )
     };
-
 
     public enum VerifyType {
         EPIC,    // 摇光云验证
@@ -98,7 +91,8 @@ public class SiyoXConfig {
 
     // ==================== 1. EPIC (摇光云) 配置 ====================
     public static class EpicConfig {
-        public static final String APP_KEY = "your_epic_app_key";
+        public static final String APP_KEY = "iJQfzsjaI5IHW7W6VKjDXmF7gMxpSy0s";
+
         public static final String[] HOSTS = new String[]{
                 "epic.z74d.top",
                 "gl.t60.top",
