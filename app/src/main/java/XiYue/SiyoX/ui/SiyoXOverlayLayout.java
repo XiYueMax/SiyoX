@@ -1,7 +1,8 @@
 // Copyright 2026, SiyoX contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package XiYue.SiyoX.ui
+package XiYue.SiyoX.ui;
+
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
