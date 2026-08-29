@@ -85,7 +85,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
     private int currentCategoryIndex = 0;
     private final List<TextView> categoryTabViews = new ArrayList<>();
 
-    // Floating Ball drag coordinates
+    // Floating Ball drag coordinates (Full-screen free movement)
     private float dX = 0f;
     private float dY = 0f;
     private float downRawX = 0f;
@@ -144,7 +144,6 @@ public class SiyoXOverlayLayout extends FrameLayout {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
         int width = right - left;
         int height = bottom - top;
 
@@ -174,9 +173,10 @@ public class SiyoXOverlayLayout extends FrameLayout {
         }
 
         if (floatingBall != null && floatingBall.getVisibility() != GONE) {
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) floatingBall.getLayoutParams();
             int bw = floatingBall.getMeasuredWidth();
             int bh = floatingBall.getMeasuredHeight();
-            floatingBall.layout(0, 0, bw, bh);
+            floatingBall.layout(lp.leftMargin, lp.topMargin, lp.leftMargin + bw, lp.topMargin + bh);
         }
     }
 
@@ -187,7 +187,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         // 2. 游戏内悬浮功能面板 (暗黑/浅色自适应，精致紧凑尺寸)
         buildInGamePanel();
 
-        // 3. 全屏幕可自由拖拽悬浮球 (无边框裁剪，GPU平滑Translation移动)
+        // 3. 全屏幕可自由拖拽悬浮球 (无蓝边，无黑边，支持全屏自由移动)
         buildFloatingBall();
     }
 
@@ -503,7 +503,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
     }
 
     // ==========================================
-    // 2. 游戏内悬浮功能面板 (精致紧凑尺寸 0.76f)
+    // 2. 游戏内悬浮功能面板 (精致紧凑尺寸 0.78f)
     // 分类：资源管理、辅助功能、脚本列表、个人中心、关于软件
     // ==========================================
     private void buildInGamePanel() {
@@ -535,10 +535,10 @@ public class SiyoXOverlayLayout extends FrameLayout {
         int screenW = size[0];
         int screenH = size[1];
 
-        // 5. 功能面板容器 (缩小为 0.76f 更加精致)
+        // 5. 功能面板容器 (缩小为 0.78f 更加精致)
         panelContainer = new FrameLayout(getContext());
-        int panelWidth = (int) (screenW * 0.76f);
-        int panelHeight = (int) (screenH * 0.76f);
+        int panelWidth = (int) (screenW * 0.78f);
+        int panelHeight = (int) (screenH * 0.78f);
         FrameLayout.LayoutParams panelParams = new FrameLayout.LayoutParams(panelWidth, panelHeight, Gravity.CENTER);
         panelContainer.setLayoutParams(panelParams);
         panelContainer.setBackground(createCardBg(SiyoXTheme.getCardBg(isDark), Color.TRANSPARENT, dp(20)));
@@ -716,7 +716,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         featureListContent.addView(titleTv);
 
         if (categoryIndex == 0) {
-            // 1. 资源管理 (标题、路径与复制按钮在同一行)
+            // 1. 资源管理 (单行布局：标题、路径与复制按钮)
             String resPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Resources/";
             featureListContent.addView(createDirectoryCard("资源目录", resPath, "已复制资源目录路径", isDark));
 
@@ -744,7 +744,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
             }));
 
         } else if (categoryIndex == 2) {
-            // 3. 脚本列表 (标题、路径与复制按钮在同一行)
+            // 3. 脚本列表 (单行布局：标题、路径与复制按钮)
             String scriptPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Script/";
             featureListContent.addView(createDirectoryCard("脚本目录", scriptPath, "已复制脚本目录路径", isDark));
 
@@ -943,15 +943,16 @@ public class SiyoXOverlayLayout extends FrameLayout {
     }
 
     // ==========================================
-    // 3. 悬浮球 (全屏幕自由拖拽移动，无蓝边，无黑边，GPU平滑Translation移动)
+    // 3. 悬浮球 (全屏幕自由拖拽移动，无蓝边，无黑边，正常显示Logo图标)
     // ==========================================
     private void buildFloatingBall() {
         int ballSize = dp(54);
         floatingBall = new FrameLayout(getContext());
-        LayoutParams ballParams = new LayoutParams(ballSize, ballSize, Gravity.TOP | Gravity.START);
+        LayoutParams ballParams = new LayoutParams(ballSize, ballSize);
+        ballParams.gravity = Gravity.TOP | Gravity.START;
+        ballParams.leftMargin = dp(20);
+        ballParams.topMargin = dp(80);
         floatingBall.setLayoutParams(ballParams);
-        floatingBall.setTranslationX(dp(20));
-        floatingBall.setTranslationY(dp(80));
         floatingBall.setVisibility(View.GONE);
         floatingBall.setClipChildren(false);
         floatingBall.setClipToPadding(false);
@@ -972,7 +973,6 @@ public class SiyoXOverlayLayout extends FrameLayout {
         } else {
             logoImg.setImageResource(android.R.drawable.sym_def_app_icon);
         }
-        logoImg.setClipToOutline(true);
         floatingBall.addView(logoImg);
 
         setupBallDragListener(floatingBall);
@@ -984,38 +984,40 @@ public class SiyoXOverlayLayout extends FrameLayout {
         ball.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int[] loc = new int[2];
-                getLocationOnScreen(loc);
-                int overlayScreenX = loc[0];
-                int overlayScreenY = loc[1];
-
-                int parentW = getWidth() > 0 ? getWidth() : getRealScreenSize()[0];
-                int parentH = getHeight() > 0 ? getHeight() : getRealScreenSize()[1];
-
-                float localTouchX = event.getRawX() - overlayScreenX;
-                float localTouchY = event.getRawY() - overlayScreenY;
+                int[] size = getRealScreenSize();
+                int screenW = size[0];
+                int screenH = size[1];
 
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
                         downRawX = event.getRawX();
                         downRawY = event.getRawY();
-                        dX = v.getTranslationX() - localTouchX;
-                        dY = v.getTranslationY() - localTouchY;
+                        FrameLayout.LayoutParams curLp = (FrameLayout.LayoutParams) v.getLayoutParams();
+                        dX = curLp.leftMargin - event.getRawX();
+                        dY = curLp.topMargin - event.getRawY();
                         return true;
 
                     case MotionEvent.ACTION_MOVE:
-                        // 全屏幕无阻碍任意拖拽，严密对齐本地容器坐标
-                        float targetX = Math.max(0, Math.min(localTouchX + dX, parentW - v.getWidth()));
-                        float targetY = Math.max(0, Math.min(localTouchY + dY, parentH - v.getHeight()));
-                        v.setTranslationX(targetX);
-                        v.setTranslationY(targetY);
+                        // 全屏幕无阻碍自由拖拽移动
+                        int newLeft = (int) Math.max(0, Math.min(event.getRawX() + dX, screenW - v.getWidth()));
+                        int newTop = (int) Math.max(0, Math.min(event.getRawY() + dY, screenH - v.getHeight()));
+                        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
+                        lp.leftMargin = newLeft;
+                        lp.topMargin = newTop;
+                        lp.gravity = Gravity.TOP | Gravity.START;
+                        v.setLayoutParams(lp);
+                        v.requestLayout();
+                        if (v.getParent() != null) {
+                            ((View) v.getParent()).invalidate();
+                        }
                         return true;
 
                     case MotionEvent.ACTION_UP:
                         float diffX = Math.abs(event.getRawX() - downRawX);
                         float diffY = Math.abs(event.getRawY() - downRawY);
                         if (diffX < touchSlop && diffY < touchSlop) {
-                            openPanelWithRipple(v.getTranslationX() + v.getWidth() / 2f, v.getTranslationY() + v.getHeight() / 2f);
+                            FrameLayout.LayoutParams curPos = (FrameLayout.LayoutParams) v.getLayoutParams();
+                            openPanelWithRipple(curPos.leftMargin + v.getWidth() / 2f, curPos.topMargin + v.getHeight() / 2f);
                         }
                         return true;
                 }
