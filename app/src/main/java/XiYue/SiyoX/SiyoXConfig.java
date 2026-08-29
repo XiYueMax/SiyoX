@@ -23,38 +23,64 @@ public class SiyoXConfig {
     public static final String TARGET_PACKAGE = "com.netease.x19";
 
     // ==================== 默认资源配置 ====================
+    /**
+     * 是否开启默认资源包 MD5 完整性校验
+     * - true: 开启校验（下载/注入时自动校验文件 MD5，防止文件损坏或被篡改）
+     * - false: 关闭校验（不比对 MD5，直接注入）
+     */
+    public static boolean ENABLE_RESOURCE_MD5_VERIFY = true;
+
     public static class DefaultResource {
         public final String name;
         public final String url;
-        public final String fileName;
+        public final String md5; // 资源包 MD5 校验码 (32位小写Hex，填空字符串 "" 或在上面关闭开关则不校验)
         public final String description;
 
-        public DefaultResource(String name, String url, String fileName, String description) {
+        public DefaultResource(String name, String url, String md5, String description) {
             this.name = name;
             this.url = url;
-            this.fileName = fileName;
+            this.md5 = md5;
             this.description = description;
+        }
+
+        /**
+         * 自动从 URL 提取或通过 MD5/名称生成本地缓存文件名
+         */
+        public String getFileName() {
+            try {
+                if (url != null && url.contains("/")) {
+                    String sub = url.substring(url.lastIndexOf('/') + 1);
+                    if (sub.contains("?")) {
+                        sub = sub.substring(0, sub.indexOf('?'));
+                    }
+                    if (sub.toLowerCase().endsWith(".zip")) {
+                        return sub;
+                    }
+                }
+            } catch (Throwable ignored) {}
+            return (md5 != null && !md5.trim().isEmpty() ? md5.trim().toLowerCase() : "res_" + Math.abs(name.hashCode())) + ".zip";
         }
     }
 
     /**
      * 开发者预置默认资源包列表 (在面板“资源列表 -> 默认资源”中展示)
-     * 可在下方自由添加或修改预置材质包名称与直链下载地址
+     * 参数格式：new DefaultResource("资源包名称", "直链下载地址", "资源包MD5值", "资源包描述")
      */
     public static final DefaultResource[] DEFAULT_RESOURCES = new DefaultResource[]{
             new DefaultResource(
                     "SiyoX 官方专属优化材质包",
                     "https://example.com/res/siyox_default_texture.zip",
-                    "siyox_default_texture.zip",
+                    "a1b2c3d4e5f67890123456789abcdef0",
                     "官方定制超清纹理优化包，深度优化游戏加载与材质表现"
             ),
             new DefaultResource(
                     "PVP 极速流畅材质包",
                     "https://example.com/res/siyox_pvp_texture.zip",
-                    "siyox_pvp_texture.zip",
+                    "0fedcba9876543210987654f3e2d1cba",
                     "极致低延迟低粒子渲染，专为竞技与对战定制"
             )
     };
+
 
     public enum VerifyType {
         EPIC,    // 摇光云验证

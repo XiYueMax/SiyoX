@@ -969,7 +969,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         tvTitle.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
         topRow.addView(tvTitle);
 
-        final File localFile = new File(ResourceInjector.getResFilesDir(getContext()), res.fileName);
+        final File localFile = new File(ResourceInjector.getResFilesDir(getContext()), res.getFileName());
         final boolean isDownloaded = localFile.exists() && localFile.length() > 0;
 
         final TextView tvStatus = new TextView(getContext());
@@ -1014,6 +1014,19 @@ public class SiyoXOverlayLayout extends FrameLayout {
             @Override
             public void onClick(View v) {
                 if (localFile.exists() && localFile.length() > 0) {
+                    // 开启 MD5 校验时，注入前先验证本地文件 MD5 完整性
+                    if (SiyoXConfig.ENABLE_RESOURCE_MD5_VERIFY && res.md5 != null && !res.md5.trim().isEmpty()) {
+                        String localMd5 = ResourceInjector.computeFileMd5(localFile);
+                        if (localMd5 == null || !localMd5.equalsIgnoreCase(res.md5.trim())) {
+                            localFile.delete();
+                            btnAction.setText("下载");
+                            tvStatus.setText("MD5校验不匹配");
+                            tvStatus.setTextColor(Color.parseColor("#FF3B30"));
+                            Toast.makeText(getContext(), "本地资源包 MD5 校验不匹配，已自动清除损坏文件，请重新下载！", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+
                     // 执行注入
                     btnAction.setEnabled(false);
                     tvStatus.setText("正在注入...");
@@ -1049,7 +1062,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
                     tvStatus.setText("连接中...");
                     tvStatus.setTextColor(SiyoXTheme.getAccentBlue());
 
-                    ResourceInjector.downloadResource(getContext(), res.url, res.fileName, new ResourceInjector.DownloadCallback() {
+                    ResourceInjector.downloadResource(getContext(), res.url, res.getFileName(), new ResourceInjector.DownloadCallback() {
                         @Override
                         public void onProgress(int percent, long currentBytes, long totalBytes) {
                             if (percent >= 0) {
@@ -1062,11 +1075,26 @@ public class SiyoXOverlayLayout extends FrameLayout {
 
                         @Override
                         public void onSuccess(File downloadedFile) {
+                            // 开启 MD5 校验时，下载完成后自动验证完整性
+                            if (SiyoXConfig.ENABLE_RESOURCE_MD5_VERIFY && res.md5 != null && !res.md5.trim().isEmpty()) {
+                                String fileMd5 = ResourceInjector.computeFileMd5(downloadedFile);
+                                if (fileMd5 == null || !fileMd5.equalsIgnoreCase(res.md5.trim())) {
+                                    downloadedFile.delete();
+                                    btnAction.setEnabled(true);
+                                    btnAction.setText("下载");
+                                    pbDownload.setVisibility(View.GONE);
+                                    tvStatus.setText("MD5校验失败");
+                                    tvStatus.setTextColor(Color.parseColor("#FF3B30"));
+                                    Toast.makeText(getContext(), "资源包 MD5 校验失败，文件已损坏或被篡改！", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                            }
+
                             btnAction.setEnabled(true);
                             btnAction.setText("注入");
                             pbDownload.setVisibility(View.GONE);
-                            tvStatus.setText("已就绪");
-                            Toast.makeText(getContext(), "下载完成，点击“注入”即可生效！", Toast.LENGTH_SHORT).show();
+                            tvStatus.setText("已就绪 (MD5校验通过)");
+                            Toast.makeText(getContext(), "下载完成并通过完整性校验，点击“注入”即可生效！", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
