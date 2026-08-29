@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -29,14 +28,12 @@ import XiYue.SiyoX.data.AppSettings;
 import XiYue.SiyoX.data.VerifyManager;
 import XiYue.SiyoX.ui.LogoLoader;
 import XiYue.SiyoX.ui.SiyoXOverlayLayout;
-
-
+import XiYue.SiyoX.ui.SiyoXTheme;
 
 public class MainActivity extends Activity {
 
     private VerifyManager verifyManager;
     private TextView tvStatusBadge;
-    private TextView tvProviderName;
     private TextView tvAndroidId;
 
     @Override
@@ -50,15 +47,16 @@ public class MainActivity extends Activity {
     }
 
     private void initUI() {
+        boolean isDark = SiyoXTheme.isDarkMode(this);
+
         int dp16 = dp(16);
         int dp20 = dp(20);
         int dp12 = dp(12);
-        int dp14 = dp(14);
         int dp8 = dp(8);
 
         FrameLayout rootFrame = new FrameLayout(this);
         rootFrame.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        rootFrame.setBackgroundColor(Color.parseColor("#F2F3F7"));
+        rootFrame.setBackgroundColor(isDark ? Color.parseColor("#121214") : Color.parseColor("#F2F3F7"));
 
         ScrollView scrollView = new ScrollView(this);
         scrollView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
@@ -72,7 +70,7 @@ public class MainActivity extends Activity {
         contentLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
         // 1. App Header Card (Logo, 软件名, 版本号, 包名, 作者)
-        LinearLayout headerCard = createCard();
+        LinearLayout headerCard = createCard(isDark);
         headerCard.setPadding(dp20, dp20, dp20, dp20);
         headerCard.setGravity(Gravity.CENTER_HORIZONTAL);
 
@@ -88,21 +86,20 @@ public class MainActivity extends Activity {
             logoView.setImageResource(android.R.drawable.sym_def_app_icon);
         }
 
-        logoView.setBackground(createCardBg(Color.WHITE, Color.parseColor("#E5E9F0"), dp(20)));
+        logoView.setBackground(createCardBg(isDark ? Color.parseColor("#2A2A2E") : Color.WHITE, Color.TRANSPARENT, dp(20)));
         logoView.setClipToOutline(true);
         headerCard.addView(logoView);
 
-        // 软件名 (Siyo 黑色 + X 蓝色)
-        View titleView = SiyoXOverlayLayout.createSiyoXTitleView(this, 24f);
+        // 软件名 (Siyo 黑/白 + X 蓝)
+        View titleView = SiyoXOverlayLayout.createSiyoXTitleView(this, 24f, isDark);
         titleView.setPadding(0, dp12, 0, 0);
         headerCard.addView(titleView);
 
-
-        // 版本号
+        // 版本号 (不显示验证提供商)
         TextView tvVersion = new TextView(this);
         tvVersion.setText("版本号: " + SiyoXConfig.VERSION_NAME);
         tvVersion.setTextSize(13f);
-        tvVersion.setTextColor(Color.parseColor("#8E8E93"));
+        tvVersion.setTextColor(SiyoXTheme.getTextSecondary(isDark));
         tvVersion.setPadding(0, dp(4), 0, 0);
         headerCard.addView(tvVersion);
 
@@ -110,36 +107,36 @@ public class MainActivity extends Activity {
         TextView tvPackage = new TextView(this);
         tvPackage.setText("包名: " + SiyoXConfig.PACKAGE_NAME);
         tvPackage.setTextSize(13f);
-        tvPackage.setTextColor(Color.parseColor("#8E8E93"));
+        tvPackage.setTextColor(SiyoXTheme.getTextSecondary(isDark));
         tvPackage.setPadding(0, dp(2), 0, 0);
         headerCard.addView(tvPackage);
 
         // 作者
         TextView tvAuthor = new TextView(this);
-        tvAuthor.setText("作者: " + SiyoXConfig.AUTHOR);
+        tvAuthor.setText("作者: " + SiyoXConfig.AUTHOR); // @XiYueMax
         tvAuthor.setTextSize(14f);
         tvAuthor.setTypeface(Typeface.DEFAULT_BOLD);
-        tvAuthor.setTextColor(Color.parseColor("#1C1C1E"));
+        tvAuthor.setTextColor(SiyoXTheme.getTextPrimary(isDark));
         tvAuthor.setPadding(0, dp(6), 0, 0);
         headerCard.addView(tvAuthor);
 
         contentLayout.addView(headerCard);
 
         // 2. GitHub Card
-        LinearLayout githubCard = createCard();
+        LinearLayout githubCard = createCard(isDark);
         githubCard.setPadding(dp16, dp16, dp16, dp16);
 
         TextView tvGhTitle = new TextView(this);
         tvGhTitle.setText("开源项目仓库");
         tvGhTitle.setTextSize(14f);
         tvGhTitle.setTypeface(Typeface.DEFAULT_BOLD);
-        tvGhTitle.setTextColor(Color.parseColor("#1C1C1E"));
+        tvGhTitle.setTextColor(SiyoXTheme.getTextPrimary(isDark));
         githubCard.addView(tvGhTitle);
 
         TextView tvGhUrl = new TextView(this);
         tvGhUrl.setText("项目地址: " + SiyoXConfig.GITHUB_URL);
         tvGhUrl.setTextSize(12f);
-        tvGhUrl.setTextColor(Color.parseColor("#8E8E93"));
+        tvGhUrl.setTextColor(SiyoXTheme.getTextSecondary(isDark));
         tvGhUrl.setPadding(0, dp(4), 0, dp12);
         githubCard.addView(tvGhUrl);
 
@@ -162,38 +159,33 @@ public class MainActivity extends Activity {
 
         contentLayout.addView(githubCard);
 
-        // 3. Module & Environment Card
-        LinearLayout envCard = createCard();
+        // 3. Module & Environment Card (不显示网络验证提供商)
+        LinearLayout envCard = createCard(isDark);
         envCard.setPadding(dp16, dp16, dp16, dp16);
 
         TextView tvEnvTitle = new TextView(this);
         tvEnvTitle.setText("模块运行状态");
         tvEnvTitle.setTextSize(14f);
         tvEnvTitle.setTypeface(Typeface.DEFAULT_BOLD);
-        tvEnvTitle.setTextColor(Color.parseColor("#1C1C1E"));
+        tvEnvTitle.setTextColor(SiyoXTheme.getTextPrimary(isDark));
         envCard.addView(tvEnvTitle);
 
-        envCard.addView(createDivider());
+        envCard.addView(createDivider(isDark));
 
-        // Scope Target Row
-        envCard.addView(createInfoRow("作用域目标", SiyoXConfig.TARGET_PACKAGE));
+        // 客户端名称
+        envCard.addView(createInfoRow("客户端名称", SiyoXConfig.CLIENT_NAME, isDark));
 
-        // Provider Name Row
-        tvProviderName = new TextView(this);
-        tvProviderName.setText(verifyManager.getActiveProviderName());
-        tvProviderName.setTextSize(13f);
-        tvProviderName.setTypeface(Typeface.DEFAULT_BOLD);
-        tvProviderName.setTextColor(Color.parseColor("#1C1C1E"));
-        envCard.addView(createCustomInfoRow("网络验证引擎", tvProviderName));
+        // 作用域目标
+        envCard.addView(createInfoRow("作用域目标", SiyoXConfig.TARGET_PACKAGE, isDark));
 
-        // Android ID Row
+        // Android ID
         tvAndroidId = new TextView(this);
         tvAndroidId.setText(verifyManager.getAndroidId());
         tvAndroidId.setTextSize(12f);
-        tvAndroidId.setTextColor(Color.parseColor("#1C1C1E"));
-        envCard.addView(createCustomInfoRow("设备 Android ID", tvAndroidId));
+        tvAndroidId.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        envCard.addView(createCustomInfoRow("设备 Android ID", tvAndroidId, isDark));
 
-        // Auth Status Row
+        // 授权状态
         tvStatusBadge = new TextView(this);
         boolean isVer = verifyManager.isVerified();
         tvStatusBadge.setText(isVer ? "已激活" : "未激活");
@@ -202,7 +194,7 @@ public class MainActivity extends Activity {
         tvStatusBadge.setTextColor(Color.WHITE);
         tvStatusBadge.setPadding(dp8, dp(3), dp8, dp(3));
         tvStatusBadge.setBackground(createCardBg(isVer ? Color.parseColor("#34C759") : Color.parseColor("#FF9500"), Color.TRANSPARENT, dp(8)));
-        envCard.addView(createCustomInfoRow("卡密授权状态", tvStatusBadge));
+        envCard.addView(createCustomInfoRow("卡密授权状态", tvStatusBadge, isDark));
 
         contentLayout.addView(envCard);
 
@@ -211,26 +203,25 @@ public class MainActivity extends Activity {
         setContentView(rootFrame);
     }
 
-    private LinearLayout createCard() {
+    private LinearLayout createCard(boolean isDark) {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 0, 0, dp(14));
         card.setLayoutParams(params);
-        card.setBackground(createCardBg(Color.WHITE, Color.parseColor("#E5E9F0"), dp(16)));
-        card.setElevation(dp(2));
+        card.setBackground(createCardBg(SiyoXTheme.getCardBg(isDark), Color.TRANSPARENT, dp(16)));
         return card;
     }
 
-    private View createInfoRow(String label, String value) {
+    private View createInfoRow(String label, String value, boolean isDark) {
         TextView valTv = new TextView(this);
         valTv.setText(value);
         valTv.setTextSize(13f);
-        valTv.setTextColor(Color.parseColor("#1C1C1E"));
-        return createCustomInfoRow(label, valTv);
+        valTv.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        return createCustomInfoRow(label, valTv, isDark);
     }
 
-    private View createCustomInfoRow(String label, View rightView) {
+    private View createCustomInfoRow(String label, View rightView, boolean isDark) {
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
@@ -241,7 +232,7 @@ public class MainActivity extends Activity {
         TextView labelTv = new TextView(this);
         labelTv.setText(label);
         labelTv.setTextSize(13f);
-        labelTv.setTextColor(Color.parseColor("#8E8E93"));
+        labelTv.setTextColor(SiyoXTheme.getTextSecondary(isDark));
         labelTv.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
         row.addView(labelTv);
 
@@ -249,23 +240,13 @@ public class MainActivity extends Activity {
         return row;
     }
 
-    private View createDivider() {
+    private View createDivider(boolean isDark) {
         View div = new View(this);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(1));
         p.setMargins(0, dp(8), 0, dp(8));
         div.setLayoutParams(p);
-        div.setBackgroundColor(Color.parseColor("#E5E9F0"));
+        div.setBackgroundColor(SiyoXTheme.getDivider(isDark));
         return div;
-    }
-
-    private Bitmap getLogoBitmap() {
-        try {
-            int resId = getResources().getIdentifier("logo", "drawable", getPackageName());
-            if (resId != 0) {
-                return BitmapFactory.decodeResource(getResources(), resId);
-            }
-        } catch (Exception ignored) {}
-        return null;
     }
 
     private GradientDrawable createCardBg(int bgColor, int strokeColor, int radius) {
@@ -280,7 +261,7 @@ public class MainActivity extends Activity {
 
     private RippleDrawable createRippleDrawable(int normalColor, int pressedColor, int radius) {
         GradientDrawable content = createCardBg(normalColor, Color.TRANSPARENT, radius);
-        GradientDrawable mask = createCardBg(Color.BLACK, Color.TRANSPARENT, radius);
+        GradientDrawable mask = createCardBg(Color.WHITE, Color.TRANSPARENT, radius);
         return new RippleDrawable(ColorStateList.valueOf(pressedColor), content, mask);
     }
 

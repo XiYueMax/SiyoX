@@ -34,8 +34,6 @@ public class MiuiXCheckBox extends View {
     private ValueAnimator animator;
 
     private static final int CHECKED_COLOR = Color.parseColor("#0A84FF");
-    private static final int UNCHECKED_BORDER = Color.parseColor("#D1D5DB");
-    private static final int UNCHECKED_BG = Color.parseColor("#FFFFFF");
 
     public MiuiXCheckBox(Context context) {
         super(context);
@@ -126,6 +124,10 @@ public class MiuiXCheckBox extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        boolean isDark = SiyoXTheme.isDarkMode(getContext());
+        int uncheckedBg = isDark ? Color.parseColor("#2A2A2E") : Color.parseColor("#FFFFFF");
+        int uncheckedBorder = isDark ? Color.parseColor("#4A4A52") : Color.parseColor("#D1D5DB");
+
         int w = getWidth();
         int h = getHeight();
         float radius = dpF(5f);
@@ -133,14 +135,14 @@ public class MiuiXCheckBox extends View {
         boxRect.set(dpF(1.5f), dpF(1.5f), w - dpF(1.5f), h - dpF(1.5f));
 
         // 1. Draw Background
-        int currentBgColor = evaluateColor(progress, UNCHECKED_BG, CHECKED_COLOR);
+        int currentBgColor = evaluateColor(progress, uncheckedBg, CHECKED_COLOR);
         boxPaint.setColor(currentBgColor);
         boxPaint.setStyle(Paint.Style.FILL);
         canvas.drawRoundRect(boxRect, radius, radius, boxPaint);
 
         // 2. Draw Border when unchecked or transitioning
         if (progress < 1f) {
-            int currentBorderColor = evaluateColor(progress, UNCHECKED_BORDER, CHECKED_COLOR);
+            int currentBorderColor = evaluateColor(progress, uncheckedBorder, CHECKED_COLOR);
             borderPaint.setColor(currentBorderColor);
             canvas.drawRoundRect(boxRect, radius, radius, borderPaint);
         }
