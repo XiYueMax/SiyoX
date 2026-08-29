@@ -1,0 +1,3 @@
+C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/.cxx/RelWithDebInfo/85d2b376/arm64-v8a/CMakeFiles/siyox_verify.dir
+C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/.cxx/RelWithDebInfo/85d2b376/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/.cxx/RelWithDebInfo/85d2b376/arm64-v8a/CMakeFiles/rebuild_cache.dir

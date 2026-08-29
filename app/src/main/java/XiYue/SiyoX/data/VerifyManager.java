@@ -149,8 +149,9 @@ public class VerifyManager {
                         if (resp.isSuccess()) {
                             EpicVerifySDK.Notice notice = sdk.getSoftwareNotice(resp);
                             if (notice != null && notice.hasNotice()) {
-                                noticeTitle = notice.getTitle() != null ? notice.getTitle() : "官方公告";
-                                noticeContent = notice.getContent() != null ? notice.getContent() : "欢迎使用 SiyoX 模块！";
+                                noticeTitle = notice.title != null ? notice.title : "官方公告";
+                                noticeContent = notice.content != null ? notice.content : "欢迎使用 SiyoX 模块！";
+
                                 notifyNoticeResult(callback, true, noticeTitle, noticeContent);
                                 return;
                             }
