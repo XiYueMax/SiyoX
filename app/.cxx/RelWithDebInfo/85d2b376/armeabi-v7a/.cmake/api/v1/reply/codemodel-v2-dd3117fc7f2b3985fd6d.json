@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "siyox_verify::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-siyox_verify-RelWithDebInfo-0d5688af700a5d6f1823.json",
+					"jsonFile" : "target-siyox_verify-RelWithDebInfo-f8384f68bd84067f0bc2.json",
 					"name" : "siyox_verify",
 					"projectIndex" : 0
 				}
@@ -49,7 +49,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/.cxx/RelWithDebInfo/85d2b376/x86",
+		"build" : "C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/.cxx/RelWithDebInfo/85d2b376/armeabi-v7a",
 		"source" : "C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/src/main/cpp"
 	},
 	"version" : 

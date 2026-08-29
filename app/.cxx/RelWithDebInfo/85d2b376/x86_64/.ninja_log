@@ -1,15 +1,7 @@
 # ninja log v5
-0	150	8096719230091227	CMakeFiles/siyox_verify.dir/siyox_verify.c.o	634d8ee435382087
-152	190	8096719230482122	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/x86_64/libsiyox_verify.so	afe65548f8d5a93b
-0	7	0	clean	1a5333f9ba8b1a6f
-2	331	8096886420613741	CMakeFiles/siyox_verify.dir/siyox_verify.c.o	634d8ee435382087
-331	409	8096886421389262	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/x86_64/libsiyox_verify.so	afe65548f8d5a93b
-0	4	0	clean	1a5333f9ba8b1a6f
-2	171	8096887016552015	CMakeFiles/siyox_verify.dir/siyox_verify.c.o	634d8ee435382087
-171	216	8096887016993655	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/x86_64/libsiyox_verify.so	afe65548f8d5a93b
-0	4	0	clean	1a5333f9ba8b1a6f
-1	163	8096887604257783	CMakeFiles/siyox_verify.dir/siyox_verify.c.o	634d8ee435382087
-163	204	8096887604667562	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/x86_64/libsiyox_verify.so	afe65548f8d5a93b
-0	3	0	clean	1a5333f9ba8b1a6f
 1	151	8097016788333871	CMakeFiles/siyox_verify.dir/siyox_verify.c.o	634d8ee435382087
 152	193	8097016788735094	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/x86_64/libsiyox_verify.so	afe65548f8d5a93b
+1	3	0	clean	1a5333f9ba8b1a6f
+1	48	8097034201325308	build.ninja	3526e2444e558ffa
+1	160	8097034203237861	CMakeFiles/siyox_verify.dir/SiyoX_Verify.c.o	da407be567ec60fd
+160	197	8097034203609150	C:/Users/Administrator/Desktop/SiyoX/SiyoX Src/app/build/intermediates/cxx/RelWithDebInfo/85d2b376/obj/x86_64/libsiyox_verify.so	ffb39891f5f0fe3f

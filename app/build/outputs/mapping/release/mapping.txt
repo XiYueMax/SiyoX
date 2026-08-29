@@ -3,8 +3,8 @@
 # min_api: 26
 # common_typos_disable
 # {"id":"com.android.tools.r8.mapping","version":"2.2"}
-# pg_map_id: 258d5589820d8ccded84b6e924d88d8d7ce4179cdab028756e5dd3da5a4b24e4
-# pg_map_hash: SHA-256 258d5589820d8ccded84b6e924d88d8d7ce4179cdab028756e5dd3da5a4b24e4
+# pg_map_id: 963b66d60dd45afdbcd6e1a13f8c25f4eb3a128c24f94ae52c6cf5fae34959bd
+# pg_map_hash: SHA-256 963b66d60dd45afdbcd6e1a13f8c25f4eb3a128c24f94ae52c6cf5fae34959bd
 XiYue.SiyoX.BuildConfig -> XiYue.SiyoX.BuildConfig:
 # {"id":"sourceFile","fileName":"BuildConfig.java"}
     1:4:void <init>():6:6 -> <init>
@@ -183,42 +183,91 @@ XiYue.SiyoX.SiyoXApp -> XiYue.SiyoX.SiyoXApp:
     9:12:void onCreate():19:19 -> onCreate
 XiYue.SiyoX.SiyoXConfig -> XiYue.SiyoX.SiyoXConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:19:void <clinit>():69:69 -> <clinit>
-    20:24:void <clinit>():90:90 -> <clinit>
-    1:4:void <init>():10:10 -> <init>
+    2:5:void <clinit>():71:71 -> <clinit>
+    6:9:void <clinit>():80:80 -> <clinit>
+    10:13:void <clinit>():115:115 -> <clinit>
+    1:4:void <init>():20:20 -> <init>
+    1:10:void loadNativeConfig():119:119 -> loadNativeConfig
+    11:16:void loadNativeConfig():124:124 -> loadNativeConfig
+    17:22:void loadNativeConfig():125:125 -> loadNativeConfig
+    23:24:void loadNativeConfig():126:126 -> loadNativeConfig
+    25:30:void loadNativeConfig():128:128 -> loadNativeConfig
+    31:36:void loadNativeConfig():129:129 -> loadNativeConfig
+    37:38:void loadNativeConfig():130:130 -> loadNativeConfig
+    39:44:void loadNativeConfig():134:134 -> loadNativeConfig
+    45:50:void loadNativeConfig():137:137 -> loadNativeConfig
+    51:56:void loadNativeConfig():138:138 -> loadNativeConfig
+    57:58:void loadNativeConfig():139:139 -> loadNativeConfig
+    59:64:void loadNativeConfig():141:141 -> loadNativeConfig
+    65:66:void loadNativeConfig():143:143 -> loadNativeConfig
+    67:72:void loadNativeConfig():145:145 -> loadNativeConfig
+    73:75:void loadNativeConfig():146:146 -> loadNativeConfig
+    76:77:void loadNativeConfig():147:147 -> loadNativeConfig
+    78:81:void loadNativeConfig():151:151 -> loadNativeConfig
+    82:93:void loadNativeConfig():152:152 -> loadNativeConfig
+    94:98:void loadNativeConfig():153:153 -> loadNativeConfig
+    99:106:void loadNativeConfig():154:154 -> loadNativeConfig
+    107:114:void loadNativeConfig():155:155 -> loadNativeConfig
+    115:124:void loadNativeConfig():156:156 -> loadNativeConfig
+    125:134:void loadNativeConfig():157:157 -> loadNativeConfig
+    135:144:void loadNativeConfig():158:158 -> loadNativeConfig
+    145:154:void loadNativeConfig():159:159 -> loadNativeConfig
+    155:164:void loadNativeConfig():160:160 -> loadNativeConfig
+    165:170:void loadNativeConfig():164:164 -> loadNativeConfig
+    171:176:void loadNativeConfig():165:165 -> loadNativeConfig
+    177:181:void loadNativeConfig():166:166 -> loadNativeConfig
+    182:189:void loadNativeConfig():167:167 -> loadNativeConfig
+    190:199:void loadNativeConfig():168:168 -> loadNativeConfig
+    200:207:void loadNativeConfig():169:169 -> loadNativeConfig
+    208:217:void loadNativeConfig():170:170 -> loadNativeConfig
+    218:223:void loadNativeConfig():174:174 -> loadNativeConfig
+    224:229:void loadNativeConfig():175:175 -> loadNativeConfig
+    230:234:void loadNativeConfig():176:176 -> loadNativeConfig
+    235:241:void loadNativeConfig():177:177 -> loadNativeConfig
+    242:247:void loadNativeConfig():178:178 -> loadNativeConfig
+    248:251:void loadNativeConfig():179:179 -> loadNativeConfig
+    252:255:void loadNativeConfig():180:180 -> loadNativeConfig
+    256:261:void loadNativeConfig():181:181 -> loadNativeConfig
+    262:267:void loadNativeConfig():182:182 -> loadNativeConfig
+    268:273:void loadNativeConfig():183:183 -> loadNativeConfig
+    274:280:void loadNativeConfig():184:184 -> loadNativeConfig
+    281:286:void loadNativeConfig():180:180 -> loadNativeConfig
+    287:298:void loadNativeConfig():187:187 -> loadNativeConfig
+    299:302:void loadNativeConfig():190:190 -> loadNativeConfig
 XiYue.SiyoX.SiyoXConfig$DefaultResource -> XiYue.SiyoX.SiyoXConfig$DefaultResource:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:3:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):39:39 -> <init>
-    4:5:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):40:40 -> <init>
-    6:7:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):41:41 -> <init>
-    8:9:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):42:42 -> <init>
-    10:12:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):43:43 -> <init>
-    1:14:java.lang.String getFileName():51:51 -> getFileName
-    15:28:java.lang.String getFileName():52:52 -> getFileName
-    29:38:java.lang.String getFileName():53:53 -> getFileName
-    39:47:java.lang.String getFileName():54:54 -> getFileName
-    48:58:java.lang.String getFileName():56:56 -> getFileName
-    59:123:java.lang.String getFileName():61:61 -> getFileName
+    1:3:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):45:45 -> <init>
+    4:5:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):46:46 -> <init>
+    6:7:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):47:47 -> <init>
+    8:9:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):48:48 -> <init>
+    10:12:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):49:49 -> <init>
+    1:14:java.lang.String getFileName():54:54 -> getFileName
+    15:28:java.lang.String getFileName():55:55 -> getFileName
+    29:38:java.lang.String getFileName():56:56 -> getFileName
+    39:47:java.lang.String getFileName():57:57 -> getFileName
+    48:58:java.lang.String getFileName():59:59 -> getFileName
+    59:123:java.lang.String getFileName():64:64 -> getFileName
 XiYue.SiyoX.SiyoXConfig$EpicConfig -> XiYue.SiyoX.SiyoXConfig$EpicConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:15:void <clinit>():96:96 -> <clinit>
-    1:4:void <init>():93:93 -> <init>
+    1:16:void <clinit>():85:85 -> <clinit>
+    17:19:void <clinit>():91:91 -> <clinit>
+    1:4:void <init>():83:83 -> <init>
 XiYue.SiyoX.SiyoXConfig$T3Config -> XiYue.SiyoX.SiyoXConfig$T3Config:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:4:void <init>():106:106 -> <init>
+    1:4:void <init>():95:95 -> <init>
 XiYue.SiyoX.SiyoXConfig$VerifyType -> XiYue.SiyoX.SiyoXConfig$VerifyType:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:11:XiYue.SiyoX.SiyoXConfig$VerifyType[] $values():78:78 -> $values
-    1:10:void <clinit>():79:79 -> <clinit>
-    11:20:void <clinit>():80:80 -> <clinit>
-    21:30:void <clinit>():81:81 -> <clinit>
-    31:37:void <clinit>():78:78 -> <clinit>
-    1:4:void <init>(java.lang.String,int):78:78 -> <init>
-    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType valueOf(java.lang.String):78:78 -> valueOf
-    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType[] values():78:78 -> values
+    1:11:XiYue.SiyoX.SiyoXConfig$VerifyType[] $values():74:74 -> $values
+    1:10:void <clinit>():75:75 -> <clinit>
+    11:20:void <clinit>():76:76 -> <clinit>
+    21:30:void <clinit>():77:77 -> <clinit>
+    31:37:void <clinit>():74:74 -> <clinit>
+    1:4:void <init>(java.lang.String,int):74:74 -> <init>
+    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType valueOf(java.lang.String):74:74 -> valueOf
+    1:9:XiYue.SiyoX.SiyoXConfig$VerifyType[] values():74:74 -> values
 XiYue.SiyoX.SiyoXConfig$WeiYanConfig -> XiYue.SiyoX.SiyoXConfig$WeiYanConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:4:void <init>():117:117 -> <init>
+    1:4:void <init>():106:106 -> <init>
 XiYue.SiyoX.data.AppSettings -> XiYue.SiyoX.data.AppSettings:
 # {"id":"sourceFile","fileName":"AppSettings.java"}
     1:3:void <init>(android.content.Context):20:20 -> <init>
@@ -585,7 +634,7 @@ XiYue.SiyoX.data.VerifyManager -> XiYue.SiyoX.data.VerifyManager:
     1:3:java.lang.String getNoticeContent():91:91 -> getNoticeContent
     1:3:java.lang.String getNoticeTitle():87:87 -> getNoticeTitle
     1:3:java.lang.String getStatusMessage():83:83 -> getStatusMessage
-    1:7:java.lang.String -$$Nest$mhttpPost(XiYue.SiyoX.data.VerifyManager,java.lang.String):0:0 -> h
+    1:5:java.lang.String -$$Nest$mhttpPost(XiYue.SiyoX.data.VerifyManager,java.lang.String,java.lang.String):0:0 -> h
       # {"id":"com.android.tools.r8.synthesized"}
     1:16:void handleEvent(android.content.Context,int,java.lang.String):368:368 -> handleEvent
     17:20:void handleEvent(android.content.Context,int,java.lang.String):371:371 -> handleEvent
@@ -684,43 +733,47 @@ XiYue.SiyoX.data.VerifyManager$2 -> XiYue.SiyoX.data.VerifyManager$2:
 XiYue.SiyoX.data.VerifyManager$3 -> XiYue.SiyoX.data.VerifyManager$3:
 # {"id":"sourceFile","fileName":"VerifyManager.java"}
     1:10:void <init>(XiYue.SiyoX.data.VerifyManager,java.lang.String,XiYue.SiyoX.data.VerifyManager$VerifyCallback):207:207 -> <init>
-    3:16:void run():211:211 -> run
-    17:48:void run():213:213 -> run
-    49:59:void run():216:216 -> run
-    60:62:void run():221:221 -> run
-    63:67:void run():222:222 -> run
-    68:76:void run():223:223 -> run
-    77:80:void run():225:225 -> run
-    81:86:void run():226:226 -> run
-    87:90:void run():229:229 -> run
-    91:96:void run():230:230 -> run
-    97:114:void run():233:233 -> run
-    115:130:void run():235:235 -> run
-    131:136:void run():242:242 -> run
-    137:148:void run():243:243 -> run
-    149:154:void run():244:244 -> run
-    155:159:void run():245:245 -> run
-    160:165:void run():246:246 -> run
-    166:171:void run():248:248 -> run
-    172:185:void run():249:249 -> run
-    186:195:void run():250:250 -> run
-    196:209:void run():251:251 -> run
-    210:215:void run():254:254 -> run
-    216:223:void run():255:255 -> run
-    224:234:void run():260:260 -> run
-    235:246:void run():269:269 -> run
-    247:286:void run():270:270 -> run
-    287:324:void run():273:273 -> run
-    325:330:void run():275:275 -> run
-    331:335:void run():276:276 -> run
-    336:345:void run():277:277 -> run
-    346:361:void run():278:278 -> run
-    362:371:void run():280:280 -> run
-    372:387:void run():285:285 -> run
-    388:395:void run():281:281 -> run
-    396:401:void run():282:282 -> run
-    402:417:void run():283:283 -> run
-    418:443:void run():292:292 -> run
+    3:20:void run():211:211 -> run
+    21:52:void run():213:213 -> run
+    53:63:void run():216:216 -> run
+    64:66:void run():221:221 -> run
+    67:71:void run():222:222 -> run
+    72:80:void run():223:223 -> run
+    81:84:void run():225:225 -> run
+    85:90:void run():226:226 -> run
+    91:94:void run():229:229 -> run
+    95:100:void run():230:230 -> run
+    101:118:void run():233:233 -> run
+    119:134:void run():235:235 -> run
+    135:140:void run():242:242 -> run
+    141:152:void run():243:243 -> run
+    153:158:void run():244:244 -> run
+    159:163:void run():245:245 -> run
+    164:169:void run():246:246 -> run
+    170:175:void run():248:248 -> run
+    176:190:void run():249:249 -> run
+    191:200:void run():250:250 -> run
+    201:214:void run():251:251 -> run
+    215:220:void run():254:254 -> run
+    221:228:void run():255:255 -> run
+    229:239:void run():260:260 -> run
+    240:241:void run():266:266 -> run
+    242:243:void run():267:267 -> run
+    244:245:void run():268:268 -> run
+    246:255:void run():269:269 -> run
+    256:303:void run():270:270 -> run
+    304:320:void run():272:272 -> run
+    321:372:void run():273:273 -> run
+    373:378:void run():275:275 -> run
+    379:383:void run():276:276 -> run
+    384:394:void run():277:277 -> run
+    395:415:void run():278:278 -> run
+    416:425:void run():280:280 -> run
+    426:441:void run():285:285 -> run
+    442:449:void run():281:281 -> run
+    450:461:void run():282:282 -> run
+    462:477:void run():283:283 -> run
+    478:503:void run():292:292 -> run
 XiYue.SiyoX.data.VerifyManager$4 -> XiYue.SiyoX.data.VerifyManager$4:
 # {"id":"sourceFile","fileName":"VerifyManager.java"}
     1:12:void <init>(XiYue.SiyoX.data.VerifyManager,long,java.lang.String,XiYue.SiyoX.data.VerifyManager$VerifyCallback):299:299 -> <init>

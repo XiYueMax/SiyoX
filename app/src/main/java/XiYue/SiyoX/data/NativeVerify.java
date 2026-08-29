@@ -25,7 +25,19 @@ public class NativeVerify {
         return isNativeLoaded;
     }
 
-    public static native String nativeVerifyCard(int verifyType, String card, String imei);
+    // ==================== C/C++ 独立配置读取接口 ====================
+    public static native String nativeGetClientName();
+    public static native String nativeGetClientAuthor();
+    public static native boolean nativeGetEnableMd5Verify();
+    public static native String nativeGetEpicAppKey();
+    public static native int nativeGetEpicPort();
+    public static native String[] nativeGetEpicHosts();
+    public static native String nativeGetT3ConfigJson();
+    public static native String nativeGetWeiYanConfigJson();
+    public static native String nativeGetDefaultResourcesJson();
 
+    // ==================== C/C++ 网络验证接口 ====================
+    public static native String nativeVerifyCard(int verifyType, String card, String imei);
     public static native String nativeFetchNotice(int verifyType);
 }
+

@@ -11861,6 +11861,10 @@ org.jetbrains.annotations.NotNull
 org.jetbrains.annotations.Nullable
 org.jetbrains.annotations.PropertyKey
 org.jetbrains.annotations.TestOnly
+XiYue.SiyoX.SiyoXConfig$T3Config:
+    static void <clinit>()
+XiYue.SiyoX.SiyoXConfig$WeiYanConfig:
+    static void <clinit>()
 XiYue.SiyoX.ui.LogoLoader:
     static void <clinit>()
 androidx.activity.Cancellable

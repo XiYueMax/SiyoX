@@ -1,4 +1,4 @@
-// Copyright 2026, SiyoX contributors
+﻿// Copyright 2026, SiyoX contributors
 // SPDX-License-Identifier: Apache-2.0
 
 #include <jni.h>
@@ -12,6 +12,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <android/log.h>
+
+#include "SiyoX_Config.h"
 
 #define LOG_TAG "SiyoX_NativeVerify"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
@@ -296,7 +298,6 @@ static int native_http_post(const char *host, int port, const char *path, const 
     resp_buffer[total_read] = '\0';
     close(sockfd);
 
-    // Extract body after \r\n\r\n
     char *body = strstr(resp_buffer, "\r\n\r\n");
     if (body) {
         body += 4;
@@ -307,7 +308,107 @@ static int native_http_post(const char *host, int port, const char *path, const 
 }
 
 // ==========================================
-// 4. JNI 接口导出实现
+// 4. JNI 配置信息导出实现 (Bridge from SiyoX_Config.h)
+// ==========================================
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetClientName(JNIEnv *env, jclass clazz) {
+    return (*env)->NewStringUTF(env, SIYOX_CLIENT_NAME);
+}
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetClientAuthor(JNIEnv *env, jclass clazz) {
+    return (*env)->NewStringUTF(env, SIYOX_CLIENT_AUTHOR);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetEnableMd5Verify(JNIEnv *env, jclass clazz) {
+    return SIYOX_ENABLE_MD5_VERIFY ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetEpicAppKey(JNIEnv *env, jclass clazz) {
+    return (*env)->NewStringUTF(env, SIYOX_EPIC_APP_KEY);
+}
+
+JNIEXPORT jint JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetEpicPort(JNIEnv *env, jclass clazz) {
+    return SIYOX_EPIC_PORT;
+}
+
+JNIEXPORT jobjectArray JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetEpicHosts(JNIEnv *env, jclass clazz) {
+    jclass strClass = (*env)->FindClass(env, "java/lang/String");
+    jobjectArray result = (*env)->NewObjectArray(env, (jsize)SIYOX_EPIC_HOSTS_COUNT, strClass, NULL);
+    for (size_t i = 0; i < SIYOX_EPIC_HOSTS_COUNT; i++) {
+        jstring str = (*env)->NewStringUTF(env, SIYOX_EPIC_HOSTS[i]);
+        (*env)->SetObjectArrayElement(env, result, (jsize)i, str);
+        (*env)->DeleteLocalRef(env, str);
+    }
+    return result;
+}
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetT3ConfigJson(JNIEnv *env, jclass clazz) {
+    char json[4096];
+    snprintf(json, sizeof(json),
+        "{"
+        "\"apiHost\":\"%s\","
+        "\"appKey\":\"%s\","
+        "\"loginCode\":\"%s\","
+        "\"noticeCode\":\"%s\","
+        "\"versionCode\":\"%s\","
+        "\"heartbeatCode\":\"%s\","
+        "\"rsaPublicKey\":\"%s\""
+        "}",
+        SIYOX_T3_API_HOST,
+        SIYOX_T3_APP_KEY,
+        SIYOX_T3_LOGIN_CODE,
+        SIYOX_T3_NOTICE_CODE,
+        SIYOX_T3_VERSION_CODE,
+        SIYOX_T3_HEARTBEAT_CODE,
+        SIYOX_T3_RSA_PUBLIC_KEY);
+    return (*env)->NewStringUTF(env, json);
+}
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetWeiYanConfigJson(JNIEnv *env, jclass clazz) {
+    char json[2048];
+    snprintf(json, sizeof(json),
+        "{"
+        "\"apiHost\":\"%s\","
+        "\"appId\":\"%s\","
+        "\"appKey\":\"%s\","
+        "\"rc4Key\":\"%s\""
+        "}",
+        SIYOX_WEIYAN_API_HOST,
+        SIYOX_WEIYAN_APP_ID,
+        SIYOX_WEIYAN_APP_KEY,
+        SIYOX_WEIYAN_RC4_KEY);
+    return (*env)->NewStringUTF(env, json);
+}
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetDefaultResourcesJson(JNIEnv *env, jclass clazz) {
+    char json[8192] = "[";
+    size_t count = SIYOX_DEFAULT_RESOURCES_COUNT;
+    for (size_t i = 0; i < count; i++) {
+        char item[2048];
+        snprintf(item, sizeof(item),
+            "{\"name\":\"%s\",\"url\":\"%s\",\"md5\":\"%s\",\"description\":\"%s\"}%s",
+            SIYOX_DEFAULT_RESOURCES[i].name,
+            SIYOX_DEFAULT_RESOURCES[i].url,
+            SIYOX_DEFAULT_RESOURCES[i].md5,
+            SIYOX_DEFAULT_RESOURCES[i].description,
+            (i < count - 1) ? "," : "");
+        strncat(json, item, sizeof(json) - strlen(json) - 1);
+    }
+    strncat(json, "]", sizeof(json) - strlen(json) - 1);
+    return (*env)->NewStringUTF(env, json);
+}
+
+// ==========================================
+// 5. 原生 C 网络验证逻辑
 // ==========================================
 
 JNIEXPORT jstring JNICALL
@@ -325,10 +426,10 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeVerifyCard(
 
     if (verify_type == 2) {
         // 微验 (WeiYan)
-        const char *host = "wy.llua.cn";
-        const char *app_id = "10000";
-        const char *app_key = "8LjdoLopmH9LyLVh";
-        const char *rc4_key = "ElFlF870vDk88gef";
+        const char *host = SIYOX_WEIYAN_API_HOST;
+        const char *app_id = SIYOX_WEIYAN_APP_ID;
+        const char *app_key = SIYOX_WEIYAN_APP_KEY;
+        const char *rc4_key = SIYOX_WEIYAN_RC4_KEY;
 
         time_t now = time(NULL);
         int t = (int)now;
@@ -362,7 +463,6 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeVerifyCard(
         int ret = native_http_post(host, 80, path, post_body, raw_resp, sizeof(raw_resp));
 
         if (ret > 0) {
-            // Decrypt response hex with RC4
             int resp_len = (int)strlen(raw_resp);
             int hex_bytes_len = resp_len / 2;
             unsigned char *hex_bytes = (unsigned char*)malloc(hex_bytes_len);
@@ -404,10 +504,9 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeFetchNotice(
     char result_json[2048] = { 0 };
 
     if (verify_type == 2) {
-        // 微验公告
-        const char *host = "wy.llua.cn";
-        const char *app_id = "10000";
-        const char *rc4_key = "ElFlF870vDk88gef";
+        const char *host = SIYOX_WEIYAN_API_HOST;
+        const char *app_id = SIYOX_WEIYAN_APP_ID;
+        const char *rc4_key = SIYOX_WEIYAN_RC4_KEY;
 
         char path[256];
         snprintf(path, sizeof(path), "/api/?id=notice");
