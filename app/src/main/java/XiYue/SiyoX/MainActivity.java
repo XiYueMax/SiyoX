@@ -77,12 +77,13 @@ public class MainActivity extends Activity {
         int logoSize = dp(80);
         LinearLayout.LayoutParams logoParams = new LinearLayout.LayoutParams(logoSize, logoSize);
         logoView.setLayoutParams(logoParams);
-        Bitmap logoBmp = getLogoBitmap();
+        Bitmap logoBmp = LogoLoader.getLogo(this);
         if (logoBmp != null) {
             logoView.setImageBitmap(logoBmp);
         } else {
             logoView.setImageResource(android.R.drawable.sym_def_app_icon);
         }
+
         logoView.setBackground(createCardBg(Color.WHITE, Color.parseColor("#E5E9F0"), dp(20)));
         logoView.setClipToOutline(true);
         headerCard.addView(logoView);
