@@ -3,8 +3,8 @@
 # min_api: 26
 # common_typos_disable
 # {"id":"com.android.tools.r8.mapping","version":"2.2"}
-# pg_map_id: c4448fb4e7dc89cab8a42b5a3ad9f78bd0b8c4f626409b03e8671c99d5968235
-# pg_map_hash: SHA-256 c4448fb4e7dc89cab8a42b5a3ad9f78bd0b8c4f626409b03e8671c99d5968235
+# pg_map_id: 03def7d0026bc5f871be576dfa36f71960db64921e1971a918693c61714d1b4b
+# pg_map_hash: SHA-256 03def7d0026bc5f871be576dfa36f71960db64921e1971a918693c61714d1b4b
 XiYue.SiyoX.BuildConfig -> XiYue.SiyoX.BuildConfig:
 # {"id":"sourceFile","fileName":"BuildConfig.java"}
     1:4:void <init>():6:6 -> <init>
@@ -862,39 +862,42 @@ XiYue.SiyoX.hook.MainHook$4 -> XiYue.SiyoX.hook.MainHook$4:
     35:38:void afterHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam):96:96 -> afterHookedMethod
 XiYue.SiyoX.ui.CopyIconView -> XiYue.SiyoX.ui.CopyIconView:
 # {"id":"sourceFile","fileName":"CopyIconView.java"}
-    1:3:void <init>(android.content.Context):23:23 -> <init>
-    4:11:void <init>(android.content.Context):17:17 -> <init>
-    12:18:void <init>(android.content.Context):18:18 -> <init>
-    19:25:void <init>(android.content.Context):19:19 -> <init>
-    26:33:void <init>(android.content.Context):20:20 -> <init>
-    34:37:void <init>(android.content.Context):24:24 -> <init>
-    38:38:void <init>(android.content.Context,android.util.AttributeSet):28:28 -> <init>
-    39:42:void <init>(android.content.Context,android.util.AttributeSet):17:20 -> <init>
-    43:43:void <init>(android.content.Context,android.util.AttributeSet):29:29 -> <init>
-    1:15:int dp(float):83:83 -> dp
-    1:14:float dpF(float):87:87 -> dpF
-    1:7:void init():33:33 -> init
-    8:14:void init():34:34 -> init
-    15:22:void init():35:35 -> init
-    1:3:void onDraw(android.graphics.Canvas):51:51 -> onDraw
-    4:7:void onDraw(android.graphics.Canvas):53:53 -> onDraw
-    8:11:void onDraw(android.graphics.Canvas):54:54 -> onDraw
-    12:18:void onDraw(android.graphics.Canvas):56:56 -> onDraw
-    19:31:void onDraw(android.graphics.Canvas):57:57 -> onDraw
-    32:45:void onDraw(android.graphics.Canvas):59:59 -> onDraw
-    46:63:void onDraw(android.graphics.Canvas):64:64 -> onDraw
-    64:70:void onDraw(android.graphics.Canvas):65:65 -> onDraw
-    71:81:void onDraw(android.graphics.Canvas):70:70 -> onDraw
-    82:87:void onDraw(android.graphics.Canvas):73:73 -> onDraw
-    88:92:void onDraw(android.graphics.Canvas):74:74 -> onDraw
-    93:100:void onDraw(android.graphics.Canvas):75:75 -> onDraw
-    101:107:void onDraw(android.graphics.Canvas):76:76 -> onDraw
-    108:112:void onDraw(android.graphics.Canvas):77:77 -> onDraw
-    113:120:void onDraw(android.graphics.Canvas):79:79 -> onDraw
-    3:6:void onMeasure(int,int):45:45 -> onMeasure
-    7:18:void onMeasure(int,int):46:46 -> onMeasure
-    1:2:void setIconColor(int):39:39 -> setIconColor
-    3:6:void setIconColor(int):40:40 -> setIconColor
+    1:3:void <init>(android.content.Context):24:24 -> <init>
+    4:11:void <init>(android.content.Context):18:18 -> <init>
+    12:18:void <init>(android.content.Context):19:19 -> <init>
+    19:25:void <init>(android.content.Context):20:20 -> <init>
+    26:33:void <init>(android.content.Context):21:21 -> <init>
+    34:37:void <init>(android.content.Context):25:25 -> <init>
+    38:38:void <init>(android.content.Context,android.util.AttributeSet):29:29 -> <init>
+    39:42:void <init>(android.content.Context,android.util.AttributeSet):18:21 -> <init>
+    43:43:void <init>(android.content.Context,android.util.AttributeSet):30:30 -> <init>
+    1:15:int dp(float):92:92 -> dp
+    1:14:float dpF(float):96:96 -> dpF
+    1:7:void init():34:34 -> init
+    8:14:void init():35:35 -> init
+    15:22:void init():36:36 -> init
+    1:3:void onDraw(android.graphics.Canvas):52:52 -> onDraw
+    4:7:void onDraw(android.graphics.Canvas):54:54 -> onDraw
+    8:11:void onDraw(android.graphics.Canvas):55:55 -> onDraw
+    12:18:void onDraw(android.graphics.Canvas):57:57 -> onDraw
+    19:32:void onDraw(android.graphics.Canvas):58:58 -> onDraw
+    33:66:void onDraw(android.graphics.Canvas):60:60 -> onDraw
+    67:71:void onDraw(android.graphics.Canvas):73:73 -> onDraw
+    72:84:void onDraw(android.graphics.Canvas):75:75 -> onDraw
+    85:91:void onDraw(android.graphics.Canvas):76:76 -> onDraw
+    92:98:void onDraw(android.graphics.Canvas):77:77 -> onDraw
+    99:105:void onDraw(android.graphics.Canvas):78:78 -> onDraw
+    106:110:void onDraw(android.graphics.Canvas):79:79 -> onDraw
+    111:117:void onDraw(android.graphics.Canvas):80:80 -> onDraw
+    118:122:void onDraw(android.graphics.Canvas):81:81 -> onDraw
+    123:132:void onDraw(android.graphics.Canvas):82:82 -> onDraw
+    133:139:void onDraw(android.graphics.Canvas):84:84 -> onDraw
+    140:144:void onDraw(android.graphics.Canvas):87:87 -> onDraw
+    145:152:void onDraw(android.graphics.Canvas):88:88 -> onDraw
+    3:6:void onMeasure(int,int):46:46 -> onMeasure
+    7:18:void onMeasure(int,int):47:47 -> onMeasure
+    1:2:void setIconColor(int):40:40 -> setIconColor
+    3:6:void setIconColor(int):41:41 -> setIconColor
 XiYue.SiyoX.ui.FloatingOverlayManager -> XiYue.SiyoX.ui.FloatingOverlayManager:
 # {"id":"sourceFile","fileName":"FloatingOverlayManager.java"}
     1:12:void <clinit>():24:24 -> <clinit>

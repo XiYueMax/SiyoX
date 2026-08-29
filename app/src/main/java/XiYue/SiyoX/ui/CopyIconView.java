@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -15,8 +16,8 @@ import android.view.View;
 public class CopyIconView extends View {
 
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final RectF backRect = new RectF();
     private final RectF frontRect = new RectF();
+    private final Path backPath = new Path();
     private int iconColor = Color.parseColor("#0A84FF");
 
     public CopyIconView(Context context) {
@@ -42,7 +43,7 @@ public class CopyIconView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int size = dp(20);
+        int size = dp(16);
         setMeasuredDimension(resolveSize(size, widthMeasureSpec), resolveSize(size, heightMeasureSpec));
     }
 
@@ -54,28 +55,36 @@ public class CopyIconView extends View {
         int h = getHeight();
 
         paint.setColor(iconColor);
-        paint.setStrokeWidth(dpF(1.5f));
+        paint.setStrokeWidth(dpF(1.3f));
 
-        float corner = dpF(2.5f);
+        float corner = dpF(2f);
 
-        // 1. Back rectangle (Top-Right)
-        float bw = w * 0.55f;
-        float bh = h * 0.65f;
-        backRect.set(w * 0.35f, h * 0.10f, w * 0.35f + bw, h * 0.10f + bh);
-        canvas.drawRoundRect(backRect, corner, corner, paint);
+        // 1. Back rectangle path (Top and Right side of the back page)
+        float bLeft = w * 0.35f;
+        float bTop = h * 0.12f;
+        float bRight = w * 0.88f;
+        float bBottom = h * 0.72f;
 
-        // 2. Front rectangle (Bottom-Left)
-        float fw = w * 0.55f;
-        float fh = h * 0.65f;
-        frontRect.set(w * 0.10f, h * 0.25f, w * 0.10f + fw, h * 0.25f + fh);
+        float fLeft = w * 0.12f;
+        float fTop = h * 0.28f;
+        float fRight = w * 0.65f;
+        float fBottom = h * 0.88f;
 
-        // Fill background of front rect so lines don't overlap awkwardly
-        Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        fillPaint.setStyle(Paint.Style.FILL);
-        boolean isDark = SiyoXTheme.isDarkMode(getContext());
-        fillPaint.setColor(SiyoXTheme.getInnerCardBg(isDark));
-        canvas.drawRoundRect(frontRect, corner, corner, fillPaint);
+        backPath.reset();
+        // Start above front rectangle on the left border of back page
+        backPath.moveTo(bLeft, fTop - dpF(1f));
+        backPath.lineTo(bLeft, bTop + corner);
+        backPath.quadTo(bLeft, bTop, bLeft + corner, bTop);
+        backPath.lineTo(bRight - corner, bTop);
+        backPath.quadTo(bRight, bTop, bRight, bTop + corner);
+        backPath.lineTo(bRight, bBottom - corner);
+        backPath.quadTo(bRight, bBottom, bRight - corner, bBottom);
+        backPath.lineTo(fRight + dpF(1f), bBottom);
 
+        canvas.drawPath(backPath, paint);
+
+        // 2. Front rectangle (Bottom-Left page, completely transparent inside)
+        frontRect.set(fLeft, fTop, fRight, fBottom);
         canvas.drawRoundRect(frontRect, corner, corner, paint);
     }
 
