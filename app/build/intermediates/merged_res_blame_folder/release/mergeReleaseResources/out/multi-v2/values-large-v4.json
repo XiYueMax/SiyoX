@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "XiYue.SiyoX.app-mergeReleaseResources-37:/values-large-v4/values-large-v4.xml",
+            "outputFile": "XiYue.SiyoX.app-mergeReleaseResources-21:/values-large-v4/values-large-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\9.6.1\\transforms\\7122d4125e9e5c7dffe16c856d0073e7\\transformed\\appcompat-1.7.0\\res\\values-large-v4\\values-large-v4.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\9.6.1\\transforms\\9c2a63a845241cf1f7189f7b854c916e\\transformed\\appcompat-1.7.0\\res\\values-large-v4\\values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

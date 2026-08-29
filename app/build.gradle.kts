@@ -3,14 +3,11 @@
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeCompiler)
-    id("module.kotlin-jvm-toolchain")
 }
 
 android {
     namespace = "XiYue.SiyoX"
     compileSdk = 37
-
 
     defaultConfig {
         applicationId = "XiYue.SiyoX"
@@ -43,7 +40,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-
         debug {
             applicationIdSuffix = ""
             signingConfig = signingConfigs.getByName("release")
@@ -56,7 +52,6 @@ android {
     }
 
     buildFeatures {
-        compose = true
         buildConfig = true
     }
 
@@ -66,47 +61,25 @@ android {
         }
     }
 
-
     packaging {
         resources {
             excludes += setOf(
                 "/META-INF/{AL2.0,LGPL2.1}",
                 "/META-INF/*.version",
-                "/META-INF/*.kotlin_module",
                 "/META-INF/**/LICENSE*",
                 "/META-INF/**/NOTICE*",
                 "/META-INF/**/license*",
                 "/META-INF/**/notice*",
-                "/META-INF/**/*.properties",
-                "DebugProbesKt.bin",
-                "kotlin/**",
-                "kotlin-tooling-metadata.json"
+                "/META-INF/**/*.properties"
             )
         }
     }
 }
 
 dependencies {
-    implementation(projects.miuixCore)
-    implementation(projects.miuixUi)
-    implementation(projects.miuixPreference)
-    implementation(projects.miuixIcons)
-    implementation(projects.miuixBlur)
-    implementation(projects.miuixSquircle)
-    implementation(projects.miuixNavigation3Ui)
-
-    implementation(libs.androidx.activity)
-    implementation(libs.jetbrains.compose.foundation)
-    implementation(libs.jetbrains.compose.components.resources)
-    implementation(libs.androidx.navigationevent)
-    implementation(libs.materialKolor.utilities)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.jetbrains.lifecycle.runtime.compose)
-
-    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.core:core:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1")
 
-    // Xposed API (compileOnly, provided at runtime by LSPosed/Xposed framework)
+    // Xposed API (provided at runtime by LSPosed/Xposed framework)
     compileOnly("de.robv.android.xposed:api:82")
 }

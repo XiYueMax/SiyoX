@@ -2,5 +2,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
 plugins {
-    id("module.spotless") apply false
+    alias(libs.plugins.androidApplication) apply false
 }
