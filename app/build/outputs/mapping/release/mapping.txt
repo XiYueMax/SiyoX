@@ -3,8 +3,8 @@
 # min_api: 26
 # common_typos_disable
 # {"id":"com.android.tools.r8.mapping","version":"2.2"}
-# pg_map_id: 963b66d60dd45afdbcd6e1a13f8c25f4eb3a128c24f94ae52c6cf5fae34959bd
-# pg_map_hash: SHA-256 963b66d60dd45afdbcd6e1a13f8c25f4eb3a128c24f94ae52c6cf5fae34959bd
+# pg_map_id: 5d65cd8a219a7105efc8022c9a0c43cfd5934d0719dd7f2ad669c87b1da60225
+# pg_map_hash: SHA-256 5d65cd8a219a7105efc8022c9a0c43cfd5934d0719dd7f2ad669c87b1da60225
 XiYue.SiyoX.BuildConfig -> XiYue.SiyoX.BuildConfig:
 # {"id":"sourceFile","fileName":"BuildConfig.java"}
     1:4:void <init>():6:6 -> <init>
@@ -185,55 +185,55 @@ XiYue.SiyoX.SiyoXConfig -> XiYue.SiyoX.SiyoXConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
     2:5:void <clinit>():71:71 -> <clinit>
     6:9:void <clinit>():80:80 -> <clinit>
-    10:13:void <clinit>():115:115 -> <clinit>
+    10:13:void <clinit>():110:110 -> <clinit>
     1:4:void <init>():20:20 -> <init>
-    1:10:void loadNativeConfig():119:119 -> loadNativeConfig
-    11:16:void loadNativeConfig():124:124 -> loadNativeConfig
-    17:22:void loadNativeConfig():125:125 -> loadNativeConfig
-    23:24:void loadNativeConfig():126:126 -> loadNativeConfig
-    25:30:void loadNativeConfig():128:128 -> loadNativeConfig
-    31:36:void loadNativeConfig():129:129 -> loadNativeConfig
-    37:38:void loadNativeConfig():130:130 -> loadNativeConfig
-    39:44:void loadNativeConfig():134:134 -> loadNativeConfig
-    45:50:void loadNativeConfig():137:137 -> loadNativeConfig
-    51:56:void loadNativeConfig():138:138 -> loadNativeConfig
-    57:58:void loadNativeConfig():139:139 -> loadNativeConfig
-    59:64:void loadNativeConfig():141:141 -> loadNativeConfig
-    65:66:void loadNativeConfig():143:143 -> loadNativeConfig
-    67:72:void loadNativeConfig():145:145 -> loadNativeConfig
-    73:75:void loadNativeConfig():146:146 -> loadNativeConfig
-    76:77:void loadNativeConfig():147:147 -> loadNativeConfig
-    78:81:void loadNativeConfig():151:151 -> loadNativeConfig
-    82:93:void loadNativeConfig():152:152 -> loadNativeConfig
-    94:98:void loadNativeConfig():153:153 -> loadNativeConfig
-    99:106:void loadNativeConfig():154:154 -> loadNativeConfig
-    107:114:void loadNativeConfig():155:155 -> loadNativeConfig
-    115:124:void loadNativeConfig():156:156 -> loadNativeConfig
-    125:134:void loadNativeConfig():157:157 -> loadNativeConfig
-    135:144:void loadNativeConfig():158:158 -> loadNativeConfig
-    145:154:void loadNativeConfig():159:159 -> loadNativeConfig
-    155:164:void loadNativeConfig():160:160 -> loadNativeConfig
-    165:170:void loadNativeConfig():164:164 -> loadNativeConfig
-    171:176:void loadNativeConfig():165:165 -> loadNativeConfig
-    177:181:void loadNativeConfig():166:166 -> loadNativeConfig
-    182:189:void loadNativeConfig():167:167 -> loadNativeConfig
-    190:199:void loadNativeConfig():168:168 -> loadNativeConfig
-    200:207:void loadNativeConfig():169:169 -> loadNativeConfig
-    208:217:void loadNativeConfig():170:170 -> loadNativeConfig
-    218:223:void loadNativeConfig():174:174 -> loadNativeConfig
-    224:229:void loadNativeConfig():175:175 -> loadNativeConfig
-    230:234:void loadNativeConfig():176:176 -> loadNativeConfig
-    235:241:void loadNativeConfig():177:177 -> loadNativeConfig
-    242:247:void loadNativeConfig():178:178 -> loadNativeConfig
-    248:251:void loadNativeConfig():179:179 -> loadNativeConfig
-    252:255:void loadNativeConfig():180:180 -> loadNativeConfig
-    256:261:void loadNativeConfig():181:181 -> loadNativeConfig
-    262:267:void loadNativeConfig():182:182 -> loadNativeConfig
-    268:273:void loadNativeConfig():183:183 -> loadNativeConfig
-    274:280:void loadNativeConfig():184:184 -> loadNativeConfig
-    281:286:void loadNativeConfig():180:180 -> loadNativeConfig
-    287:298:void loadNativeConfig():187:187 -> loadNativeConfig
-    299:302:void loadNativeConfig():190:190 -> loadNativeConfig
+    1:10:void loadNativeConfig():114:114 -> loadNativeConfig
+    11:16:void loadNativeConfig():119:119 -> loadNativeConfig
+    17:22:void loadNativeConfig():120:120 -> loadNativeConfig
+    23:24:void loadNativeConfig():121:121 -> loadNativeConfig
+    25:30:void loadNativeConfig():123:123 -> loadNativeConfig
+    31:36:void loadNativeConfig():124:124 -> loadNativeConfig
+    37:38:void loadNativeConfig():125:125 -> loadNativeConfig
+    39:44:void loadNativeConfig():129:129 -> loadNativeConfig
+    45:50:void loadNativeConfig():132:132 -> loadNativeConfig
+    51:56:void loadNativeConfig():133:133 -> loadNativeConfig
+    57:58:void loadNativeConfig():134:134 -> loadNativeConfig
+    59:64:void loadNativeConfig():136:136 -> loadNativeConfig
+    65:66:void loadNativeConfig():138:138 -> loadNativeConfig
+    67:72:void loadNativeConfig():140:140 -> loadNativeConfig
+    73:75:void loadNativeConfig():141:141 -> loadNativeConfig
+    76:77:void loadNativeConfig():142:142 -> loadNativeConfig
+    78:81:void loadNativeConfig():146:146 -> loadNativeConfig
+    82:93:void loadNativeConfig():147:147 -> loadNativeConfig
+    94:98:void loadNativeConfig():148:148 -> loadNativeConfig
+    99:106:void loadNativeConfig():149:149 -> loadNativeConfig
+    107:114:void loadNativeConfig():150:150 -> loadNativeConfig
+    115:124:void loadNativeConfig():151:151 -> loadNativeConfig
+    125:134:void loadNativeConfig():152:152 -> loadNativeConfig
+    135:144:void loadNativeConfig():153:153 -> loadNativeConfig
+    145:154:void loadNativeConfig():154:154 -> loadNativeConfig
+    155:164:void loadNativeConfig():155:155 -> loadNativeConfig
+    165:170:void loadNativeConfig():159:159 -> loadNativeConfig
+    171:176:void loadNativeConfig():160:160 -> loadNativeConfig
+    177:181:void loadNativeConfig():161:161 -> loadNativeConfig
+    182:189:void loadNativeConfig():162:162 -> loadNativeConfig
+    190:199:void loadNativeConfig():163:163 -> loadNativeConfig
+    200:207:void loadNativeConfig():164:164 -> loadNativeConfig
+    208:217:void loadNativeConfig():165:165 -> loadNativeConfig
+    218:223:void loadNativeConfig():169:169 -> loadNativeConfig
+    224:229:void loadNativeConfig():170:170 -> loadNativeConfig
+    230:234:void loadNativeConfig():171:171 -> loadNativeConfig
+    235:241:void loadNativeConfig():172:172 -> loadNativeConfig
+    242:247:void loadNativeConfig():173:173 -> loadNativeConfig
+    248:251:void loadNativeConfig():174:174 -> loadNativeConfig
+    252:255:void loadNativeConfig():175:175 -> loadNativeConfig
+    256:261:void loadNativeConfig():176:176 -> loadNativeConfig
+    262:267:void loadNativeConfig():177:177 -> loadNativeConfig
+    268:273:void loadNativeConfig():178:178 -> loadNativeConfig
+    274:280:void loadNativeConfig():179:179 -> loadNativeConfig
+    281:286:void loadNativeConfig():175:175 -> loadNativeConfig
+    287:298:void loadNativeConfig():182:182 -> loadNativeConfig
+    299:302:void loadNativeConfig():185:185 -> loadNativeConfig
 XiYue.SiyoX.SiyoXConfig$DefaultResource -> XiYue.SiyoX.SiyoXConfig$DefaultResource:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
     1:3:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String):45:45 -> <init>
@@ -249,12 +249,11 @@ XiYue.SiyoX.SiyoXConfig$DefaultResource -> XiYue.SiyoX.SiyoXConfig$DefaultResour
     59:123:java.lang.String getFileName():64:64 -> getFileName
 XiYue.SiyoX.SiyoXConfig$EpicConfig -> XiYue.SiyoX.SiyoXConfig$EpicConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:16:void <clinit>():85:85 -> <clinit>
-    17:19:void <clinit>():91:91 -> <clinit>
+    2:6:void <clinit>():85:85 -> <clinit>
     1:4:void <init>():83:83 -> <init>
 XiYue.SiyoX.SiyoXConfig$T3Config -> XiYue.SiyoX.SiyoXConfig$T3Config:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:4:void <init>():95:95 -> <init>
+    1:4:void <init>():90:90 -> <init>
 XiYue.SiyoX.SiyoXConfig$VerifyType -> XiYue.SiyoX.SiyoXConfig$VerifyType:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
     1:11:XiYue.SiyoX.SiyoXConfig$VerifyType[] $values():74:74 -> $values
@@ -267,7 +266,7 @@ XiYue.SiyoX.SiyoXConfig$VerifyType -> XiYue.SiyoX.SiyoXConfig$VerifyType:
     1:9:XiYue.SiyoX.SiyoXConfig$VerifyType[] values():74:74 -> values
 XiYue.SiyoX.SiyoXConfig$WeiYanConfig -> XiYue.SiyoX.SiyoXConfig$WeiYanConfig:
 # {"id":"sourceFile","fileName":"SiyoXConfig.java"}
-    1:4:void <init>():106:106 -> <init>
+    1:4:void <init>():101:101 -> <init>
 XiYue.SiyoX.data.AppSettings -> XiYue.SiyoX.data.AppSettings:
 # {"id":"sourceFile","fileName":"AppSettings.java"}
     1:3:void <init>(android.content.Context):20:20 -> <init>

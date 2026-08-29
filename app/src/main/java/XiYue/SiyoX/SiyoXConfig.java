@@ -28,11 +28,11 @@ public class SiyoXConfig {
     public static final String GITHUB_URL = "https://github.com/XiYueMax/SiyoX";
     public static final String TARGET_PACKAGE = "com.netease.x19";
 
-    // ==================== 客户端自定义配置 (从 C/C++ SiyoX_Config.h 动态加载) ====================
-    public static String CLIENT_NAME = "SiyoX Client";
-    public static String CLIENT_AUTHOR = "XiYue.";
+    // ==================== 客户端展示信息 (自动从 C/C++ SiyoX_Config.h 动态注入) ====================
+    public static String CLIENT_NAME = "";
+    public static String CLIENT_AUTHOR = "";
 
-    // ==================== 材质包 MD5 校验开关 (从 C/C++ SiyoX_Config.h 动态加载) ====================
+    // ==================== 材质包 MD5 校验开关 (自动从 C/C++ SiyoX_Config.h 动态注入) ====================
     public static boolean ENABLE_RESOURCE_MD5_VERIFY = true;
 
     // ==================== 默认材质资源实体定义 ====================
@@ -79,35 +79,30 @@ public class SiyoXConfig {
 
     public static VerifyType CURRENT_VERIFY_TYPE = VerifyType.EPIC;
 
-    // ==================== 1. EPIC (摇光云) 配置 (从 C/C++ SiyoX_Config.h 动态加载) ====================
+    // ==================== 1. EPIC (摇光云) 配置 ====================
     public static class EpicConfig {
-        public static String APP_KEY = "iJQfzsjaI5IHW7W6VKjDXmF7gMxpSy0s";
-        public static String[] HOSTS = new String[]{
-                "epic.z74d.top",
-                "gl.t60.top",
-                "test.t60.top",
-                "epic.t5x.cc"
-        };
+        public static String APP_KEY = "";
+        public static String[] HOSTS = new String[0];
         public static int PORT = 5000;
     }
 
     // ==================== 2. T3 网络验证配置 ====================
     public static class T3Config {
-        public static String API_HOST = "https://api.t3yanzheng.com";
-        public static String APP_KEY = "your_t3_app_key";
-        public static String LOGIN_CODE = "your_t3_login_code";
-        public static String NOTICE_CODE = "your_t3_notice_code";
-        public static String VERSION_CODE_STR = "your_t3_version_code";
-        public static String HEARTBEAT_CODE = "your_t3_heartbeat_code";
-        public static String RSA_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----";
+        public static String API_HOST = "";
+        public static String APP_KEY = "";
+        public static String LOGIN_CODE = "";
+        public static String NOTICE_CODE = "";
+        public static String VERSION_CODE_STR = "";
+        public static String HEARTBEAT_CODE = "";
+        public static String RSA_PUBLIC_KEY = "";
     }
 
     // ==================== 3. 微验 (WeiYan) 网络验证配置 ====================
     public static class WeiYanConfig {
-        public static String API_HOST = "wy.llua.cn";
-        public static String APP_ID = "your_weiyan_app_id";
-        public static String APP_KEY = "your_weiyan_app_key";
-        public static String RC4_KEY = "your_weiyan_rc4_key";
+        public static String API_HOST = "";
+        public static String APP_ID = "";
+        public static String APP_KEY = "";
+        public static String RC4_KEY = "";
     }
 
     // ==================== 静态初始化：从 Native C/C++ 动态注入所有配置 ====================
