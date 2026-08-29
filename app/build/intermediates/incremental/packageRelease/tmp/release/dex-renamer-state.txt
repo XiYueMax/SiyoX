@@ -1,4 +1,4 @@
-#Sat Aug 29 14:25:49 CST 2026
+#Sat Aug 29 14:29:22 CST 2026
 base.0=C\:\\Users\\Administrator\\Desktop\\SiyoX\\SiyoX Src\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

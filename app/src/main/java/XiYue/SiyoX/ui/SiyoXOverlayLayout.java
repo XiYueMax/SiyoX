@@ -1001,16 +1001,21 @@ public class SiyoXOverlayLayout extends FrameLayout {
                         // 全屏幕无阻碍自由拖拽移动
                         int newLeft = (int) Math.max(0, Math.min(event.getRawX() + dX, screenW - v.getWidth()));
                         int newTop = (int) Math.max(0, Math.min(event.getRawY() + dY, screenH - v.getHeight()));
+
+                        // 1. 即时同步布局坐标，彻底消除 GPU RenderNode 脏矩形裁剪滞后与边缘残缺
+                        v.layout(newLeft, newTop, newLeft + v.getWidth(), newTop + v.getHeight());
+
+                        // 2. 更新 LayoutParams 保存当前坐标
                         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
                         lp.leftMargin = newLeft;
                         lp.topMargin = newTop;
                         lp.gravity = Gravity.TOP | Gravity.START;
                         v.setLayoutParams(lp);
-                        v.requestLayout();
-                        if (v.getParent() != null) {
-                            ((View) v.getParent()).invalidate();
-                        }
+
+                        // 3. 触发父容器即时重绘
+                        invalidate();
                         return true;
+
 
                     case MotionEvent.ACTION_UP:
                         float diffX = Math.abs(event.getRawX() - downRawX);
