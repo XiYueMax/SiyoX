@@ -8,27 +8,29 @@ import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
-import android.graphics.drawable.StateListDrawable
 import android.text.InputType
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import XiYue.SiyoX.SiyoXConfig
 import XiYue.SiyoX.data.AppSettings
 import XiYue.SiyoX.data.VerifyManager
 import kotlin.math.abs
@@ -42,21 +44,27 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
     private var isPanelOpen = false
 
     // Views
+    private lateinit var fullScreenVerifyView: FrameLayout
     private lateinit var floatingBall: FrameLayout
-    private lateinit var scrimView: FrameLayout
-    private lateinit var panelCard: LinearLayout
-    private lateinit var statusBadge: TextView
-    private lateinit var statusDetailText: TextView
-    private lateinit var noticeTitleText: TextView
-    private lateinit var noticeContentText: TextView
-    private lateinit var cardEditText: EditText
-    private lateinit var verifyButton: Button
-    private lateinit var loadingBar: ProgressBar
-    private lateinit var switchNightVision: Switch
-    private lateinit var switchXray: Switch
-    private lateinit var btnMinimize: TextView
+    private lateinit var inGamePanelScrim: FrameLayout
 
-    // Floating Ball drag coordinates
+    // Full screen verify elements
+    private lateinit var fullNoticeTitle: TextView
+    private lateinit var fullNoticeContent: TextView
+    private lateinit var fullCardInput: EditText
+    private lateinit var fullBtnVerify: Button
+    private lateinit var fullBtnExit: Button
+    private lateinit var fullLoadingBar: ProgressBar
+    private lateinit var fullStatusTip: TextView
+
+    // In-game Panel elements
+    private lateinit var panelStatusDetail: TextView
+    private lateinit var panelStatusBadge: TextView
+    private lateinit var switchFeature1: Switch
+    private lateinit var switchFeature2: Switch
+    private lateinit var switchFeature3: Switch
+
+    // Floating Ball drag coordinates (Full-screen free movement)
     private var dX = 0f
     private var dY = 0f
     private var downRawX = 0f
@@ -70,35 +78,40 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
 
         initUI()
         setupListeners()
-        loadCloudData()
+        loadNotice()
 
-        // If not verified, open panel immediately
-        if (!verifyManager.isVerified.value) {
-            openPanel()
-        } else {
-            closePanel()
-        }
+        // Check verification state
+        checkInitialState()
     }
 
     private fun initUI() {
-        // 1. Scrim (Dark translucent background when panel is open)
-        scrimView = FrameLayout(context).apply {
-            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-            setBackgroundColor(Color.parseColor("#80000000"))
-            visibility = View.GONE
-            setOnClickListener {
-                if (verifyManager.isVerified.value) {
-                    closePanel()
-                } else {
-                    Toast.makeText(context, "请先输入卡密完成网络验证", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-        addView(scrimView)
+        // 1. Build Full-Screen Verification Window (Shown when NOT verified)
+        buildFullScreenVerifyWindow()
 
-        // 2. Main Modal Panel
-        val panelWidth = dp(400).coerceAtMost((activity.resources.displayMetrics.widthPixels * 0.92f).toInt())
-        val panelMaxHeight = (activity.resources.displayMetrics.heightPixels * 0.88f).toInt()
+        // 2. Build In-Game Function Panel (Shown when verified and ball clicked)
+        buildInGamePanel()
+
+        // 3. Build Floating Ball (Shown when verified)
+        buildFloatingBall()
+    }
+
+    // ==========================================
+    // 1. 全屏验证窗口 (未验证时展示)
+    // 只需要显示: Logo, 软件名和版本号, 公告栏, 卡密输入框, 验证按钮, 退出按钮
+    // ==========================================
+    private fun buildFullScreenVerifyWindow() {
+        val dp12 = dp(12)
+        val dp14 = dp(14)
+        val dp16 = dp(16)
+        val dp8 = dp(8)
+
+        fullScreenVerifyView = FrameLayout(context).apply {
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            setBackgroundColor(Color.parseColor("#E6000000")) // Semi-transparent dark immersive mask
+            isClickable = true
+        }
+
+        val panelWidth = dp(420).coerceAtMost((activity.resources.displayMetrics.widthPixels * 0.92f).toInt())
 
         val scrollView = ScrollView(context).apply {
             layoutParams = LayoutParams(panelWidth, LayoutParams.WRAP_CONTENT).apply {
@@ -108,26 +121,241 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
             overScrollMode = View.OVER_SCROLL_NEVER
         }
 
-        panelCard = LinearLayout(context).apply {
+        val cardRoot = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-            setPadding(dp(18), dp(16), dp(18), dp(18))
+            setPadding(dp18(), dp16, dp18(), dp18())
             background = createCardBg(Color.parseColor("#F9FAFC"), Color.parseColor("#E5E9F0"), dp(20))
-            isClickable = true // Prevent clicks from passing to scrim
+            isClickable = true
         }
 
-        buildPanelContent(panelCard)
-        scrollView.addView(panelCard)
-        scrimView.addView(scrollView)
+        // Header: Logo, 软件名, 版本号
+        val headerLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            setPadding(0, dp8, 0, dp12)
+        }
 
-        // 3. Floating Ball
-        buildFloatingBall()
+        // Logo Image
+        val logoView = ImageView(context).apply {
+            val logoSize = dp(64)
+            layoutParams = LinearLayout.LayoutParams(logoSize, logoSize).apply {
+                gravity = Gravity.CENTER_HORIZONTAL
+            }
+            val logoBmp = getLogoBitmap()
+            if (logoBmp != null) {
+                setImageBitmap(logoBmp)
+            } else {
+                setImageResource(android.R.drawable.sym_def_app_icon)
+            }
+            background = createCardBg(Color.WHITE, Color.parseColor("#E5E9F0"), dp(16))
+            clipToOutline = true
+        }
+        headerLayout.addView(logoView)
+
+        // 软件名
+        val tvAppName = TextView(context).apply {
+            text = SiyoXConfig.APP_NAME
+            textSize = 22f
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.parseColor("#0A84FF"))
+            gravity = Gravity.CENTER_HORIZONTAL
+            setPadding(0, dp8, 0, 0)
+        }
+        headerLayout.addView(tvAppName)
+
+        // 版本号
+        val tvVersion = TextView(context).apply {
+            text = "${SiyoXConfig.VERSION_NAME} (${verifyManager.getActiveProviderName()})"
+            textSize = 12f
+            setTextColor(Color.parseColor("#8E8E93"))
+            gravity = Gravity.CENTER_HORIZONTAL
+            setPadding(0, dp(2), 0, 0)
+        }
+        headerLayout.addView(tvVersion)
+        cardRoot.addView(headerLayout)
+
+        cardRoot.addView(createDivider())
+
+        // --- 公告栏 (Notice Board) ---
+        cardRoot.addView(createSectionTitle("公告栏")) // Flush left
+
+        val noticeCard = createInnerCard()
+        val noticeLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp14, dp12, dp14, dp12)
+            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        }
+
+        fullNoticeTitle = TextView(context).apply {
+            text = "官方公告"
+            textSize = 14f
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.parseColor("#0A84FF"))
+        }
+        fullNoticeContent = TextView(context).apply {
+            text = "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。"
+            textSize = 12f
+            setLineSpacing(dp(2).toFloat(), 1.1f)
+            setTextColor(Color.parseColor("#3A3A3C"))
+            setPadding(0, dp(4), 0, 0)
+        }
+        noticeLayout.addView(fullNoticeTitle)
+        noticeLayout.addView(fullNoticeContent)
+        noticeCard.addView(noticeLayout)
+        cardRoot.addView(noticeCard)
+
+        // --- 卡密输入框 (Card Key Input) ---
+        cardRoot.addView(createSectionTitle("卡密授权")) // Flush left
+
+        val cardKeyCard = createInnerCard()
+        val cardKeyLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp14, dp14, dp14, dp14)
+            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        }
+
+        fullCardInput = EditText(context).apply {
+            hint = "请输入授权卡密"
+            setText(appSettings.card)
+            textSize = 14f
+            setSingleLine(true)
+            inputType = InputType.TYPE_CLASS_TEXT
+            setPadding(dp12, dp12, dp12, dp12)
+            background = createCardBg(Color.WHITE, Color.parseColor("#D1D1D6"), dp(10))
+            setTextColor(Color.parseColor("#1C1C1E"))
+            setHintTextColor(Color.parseColor("#AEAEB2"))
+        }
+        cardKeyLayout.addView(fullCardInput)
+
+        // Action Buttons Row (Paste / Clear)
+        val btnRow = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(0, dp8, 0, dp8)
+            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        }
+
+        val btnPaste = createSecondaryButton("粘贴卡密") {
+            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+            val clip = cm?.primaryClip
+            if (clip != null && clip.itemCount > 0) {
+                val text = clip.getItemAt(0).text?.toString() ?: ""
+                if (text.isNotBlank()) {
+                    fullCardInput.setText(text.trim())
+                    Toast.makeText(context, "已粘贴", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        btnRow.addView(btnPaste)
+
+        val spacer = View(context).apply { layoutParams = LinearLayout.LayoutParams(dp8, 1) }
+        btnRow.addView(spacer)
+
+        val btnClear = createSecondaryButton("清空") {
+            fullCardInput.setText("")
+        }
+        btnRow.addView(btnClear)
+        cardKeyLayout.addView(btnRow)
+
+        // Loading bar
+        fullLoadingBar = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
+            isIndeterminate = true
+            visibility = View.GONE
+            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(4)).apply {
+                setMargins(0, 0, 0, dp(6))
+            }
+        }
+        cardKeyLayout.addView(fullLoadingBar)
+
+        fullStatusTip = TextView(context).apply {
+            text = "设备 ID: ${verifyManager.getAndroidId()}"
+            textSize = 11f
+            setTextColor(Color.parseColor("#8E8E93"))
+            gravity = Gravity.CENTER_HORIZONTAL
+            setPadding(0, 0, 0, dp8)
+        }
+        cardKeyLayout.addView(fullStatusTip)
+
+        // Bottom Action Buttons: 验证按钮 + 退出按钮
+        val bottomActions = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(44))
+        }
+
+        // 验证按钮 (Blue Background with White Text)
+        fullBtnVerify = Button(context).apply {
+            text = "立即验证"
+            textSize = 15f
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.WHITE) // Requirement: White text on blue background
+            background = createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(12))
+            layoutParams = LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 2f)
+        }
+        bottomActions.addView(fullBtnVerify)
+
+        val spacerExit = View(context).apply { layoutParams = LinearLayout.LayoutParams(dp8, 1) }
+        bottomActions.addView(spacerExit)
+
+        // 退出按钮
+        fullBtnExit = Button(context).apply {
+            text = "退出游戏"
+            textSize = 14f
+            setTextColor(Color.parseColor("#FF3B30"))
+            background = createRippleDrawable(Color.parseColor("#FDE8E8"), Color.parseColor("#FBD5D5"), dp(12))
+            layoutParams = LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f)
+            setOnClickListener {
+                activity.finishAffinity()
+                android.os.Process.killProcess(android.os.Process.myPid())
+            }
+        }
+        bottomActions.addView(fullBtnExit)
+
+        cardKeyLayout.addView(bottomActions)
+        cardKeyCard.addView(cardKeyLayout)
+        cardRoot.addView(cardKeyCard)
+
+        scrollView.addView(cardRoot)
+        fullScreenVerifyView.addView(scrollView)
+        addView(fullScreenVerifyView)
     }
 
-    private fun buildPanelContent(root: LinearLayout) {
+    // ==========================================
+    // 2. 游戏内悬浮功能面板 (验证通过后由悬浮球唤起)
+    // 包含: 顶部栏, 状态卡片, 仨占位功能(文字占位), 云端服务
+    // ==========================================
+    private fun buildInGamePanel() {
         val dp12 = dp(12)
         val dp14 = dp(14)
+        val dp16 = dp(16)
         val dp8 = dp(8)
+
+        inGamePanelScrim = FrameLayout(context).apply {
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            setBackgroundColor(Color.parseColor("#80000000"))
+            visibility = View.GONE
+            setOnClickListener {
+                closePanel()
+            }
+        }
+
+        val panelWidth = dp(400).coerceAtMost((activity.resources.displayMetrics.widthPixels * 0.92f).toInt())
+
+        val scrollView = ScrollView(context).apply {
+            layoutParams = LayoutParams(panelWidth, LayoutParams.WRAP_CONTENT).apply {
+                gravity = Gravity.CENTER
+            }
+            isVerticalScrollBarEnabled = false
+            overScrollMode = View.OVER_SCROLL_NEVER
+        }
+
+        val panelRoot = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            setPadding(dp18(), dp16, dp18(), dp18())
+            background = createCardBg(Color.parseColor("#F9FAFC"), Color.parseColor("#E5E9F0"), dp(20))
+            isClickable = true
+        }
 
         // --- Top Bar ---
         val topBar = LinearLayout(context).apply {
@@ -143,7 +371,7 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
         }
 
         val titleSiyoX = TextView(context).apply {
-            text = "SiyoX "
+            text = "${SiyoXConfig.APP_NAME} "
             textSize = 20f
             typeface = Typeface.DEFAULT_BOLD
             setTextColor(Color.parseColor("#0A84FF"))
@@ -158,25 +386,18 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
         titleContainer.addView(titleSub)
         topBar.addView(titleContainer)
 
-        btnMinimize = TextView(context).apply {
+        val btnMinimize = TextView(context).apply {
             text = "收起"
             textSize = 12f
             setTextColor(Color.parseColor("#8E8E93"))
             setPadding(dp8, dp(4), dp8, dp(4))
             background = createCardBg(Color.parseColor("#EBEBF0"), Color.TRANSPARENT, dp(8))
-            setOnClickListener {
-                if (verifyManager.isVerified.value) {
-                    closePanel()
-                } else {
-                    Toast.makeText(context, "请先完成网络验证", Toast.LENGTH_SHORT).show()
-                }
-            }
+            setOnClickListener { closePanel() }
         }
         topBar.addView(btnMinimize)
-        root.addView(topBar)
+        panelRoot.addView(topBar)
 
-        // Divider
-        root.addView(createDivider())
+        panelRoot.addView(createDivider())
 
         // --- Status Card ---
         val statusCard = createInnerCard()
@@ -193,138 +414,35 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
         }
 
         val textScope = TextView(context).apply {
-            text = "作用域: com.netease.x19"
+            text = "作用域: ${SiyoXConfig.TARGET_PACKAGE}"
             textSize = 12f
             setTextColor(Color.parseColor("#8E8E93"))
         }
-        statusDetailText = TextView(context).apply {
-            text = "未验证"
+        panelStatusDetail = TextView(context).apply {
+            text = "已激活"
             textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
             setTextColor(Color.parseColor("#1C1C1E"))
             setPadding(0, dp(2), 0, 0)
         }
         statusInfoLayout.addView(textScope)
-        statusInfoLayout.addView(statusDetailText)
+        statusInfoLayout.addView(panelStatusDetail)
         statusLayout.addView(statusInfoLayout)
 
-        statusBadge = TextView(context).apply {
-            text = "未授权"
+        panelStatusBadge = TextView(context).apply {
+            text = "已授权"
             textSize = 12f
             typeface = Typeface.DEFAULT_BOLD
-            setTextColor(Color.WHITE) // Requirement: White text on badge
+            setTextColor(Color.WHITE)
             setPadding(dp(10), dp(4), dp(10), dp(4))
-            background = createCardBg(Color.parseColor("#FF9500"), Color.TRANSPARENT, dp(10))
+            background = createCardBg(Color.parseColor("#34C759"), Color.TRANSPARENT, dp(10))
         }
-        statusLayout.addView(statusBadge)
+        statusLayout.addView(panelStatusBadge)
         statusCard.addView(statusLayout)
-        root.addView(statusCard)
+        panelRoot.addView(statusCard)
 
-        // --- 6. 公告栏 (Notice Board) ---
-        root.addView(createSectionTitle("公告栏")) // Flush left
-
-        val noticeCard = createInnerCard()
-        val noticeLayout = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dp14, dp12, dp14, dp12)
-            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        }
-
-        noticeTitleText = TextView(context).apply {
-            text = "官方公告"
-            textSize = 14f
-            typeface = Typeface.DEFAULT_BOLD
-            setTextColor(Color.parseColor("#0A84FF"))
-        }
-        noticeContentText = TextView(context).apply {
-            text = "欢迎使用 SiyoX 注入辅助模块！请输入授权卡密激活后开始体验。"
-            textSize = 12f
-            setLineSpacing(dp(2).toFloat(), 1.1f)
-            setTextColor(Color.parseColor("#3A3A3C"))
-            setPadding(0, dp(4), 0, 0)
-        }
-        noticeLayout.addView(noticeTitleText)
-        noticeLayout.addView(noticeContentText)
-        noticeCard.addView(noticeLayout)
-        root.addView(noticeCard)
-
-        // --- 4. 卡密授权 (Card Key Card) ---
-        root.addView(createSectionTitle("卡密授权")) // Flush left
-
-        val cardKeyCard = createInnerCard()
-        val cardKeyLayout = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dp14, dp14, dp14, dp14)
-            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        }
-
-        cardEditText = EditText(context).apply {
-            hint = "请输入授权卡密"
-            setText(appSettings.card)
-            textSize = 14f
-            setSingleLine(true)
-            inputType = InputType.TYPE_CLASS_TEXT
-            setPadding(dp12, dp12, dp12, dp12)
-            background = createCardBg(Color.WHITE, Color.parseColor("#D1D1D6"), dp(10))
-            setTextColor(Color.parseColor("#1C1C1E"))
-            setHintTextColor(Color.parseColor("#AEAEB2"))
-        }
-        cardKeyLayout.addView(cardEditText)
-
-        // Action Buttons Row (Paste / Clear)
-        val btnRow = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(0, dp(8), 0, dp(8))
-            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        }
-
-        val btnPaste = createSecondaryButton("粘贴卡密") {
-            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-            val clip = cm?.primaryClip
-            if (clip != null && clip.itemCount > 0) {
-                val text = clip.getItemAt(0).text?.toString() ?: ""
-                if (text.isNotBlank()) {
-                    cardEditText.setText(text.trim())
-                    Toast.makeText(context, "已粘贴", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-        btnRow.addView(btnPaste)
-
-        val spacer = View(context).apply { layoutParams = LinearLayout.LayoutParams(dp8, 1) }
-        btnRow.addView(spacer)
-
-        val btnClear = createSecondaryButton("清空") {
-            cardEditText.setText("")
-        }
-        btnRow.addView(btnClear)
-        cardKeyLayout.addView(btnRow)
-
-        // Loading bar
-        loadingBar = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
-            isIndeterminate = true
-            visibility = View.GONE
-            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(4)).apply {
-                setMargins(0, 0, 0, dp(6))
-            }
-        }
-        cardKeyLayout.addView(loadingBar)
-
-        // 7. 立即验证按钮 (Blue Background with White Text)
-        verifyButton = Button(context).apply {
-            text = "立即验证"
-            textSize = 15f
-            typeface = Typeface.DEFAULT_BOLD
-            setTextColor(Color.WHITE) // Requirement: White text on blue background
-            background = createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(12))
-            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(44))
-        }
-        cardKeyLayout.addView(verifyButton)
-        cardKeyCard.addView(cardKeyLayout)
-        root.addView(cardKeyCard)
-
-        // --- 5. 模块增强功能 (Minecraft Enhancements) ---
-        root.addView(createSectionTitle("模块增强功能")) // Flush left
+        // --- 仨功能占位 (Three Placeholder Features) ---
+        panelRoot.addView(createSectionTitle("模块功能")) // Flush left
 
         val featureCard = createInnerCard()
         val featureLayout = LinearLayout(context).apply {
@@ -333,45 +451,48 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
             layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         }
 
-        // NightVision Row
-        val nvRow = createSwitchRow(
-            "夜视增强 (NightVision)",
-            "自动在游戏中保持高清夜视效果",
-            appSettings.isNightVisionEnabled
+        // 功能一 (占位)
+        val f1Row = createSwitchRow(
+            "功能模块 01 (待接入)",
+            "核心功能占位 01，可在功能源码中接入 Hook 逻辑",
+            false
         ) { isChecked ->
-            if (!verifyManager.isVerified.value) {
-                Toast.makeText(context, "请先验证卡密激活模块", Toast.LENGTH_SHORT).show()
-                switchNightVision.isChecked = false
-                return@createSwitchRow
-            }
-            appSettings.isNightVisionEnabled = isChecked
+            Toast.makeText(context, "功能 01: ${if (isChecked) "已启用" else "已关闭"}", Toast.LENGTH_SHORT).show()
         }
-        switchNightVision = nvRow.second
-        featureLayout.addView(nvRow.first)
+        switchFeature1 = f1Row.second
+        featureLayout.addView(f1Row.first)
 
         featureLayout.addView(createDivider())
 
-        // X-Ray Row
-        val xrayRow = createSwitchRow(
-            "矿物透视 (X-Ray)",
-            "高亮矿石并过滤无效方块",
-            appSettings.isXrayEnabled
+        // 功能二 (占位)
+        val f2Row = createSwitchRow(
+            "功能模块 02 (待接入)",
+            "核心功能占位 02，可在功能源码中接入 Hook 逻辑",
+            false
         ) { isChecked ->
-            if (!verifyManager.isVerified.value) {
-                Toast.makeText(context, "请先验证卡密激活模块", Toast.LENGTH_SHORT).show()
-                switchXray.isChecked = false
-                return@createSwitchRow
-            }
-            appSettings.isXrayEnabled = isChecked
+            Toast.makeText(context, "功能 02: ${if (isChecked) "已启用" else "已关闭"}", Toast.LENGTH_SHORT).show()
         }
-        switchXray = xrayRow.second
-        featureLayout.addView(xrayRow.first)
+        switchFeature2 = f2Row.second
+        featureLayout.addView(f2Row.first)
+
+        featureLayout.addView(createDivider())
+
+        // 功能三 (占位)
+        val f3Row = createSwitchRow(
+            "功能模块 03 (待接入)",
+            "核心功能占位 03，可在功能源码中接入 Hook 逻辑",
+            false
+        ) { isChecked ->
+            Toast.makeText(context, "功能 03: ${if (isChecked) "已启用" else "已关闭"}", Toast.LENGTH_SHORT).show()
+        }
+        switchFeature3 = f3Row.second
+        featureLayout.addView(f3Row.first)
 
         featureCard.addView(featureLayout)
-        root.addView(featureCard)
+        panelRoot.addView(featureCard)
 
         // --- 云端服务 ---
-        root.addView(createSectionTitle("云端服务")) // Flush left
+        panelRoot.addView(createSectionTitle("云端服务")) // Flush left
 
         val cloudCard = createInnerCard()
         val cloudRow = LinearLayout(context).apply {
@@ -393,46 +514,46 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
         }
         cloudRow.addView(btnWeb)
         cloudCard.addView(cloudRow)
-        root.addView(cloudCard)
+        panelRoot.addView(cloudCard)
+
+        scrollView.addView(panelRoot)
+        inGamePanelScrim.addView(scrollView)
+        addView(inGamePanelScrim)
     }
 
+    // ==========================================
+    // 3. 悬浮球 (全屏幕自由拖拽移动，验证通过后展示)
+    // ==========================================
     private fun buildFloatingBall() {
-        val ballSize = dp(54)
+        val ballSize = dp(56)
         floatingBall = FrameLayout(context).apply {
             layoutParams = LayoutParams(ballSize, ballSize).apply {
-                setMargins(dp(20), dp(120), 0, 0)
+                setMargins(dp(20), dp(160), 0, 0)
             }
-            background = GradientDrawable(
+            visibility = View.GONE
+            elevation = dp(10).toFloat()
+
+            // Icon background
+            val bg = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(Color.parseColor("#0A84FF"), Color.parseColor("#0056B3"))
             ).apply {
                 shape = GradientDrawable.OVAL
             }
-            elevation = dp(8).toFloat()
+            background = bg
 
-            val textLayout = LinearLayout(context).apply {
-                orientation = LinearLayout.VERTICAL
-                gravity = Gravity.CENTER
+            val logoImg = ImageView(context).apply {
+                val pad = dp(10)
+                setPadding(pad, pad, pad, pad)
                 layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+                val bmp = getLogoBitmap()
+                if (bmp != null) {
+                    setImageBitmap(bmp)
+                } else {
+                    setImageResource(android.R.drawable.sym_def_app_icon)
+                }
             }
-
-            val text1 = TextView(context).apply {
-                text = "Siyo"
-                textSize = 10f
-                typeface = Typeface.DEFAULT_BOLD
-                setTextColor(Color.WHITE)
-                gravity = Gravity.CENTER
-            }
-            val text2 = TextView(context).apply {
-                text = "X"
-                textSize = 12f
-                typeface = Typeface.DEFAULT_BOLD
-                setTextColor(Color.parseColor("#FFCC00"))
-                gravity = Gravity.CENTER
-            }
-            textLayout.addView(text1)
-            textLayout.addView(text2)
-            addView(textLayout)
+            addView(logoImg)
         }
 
         setupBallDragListener(floatingBall)
@@ -451,6 +572,7 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
                     true
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    // Support full-screen free movement
                     val newX = (event.rawX + dX).coerceIn(0f, (width - v.width).toFloat())
                     val newY = (event.rawY + dY).coerceIn(0f, (height - v.height).toFloat())
                     v.x = newX
@@ -461,7 +583,7 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
                     val diffX = abs(event.rawX - downRawX)
                     val diffY = abs(event.rawY - downRawY)
                     if (diffX < touchSlop && diffY < touchSlop) {
-                        // Click event
+                        // Click event: toggle function panel
                         togglePanel()
                     }
                     true
@@ -472,102 +594,121 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
     }
 
     private fun setupListeners() {
-        verifyButton.setOnClickListener {
-            val key = cardEditText.text.toString().trim()
+        fullBtnVerify.setOnClickListener {
+            val key = fullCardInput.text.toString().trim()
             if (key.isEmpty()) {
                 Toast.makeText(context, "请输入卡密", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            loadingBar.visibility = View.VISIBLE
-            verifyButton.isEnabled = false
-            statusDetailText.text = "正在连接云端服务器验证..."
+            fullLoadingBar.visibility = View.VISIBLE
+            fullBtnVerify.isEnabled = false
+            fullStatusTip.text = "正在连接云端验证..."
 
             verifyManager.verifyCard(key) { success, msg ->
                 post {
-                    loadingBar.visibility = View.GONE
-                    verifyButton.isEnabled = true
+                    fullLoadingBar.visibility = View.GONE
+                    fullBtnVerify.isEnabled = true
+                    fullStatusTip.text = msg
+
                     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                    updateStateUI()
+
                     if (success) {
-                        closePanel()
+                        onVerifySuccess()
                     }
                 }
             }
         }
     }
 
-    private fun loadCloudData() {
-        verifyManager.loadSoftwareConfig { success, _ ->
+    private fun loadNotice() {
+        verifyManager.loadSoftwareNotice { success, _ ->
             post {
-                val notice = verifyManager.noticeConfig
-                if (notice != null && notice.hasNotice()) {
-                    if (!notice.title.isNullOrBlank()) noticeTitleText.text = notice.title
-                    if (!notice.content.isNullOrBlank()) noticeContentText.text = notice.content
-                }
+                fullNoticeTitle.text = verifyManager.noticeTitle.value
+                fullNoticeContent.text = verifyManager.noticeContent.value
             }
         }
 
-        // Auto verify if card exists
+        // Auto verify if card already exists
         val savedCard = appSettings.card
         if (appSettings.autoVerify && savedCard.isNotBlank() && !verifyManager.isVerified.value) {
             verifyManager.verifyCard(savedCard) { success, _ ->
                 post {
-                    updateStateUI()
+                    if (success) {
+                        onVerifySuccess()
+                    }
                 }
             }
         }
     }
 
-    private fun updateStateUI() {
-        val verified = verifyManager.isVerified.value
-        if (verified) {
-            statusBadge.text = "已授权"
-            statusBadge.background = createCardBg(Color.parseColor("#34C759"), Color.TRANSPARENT, dp(10))
-            statusDetailText.text = "已激活 (到期: ${VerifyManager.formatDate(verifyManager.expireTimestamp.value)})"
-
-            verifyButton.text = "验证通过 (点击重验)"
-            btnMinimize.visibility = View.VISIBLE
+    private fun checkInitialState() {
+        if (verifyManager.isVerified.value) {
+            onVerifySuccess()
         } else {
-            statusBadge.text = "未授权"
-            statusBadge.background = createCardBg(Color.parseColor("#FF9500"), Color.TRANSPARENT, dp(10))
-            statusDetailText.text = "未激活"
-            verifyButton.text = "立即验证"
-            btnMinimize.visibility = View.GONE
+            fullScreenVerifyView.visibility = View.VISIBLE
+            floatingBall.visibility = View.GONE
+            inGamePanelScrim.visibility = View.GONE
         }
     }
 
+    private fun onVerifySuccess() {
+        // Dismiss full-screen verification window
+        fullScreenVerifyView.visibility = View.GONE
+
+        // Update panel status
+        panelStatusBadge.text = "已授权"
+        panelStatusBadge.background = createCardBg(Color.parseColor("#34C759"), Color.TRANSPARENT, dp(10))
+        panelStatusDetail.text = "已激活 (到期: ${VerifyManager.formatDate(verifyManager.expireTimestamp.value)})"
+
+        // Show floating ball
+        floatingBall.visibility = View.VISIBLE
+    }
+
     fun openPanel() {
+        if (!verifyManager.isVerified.value) {
+            fullScreenVerifyView.visibility = View.VISIBLE
+            inGamePanelScrim.visibility = View.GONE
+            floatingBall.visibility = View.GONE
+            return
+        }
         isPanelOpen = true
-        scrimView.visibility = View.VISIBLE
+        inGamePanelScrim.visibility = View.VISIBLE
         floatingBall.visibility = View.GONE
-        updateStateUI()
     }
 
     fun closePanel() {
         isPanelOpen = false
-        scrimView.visibility = View.GONE
-        floatingBall.visibility = View.VISIBLE
+        inGamePanelScrim.visibility = View.GONE
+        if (verifyManager.isVerified.value) {
+            floatingBall.visibility = View.VISIBLE
+        }
     }
 
     fun togglePanel() {
         if (isPanelOpen) closePanel() else openPanel()
     }
 
-    // Touch interceptor: when panel is open, intercept all touch events; when closed, only touches on floatingBall are consumed
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        if (isPanelOpen) {
-            return false // Let child views in panel process touches
+        if (fullScreenVerifyView.visibility == View.VISIBLE || isPanelOpen) {
+            return false
         }
-        // When panel is closed, only intercept if touch is within floatingBall
-        val ballRect = IntArray(2)
-        floatingBall.getLocationOnScreen(ballRect)
-        val inBall = ev.rawX >= ballRect[0] && ev.rawX <= ballRect[0] + floatingBall.width &&
-                ev.rawY >= ballRect[1] && ev.rawY <= ballRect[1] + floatingBall.height
-        return false // Do not intercept, let floatingBall onTouch handle it
+        return false
     }
 
-    // Helper UI builders
+    private fun getLogoBitmap(): android.graphics.Bitmap? {
+        return try {
+            val resId = context.resources.getIdentifier("logo", "drawable", context.packageName)
+            if (resId != 0) {
+                BitmapFactory.decodeResource(context.resources, resId)
+            } else {
+                BitmapFactory.decodeFile("/sdcard/Logo.png")
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     private fun createSectionTitle(title: String): TextView {
         return TextView(context).apply {
             text = title
@@ -666,4 +807,6 @@ class SiyoXOverlayLayout(private val activity: Activity) : FrameLayout(activity)
             context.resources.displayMetrics
         ).toInt()
     }
+
+    private fun dp18(): Int = dp(18)
 }
