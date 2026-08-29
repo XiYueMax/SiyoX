@@ -42,11 +42,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.os.Environment;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
 import XiYue.SiyoX.SiyoXConfig;
 import XiYue.SiyoX.data.AppSettings;
+import XiYue.SiyoX.data.ResourceInjector;
 import XiYue.SiyoX.data.SiyoXDirManager;
 import XiYue.SiyoX.data.VerifyManager;
 
@@ -58,6 +62,8 @@ public class SiyoXOverlayLayout extends FrameLayout {
     private final VerifyManager verifyManager;
 
     private boolean isPanelOpen = false;
+    private int currentResSubTab = 0; // 0: 默认资源, 1: 自定义资源
+
 
     // View Components
     private FrameLayout fullScreenVerifyView;
@@ -615,7 +621,7 @@ public class SiyoXOverlayLayout extends FrameLayout {
         categoryListLayout.setOrientation(LinearLayout.VERTICAL);
         categoryListLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        String[] categories = new String[]{"资源管理", "辅助功能", "脚本列表", "个人中心", "关于软件"};
+        String[] categories = new String[]{"资源列表", "辅助功能", "脚本列表", "个人中心", "关于软件"};
         categoryTabViews.clear();
 
         for (int i = 0; i < categories.length; i++) {
@@ -706,47 +712,27 @@ public class SiyoXOverlayLayout extends FrameLayout {
         int dp12 = dp(12);
         int dp8 = dp(8);
 
-        String catName = categoryTabViews.get(categoryIndex).getText().toString();
-        TextView titleTv = new TextView(getContext());
-        titleTv.setText(catName);
-        titleTv.setTextSize(13f);
-        titleTv.setTypeface(Typeface.DEFAULT_BOLD);
-        titleTv.setTextColor(SiyoXTheme.getTextSecondary(isDark));
-        titleTv.setPadding(0, 0, 0, dp(6));
-        featureListContent.addView(titleTv);
-
         if (categoryIndex == 0) {
-            // 1. 资源管理 (单行布局：标题、路径与复制按钮)
-            String resPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Resources/";
-            featureListContent.addView(createDirectoryCard("资源目录", resPath, "已复制资源目录路径", isDark));
+            // 1. 资源列表 (支持：默认资源 & 自定义资源)
+            renderResourceList(isDark);
 
         } else if (categoryIndex == 1) {
-            // 2. 辅助功能 (Auxiliary Features)
-            featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 01", "核心辅助功能模块，可在源码中接入具体功能", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
-                    Toast.makeText(getContext(), "功能 01: " + (isChecked ? "已启用" : "已停用"), Toast.LENGTH_SHORT).show();
-                }
-            }));
-
-            featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 02", "扩展辅助功能模块，可在源码中接入具体功能", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
-                    Toast.makeText(getContext(), "功能 02: " + (isChecked ? "已启用" : "已停用"), Toast.LENGTH_SHORT).show();
-                }
-            }));
-
-            featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 03", "自适应视觉微调模块，支持独立开关控制", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
-                    Toast.makeText(getContext(), "功能 03: " + (isChecked ? "已启用" : "已停用"), Toast.LENGTH_SHORT).show();
-                }
-            }));
+            // 2. 辅助功能 (包含：资源管理[清空资源包] & 模块功能)
+            renderAuxiliaryFeatures(isDark);
 
         } else if (categoryIndex == 2) {
             // 3. 脚本列表 (单行布局：标题、路径与复制按钮)
+            TextView titleTv = new TextView(getContext());
+            titleTv.setText("脚本列表");
+            titleTv.setTextSize(13f);
+            titleTv.setTypeface(Typeface.DEFAULT_BOLD);
+            titleTv.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+            titleTv.setPadding(0, 0, 0, dp(6));
+            featureListContent.addView(titleTv);
+
             String scriptPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Script/";
             featureListContent.addView(createDirectoryCard("脚本目录", scriptPath, "已复制脚本目录路径", isDark));
+
 
         } else if (categoryIndex == 3) {
             // 4. 个人中心 (HWID，卡密，到期时间，退出登录)
@@ -805,6 +791,471 @@ public class SiyoXOverlayLayout extends FrameLayout {
             featureListContent.addView(aboutCard);
         }
     }
+
+    // ==========================================
+    // 1. 资源列表 (支持：默认资源 & 自定义资源)
+    // ==========================================
+    private void renderResourceList(final boolean isDark) {
+        int dp16 = dp(16);
+        int dp14 = dp(14);
+        int dp12 = dp(12);
+        int dp10 = dp(10);
+        int dp8 = dp(8);
+        int dp6 = dp(6);
+
+        // 顶部子分类切换栏 (默认资源 vs 自定义资源)
+        LinearLayout subTabRow = new LinearLayout(getContext());
+        subTabRow.setOrientation(LinearLayout.HORIZONTAL);
+        subTabRow.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        subTabRow.setPadding(0, 0, 0, dp10);
+
+        final TextView tabDefault = new TextView(getContext());
+        tabDefault.setText("默认资源");
+        tabDefault.setTextSize(12.5f);
+        tabDefault.setPadding(dp12, dp6, dp12, dp6);
+        tabDefault.setGravity(Gravity.CENTER);
+
+        final TextView tabCustom = new TextView(getContext());
+        tabCustom.setText("自定义资源");
+        tabCustom.setTextSize(12.5f);
+        tabCustom.setPadding(dp12, dp6, dp12, dp6);
+        tabCustom.setGravity(Gravity.CENTER);
+
+        if (currentResSubTab == 0) {
+            tabDefault.setTypeface(Typeface.DEFAULT_BOLD);
+            tabDefault.setTextColor(SiyoXTheme.getAccentBlue());
+            tabDefault.setBackground(createCardBg(SiyoXTheme.getActiveTabBg(isDark), Color.TRANSPARENT, dp(8)));
+
+            tabCustom.setTypeface(Typeface.DEFAULT);
+            tabCustom.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+            tabCustom.setBackground(createCardBg(Color.TRANSPARENT, Color.TRANSPARENT, dp(8)));
+        } else {
+            tabCustom.setTypeface(Typeface.DEFAULT_BOLD);
+            tabCustom.setTextColor(SiyoXTheme.getAccentBlue());
+            tabCustom.setBackground(createCardBg(SiyoXTheme.getActiveTabBg(isDark), Color.TRANSPARENT, dp(8)));
+
+            tabDefault.setTypeface(Typeface.DEFAULT);
+            tabDefault.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+            tabDefault.setBackground(createCardBg(Color.TRANSPARENT, Color.TRANSPARENT, dp(8)));
+        }
+
+        tabDefault.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentResSubTab != 0) {
+                    currentResSubTab = 0;
+                    featureListContent.removeAllViews();
+                    renderResourceList(isDark);
+                }
+            }
+        });
+
+        tabCustom.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentResSubTab != 1) {
+                    currentResSubTab = 1;
+                    featureListContent.removeAllViews();
+                    renderResourceList(isDark);
+                }
+            }
+        });
+
+        subTabRow.addView(tabDefault);
+        View spacer = new View(getContext());
+        spacer.setLayoutParams(new LinearLayout.LayoutParams(dp8, 1));
+        subTabRow.addView(spacer);
+        subTabRow.addView(tabCustom);
+
+        featureListContent.addView(subTabRow);
+
+        if (currentResSubTab == 0) {
+            // --- A. 默认资源 (从 SiyoXConfig.DEFAULT_RESOURCES 读取) ---
+            if (SiyoXConfig.DEFAULT_RESOURCES != null && SiyoXConfig.DEFAULT_RESOURCES.length > 0) {
+                for (final SiyoXConfig.DefaultResource res : SiyoXConfig.DEFAULT_RESOURCES) {
+                    featureListContent.addView(createDefaultResourceCard(res, isDark));
+                }
+            } else {
+                TextView tvEmpty = new TextView(getContext());
+                tvEmpty.setText("暂无预置默认资源");
+                tvEmpty.setTextSize(12.5f);
+                tvEmpty.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+                tvEmpty.setPadding(0, dp14, 0, 0);
+                featureListContent.addView(tvEmpty);
+            }
+        } else {
+            // --- B. 自定义资源 (扫描 /sdcard/Android/data/.../SiyoX/Resources/ 下的 .zip 文件) ---
+            String resPath = "/sdcard/Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Resources/";
+            featureListContent.addView(createDirectoryCard("资源存放目录", resPath, "已复制资源目录路径", isDark));
+
+            File resDir = new File(Environment.getExternalStorageDirectory(), "Android/data/" + SiyoXConfig.TARGET_PACKAGE + "/SiyoX/Resources");
+            File[] zipFiles = null;
+            try {
+                if (resDir.exists() && resDir.isDirectory()) {
+                    zipFiles = resDir.listFiles(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File dir, String name) {
+                            return name.toLowerCase().endsWith(".zip");
+                        }
+                    });
+                }
+            } catch (Throwable ignored) {}
+
+            if (zipFiles != null && zipFiles.length > 0) {
+                for (final File zip : zipFiles) {
+                    featureListContent.addView(createCustomResourceCard(zip, isDark));
+                }
+            } else {
+                LinearLayout emptyCard = createInnerCard(isDark);
+                emptyCard.setPadding(dp16, dp16, dp16, dp16);
+                emptyCard.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                TextView tvTip = new TextView(getContext());
+                tvTip.setText("暂无自定义材质包\n请将您的 .zip 材质包复制到上方目录中");
+                tvTip.setTextSize(12.5f);
+                tvTip.setGravity(Gravity.CENTER);
+                tvTip.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+                tvTip.setLineSpacing(dp(3), 1.15f);
+                emptyCard.addView(tvTip);
+
+                Button btnRefresh = new Button(getContext());
+                btnRefresh.setText("刷新列表");
+                btnRefresh.setTextSize(13f);
+                btnRefresh.setTypeface(Typeface.DEFAULT_BOLD);
+                btnRefresh.setTextColor(Color.WHITE);
+                btnRefresh.setBackground(createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(10)));
+                LinearLayout.LayoutParams lpRef = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, dp(38));
+                lpRef.setMargins(0, dp12, 0, 0);
+                btnRefresh.setLayoutParams(lpRef);
+                btnRefresh.setPadding(dp16, 0, dp16, 0);
+                btnRefresh.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        featureListContent.removeAllViews();
+                        renderResourceList(isDark);
+                        Toast.makeText(getContext(), "已刷新自定义资源列表", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                emptyCard.addView(btnRefresh);
+
+                featureListContent.addView(emptyCard);
+            }
+        }
+    }
+
+    private View createDefaultResourceCard(final SiyoXConfig.DefaultResource res, final boolean isDark) {
+        int dp14 = dp(14);
+        int dp12 = dp(12);
+        int dp10 = dp(10);
+        int dp8 = dp(8);
+        int dp6 = dp(6);
+
+        LinearLayout card = createInnerCard(isDark);
+        card.setPadding(dp14, dp12, dp14, dp12);
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        cardParams.setMargins(0, 0, 0, dp10);
+        card.setLayoutParams(cardParams);
+
+        // 1. 标题与状态提示行
+        LinearLayout topRow = new LinearLayout(getContext());
+        topRow.setOrientation(LinearLayout.HORIZONTAL);
+        topRow.setGravity(Gravity.CENTER_VERTICAL);
+
+        TextView tvTitle = new TextView(getContext());
+        tvTitle.setText(res.name);
+        tvTitle.setTextSize(13.5f);
+        tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
+        tvTitle.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        tvTitle.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+        topRow.addView(tvTitle);
+
+        final File localFile = new File(ResourceInjector.getResFilesDir(getContext()), res.fileName);
+        final boolean isDownloaded = localFile.exists() && localFile.length() > 0;
+
+        final TextView tvStatus = new TextView(getContext());
+        tvStatus.setText(isDownloaded ? "已就绪" : "未下载");
+        tvStatus.setTextSize(11f);
+        tvStatus.setTextColor(isDownloaded ? SiyoXTheme.getAccentBlue() : SiyoXTheme.getTextSecondary(isDark));
+        topRow.addView(tvStatus);
+        card.addView(topRow);
+
+        // 2. 描述
+        if (res.description != null && !res.description.isEmpty()) {
+            TextView tvDesc = new TextView(getContext());
+            tvDesc.setText(res.description);
+            tvDesc.setTextSize(11f);
+            tvDesc.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+            tvDesc.setPadding(0, dp(3), 0, 0);
+            card.addView(tvDesc);
+        }
+
+        // 3. 下载进度条 (默认隐藏)
+        final ProgressBar pbDownload = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
+        pbDownload.setMax(100);
+        pbDownload.setProgress(0);
+        pbDownload.setVisibility(View.GONE);
+        LinearLayout.LayoutParams pbParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(4));
+        pbParams.setMargins(0, dp6, 0, dp6);
+        pbDownload.setLayoutParams(pbParams);
+        card.addView(pbDownload);
+
+        // 4. 底部操作按钮
+        final Button btnAction = new Button(getContext());
+        btnAction.setText(isDownloaded ? "注入" : "下载");
+        btnAction.setTextSize(13f);
+        btnAction.setTypeface(Typeface.DEFAULT_BOLD);
+        btnAction.setTextColor(Color.WHITE);
+        btnAction.setBackground(createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(10)));
+        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38));
+        btnParams.setMargins(0, dp8, 0, 0);
+        btnAction.setLayoutParams(btnParams);
+
+        btnAction.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (localFile.exists() && localFile.length() > 0) {
+                    // 执行注入
+                    btnAction.setEnabled(false);
+                    tvStatus.setText("正在注入...");
+                    tvStatus.setTextColor(SiyoXTheme.getAccentBlue());
+                    Toast.makeText(getContext(), "开始注入材质资源...", Toast.LENGTH_SHORT).show();
+
+                    ResourceInjector.injectZip(getContext(), localFile, new ResourceInjector.InjectCallback() {
+                        @Override
+                        public void onProgress(String message) {
+                            tvStatus.setText(message);
+                        }
+
+                        @Override
+                        public void onSuccess(String message) {
+                            btnAction.setEnabled(true);
+                            tvStatus.setText("已注入");
+                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            btnAction.setEnabled(true);
+                            tvStatus.setText("注入失败");
+                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    // 执行下载
+                    btnAction.setEnabled(false);
+                    pbDownload.setVisibility(View.VISIBLE);
+                    pbDownload.setProgress(0);
+                    tvStatus.setText("连接中...");
+                    tvStatus.setTextColor(SiyoXTheme.getAccentBlue());
+
+                    ResourceInjector.downloadResource(getContext(), res.url, res.fileName, new ResourceInjector.DownloadCallback() {
+                        @Override
+                        public void onProgress(int percent, long currentBytes, long totalBytes) {
+                            if (percent >= 0) {
+                                pbDownload.setProgress(percent);
+                                tvStatus.setText("下载中 " + percent + "%");
+                            } else {
+                                tvStatus.setText("下载中...");
+                            }
+                        }
+
+                        @Override
+                        public void onSuccess(File downloadedFile) {
+                            btnAction.setEnabled(true);
+                            btnAction.setText("注入");
+                            pbDownload.setVisibility(View.GONE);
+                            tvStatus.setText("已就绪");
+                            Toast.makeText(getContext(), "下载完成，点击“注入”即可生效！", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            btnAction.setEnabled(true);
+                            pbDownload.setVisibility(View.GONE);
+                            tvStatus.setText("下载失败");
+                            Toast.makeText(getContext(), "下载失败: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        card.addView(btnAction);
+        return card;
+    }
+
+    private View createCustomResourceCard(final File zipFile, boolean isDark) {
+        int dp14 = dp(14);
+        int dp12 = dp(12);
+        int dp10 = dp(10);
+        int dp8 = dp(8);
+
+        LinearLayout card = createInnerCard(isDark);
+        card.setPadding(dp14, dp12, dp14, dp12);
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        cardParams.setMargins(0, 0, 0, dp10);
+        card.setLayoutParams(cardParams);
+
+        // 1. 顶部：文件名 + 文件大小
+        LinearLayout topRow = new LinearLayout(getContext());
+        topRow.setOrientation(LinearLayout.HORIZONTAL);
+        topRow.setGravity(Gravity.CENTER_VERTICAL);
+
+        TextView tvName = new TextView(getContext());
+        tvName.setText(zipFile.getName());
+        tvName.setTextSize(13f);
+        tvName.setTypeface(Typeface.DEFAULT_BOLD);
+        tvName.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        tvName.setSingleLine(true);
+        tvName.setEllipsize(TextUtils.TruncateAt.MIDDLE);
+        tvName.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+        topRow.addView(tvName);
+
+        TextView tvSize = new TextView(getContext());
+        tvSize.setText(formatFileSize(zipFile.length()));
+        tvSize.setTextSize(11f);
+        tvSize.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+        tvSize.setPadding(dp8, 0, 0, 0);
+        topRow.addView(tvSize);
+
+        card.addView(topRow);
+
+        // 2. 注入按钮
+        final Button btnInject = new Button(getContext());
+        btnInject.setText("注入");
+        btnInject.setTextSize(13f);
+        btnInject.setTypeface(Typeface.DEFAULT_BOLD);
+        btnInject.setTextColor(Color.WHITE);
+        btnInject.setBackground(createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(10)));
+        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38));
+        btnParams.setMargins(0, dp8, 0, 0);
+        btnInject.setLayoutParams(btnParams);
+
+        btnInject.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnInject.setEnabled(false);
+                Toast.makeText(getContext(), "开始注入自定义材质...", Toast.LENGTH_SHORT).show();
+
+                ResourceInjector.injectZip(getContext(), zipFile, new ResourceInjector.InjectCallback() {
+                    @Override
+                    public void onProgress(String message) {
+                    }
+
+                    @Override
+                    public void onSuccess(String message) {
+                        btnInject.setEnabled(true);
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        btnInject.setEnabled(true);
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        card.addView(btnInject);
+        return card;
+    }
+
+    // ==========================================
+    // 2. 辅助功能 (资源管理[清空资源包] & 模块功能)
+    // ==========================================
+    private void renderAuxiliaryFeatures(boolean isDark) {
+        int dp14 = dp(14);
+        int dp12 = dp(12);
+        int dp10 = dp(10);
+        int dp8 = dp(8);
+        int dp16 = dp(16);
+
+        // 版块 1: 资源管理
+        TextView titleResManage = createSectionTitle("资源管理", isDark);
+        featureListContent.addView(titleResManage);
+
+        LinearLayout clearCard = createInnerCard(isDark);
+        clearCard.setPadding(dp14, dp12, dp14, dp12);
+        LinearLayout.LayoutParams ccParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        ccParams.setMargins(0, 0, 0, dp10);
+        clearCard.setLayoutParams(ccParams);
+
+        TextView tvClearTitle = new TextView(getContext());
+        tvClearTitle.setText("清空资源包");
+        tvClearTitle.setTextSize(13.5f);
+        tvClearTitle.setTypeface(Typeface.DEFAULT_BOLD);
+        tvClearTitle.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        clearCard.addView(tvClearTitle);
+
+        TextView tvClearDesc = new TextView(getContext());
+        tvClearDesc.setText("将游戏材质目录恢复至注入前的初始状态，不再使用任何注入材质");
+        tvClearDesc.setTextSize(11f);
+        tvClearDesc.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+        tvClearDesc.setPadding(0, dp(2), 0, dp8);
+        clearCard.addView(tvClearDesc);
+
+        Button btnClear = new Button(getContext());
+        btnClear.setText("清空资源包");
+        btnClear.setTextSize(13f);
+        btnClear.setTypeface(Typeface.DEFAULT_BOLD);
+        btnClear.setTextColor(Color.parseColor("#FF3B30"));
+        btnClear.setBackground(createExitRippleDrawable(SiyoXTheme.getExitBtnBg(isDark), dp(10)));
+        LinearLayout.LayoutParams btnClearParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38));
+        btnClear.setLayoutParams(btnClearParams);
+
+        btnClear.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = ResourceInjector.restoreBackup(getContext());
+                if (success) {
+                    Toast.makeText(getContext(), "已成功清空资源包并恢复初始状态！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "目标资源目录已是初始状态或无备份", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        clearCard.addView(btnClear);
+        featureListContent.addView(clearCard);
+
+        // 版块 2: 模块功能
+        TextView titleModule = createSectionTitle("模块功能", isDark);
+        featureListContent.addView(titleModule);
+
+        featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 01", "核心辅助功能模块，可在源码中接入具体功能", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                Toast.makeText(getContext(), "功能 01: " + (isChecked ? "已启用" : "已停用"), Toast.LENGTH_SHORT).show();
+            }
+        }));
+
+        featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 02", "扩展辅助功能模块，可在源码中接入具体功能", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                Toast.makeText(getContext(), "功能 02: " + (isChecked ? "已启用" : "已停用"), Toast.LENGTH_SHORT).show();
+            }
+        }));
+
+        featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 03", "自适应视觉微调模块，支持独立开关控制", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                Toast.makeText(getContext(), "功能 03: " + (isChecked ? "已启用" : "已停用"), Toast.LENGTH_SHORT).show();
+            }
+        }));
+    }
+
+    private static String formatFileSize(long length) {
+        if (length < 1024) {
+            return length + " B";
+        } else if (length < 1024 * 1024) {
+            return String.format(java.util.Locale.getDefault(), "%.1f KB", length / 1024.0);
+        } else {
+            return String.format(java.util.Locale.getDefault(), "%.1f MB", length / (1024.0 * 1024.0));
+        }
+    }
+
 
     // 4. 目录的标题、目录路径和复制按钮在同一行里
     private View createDirectoryCard(final String title, final String path, final String toastMsg, boolean isDark) {

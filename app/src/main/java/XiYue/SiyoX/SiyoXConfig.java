@@ -22,9 +22,40 @@ public class SiyoXConfig {
     public static final String GITHUB_URL = "https://github.com/XiYueMax/SiyoX";
     public static final String TARGET_PACKAGE = "com.netease.x19";
 
+    // ==================== 默认资源配置 ====================
+    public static class DefaultResource {
+        public final String name;
+        public final String url;
+        public final String fileName;
+        public final String description;
 
+        public DefaultResource(String name, String url, String fileName, String description) {
+            this.name = name;
+            this.url = url;
+            this.fileName = fileName;
+            this.description = description;
+        }
+    }
 
-    // ==================== 网络验证类型 ====================
+    /**
+     * 开发者预置默认资源包列表 (在面板“资源列表 -> 默认资源”中展示)
+     * 可在下方自由添加或修改预置材质包名称与直链下载地址
+     */
+    public static final DefaultResource[] DEFAULT_RESOURCES = new DefaultResource[]{
+            new DefaultResource(
+                    "SiyoX 官方专属优化材质包",
+                    "https://example.com/res/siyox_default_texture.zip",
+                    "siyox_default_texture.zip",
+                    "官方定制超清纹理优化包，深度优化游戏加载与材质表现"
+            ),
+            new DefaultResource(
+                    "PVP 极速流畅材质包",
+                    "https://example.com/res/siyox_pvp_texture.zip",
+                    "siyox_pvp_texture.zip",
+                    "极致低延迟低粒子渲染，专为竞技与对战定制"
+            )
+    };
+
     public enum VerifyType {
         EPIC,    // 摇光云验证
         T3,      // T3网络验证
@@ -32,16 +63,16 @@ public class SiyoXConfig {
     }
 
     /**
-     * ★ 当前使用的网络验证提供商（在此切换）：
+     *   网络验证提供商列表
      * - VerifyType.EPIC   : 摇光云验证
      * - VerifyType.T3     : T3网络验证
      * - VerifyType.WEIYAN : 微验网络验证
      */
-    public static VerifyType CURRENT_VERIFY_TYPE = VerifyType.EPIC;
+    public static VerifyType CURRENT_VERIFY_TYPE = VerifyType.EPIC; //在等号后修改网络验证提供商 [例如你要用T3，那就把等号后面的VerifyType.EPIC换成VerifyType.T3]
 
     // ==================== 1. EPIC (摇光云) 配置 ====================
     public static class EpicConfig {
-        public static final String APP_KEY = "iJQfzsjaI5IHW7W6VKjDXmF7gMxpSy0s";
+        public static final String APP_KEY = "your_epic_app_key";
         public static final String[] HOSTS = new String[]{
                 "epic.z74d.top",
                 "gl.t60.top",
@@ -65,8 +96,8 @@ public class SiyoXConfig {
     // ==================== 3. 微验 (WeiYan) 网络验证配置 ====================
     public static class WeiYanConfig {
         public static final String API_HOST = "wy.llua.cn";
-        public static final String APP_ID = "10000";
-        public static final String APP_KEY = "8LjdoLopmH9LyLVh";
-        public static final String RC4_KEY = "ElFlF870vDk88gef";
+        public static final String APP_ID = "your_weiyan_app_id";
+        public static final String APP_KEY = "your_weiyan_app_key";
+        public static final String RC4_KEY = "your_weiyan_rc4_key";
     }
 }
