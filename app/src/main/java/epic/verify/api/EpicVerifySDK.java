@@ -15,33 +15,11 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-
-
-
-
-
-
-
-
-/**
- * EpicVerify SDK —— 与后端验证服务（TCP 5000）逐字节兼容的纯 Java 客户端。
- *
- * 用法：
- *   EpicVerifySDK sdk = new EpicVerifySDK("epic.z74d.top", 5000, "官网换取的加密AppKey");
- *   sdk.setDeviceId(deviceId);
- *   sdk.setCard(card);
- *   Resp r = sdk.cardVerify();          // code==200 即成功
- *
- * 全功能：卡密验证 / 在线心跳 / 卡密查询 / 解绑 / 密码验证 / 云端配置 / 公告 / 版本升级。
- * JDK7 兼容，零第三方依赖。
- */
 public class EpicVerifySDK {
 
     public static final String SDK_VERSION = "1.0.0";
 
-    /** 服务器 RSA 公钥（DER Base64），与服务器 verify_key/public_key.pem 配套。 */
-    public static final String PUBLIC_KEY_BASE64 =
+public static final String PUBLIC_KEY_BASE64 =
             "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiGcQ9YZC70OTUFdZtTfsqXgTwwK90bwU0p5sE9yi/kfebKs2JAi8JSeBSKJkaZ3T4+Q9oCWTnLrpkgqMCkNq/3GY2aTpyp/c4Tgl2ckf1Chfoy27fLcDJWjK/zBUzgLTjV0L0eOG7L7Gr+cJgcYrUPv7CXch773JKcNK0ce/uZD2+GChM+zOycaVbeJj1+WYGo0Dq8aTYqiJh99tKEKyGT7O3JKbyEb2jyeQO/TCCsAoVOulQcuGXUGageBrJnnod3J0QUdF30SMOLtlKk4tDjb+ptv7rk58EIYFcyzwAufiucQ8Vj0FgGm92/fZ9r29dnTDI+VTeZ7JGo+kiBIAkwIDAQAB";
 
     private static final String MAGIC = "Epic";
@@ -80,13 +58,11 @@ public class EpicVerifySDK {
         void onHeartbeatFail(Resp resp);
     }
 
-    /** 通用心跳监听：每次心跳（成功/失败）都会回调，便于实时展示。 */
-    public interface HeartbeatListener {
+public interface HeartbeatListener {
         void onHeartbeat(Resp resp);
     }
 
-    /** 登录结果（Card.Verify / Card.Pass / Card.Valid 成功后有效）。 */
-    public static class LoginResult {
+public static class LoginResult {
         public String token;
         public long expire;
 
@@ -95,28 +71,26 @@ public class EpicVerifySDK {
         }
     }
 
-    /** 按钮：文本/事件/值。文本为空或未配置则该按钮不启用（后端控制）。 */
-    public static class Btn {
-        public String text;   // {prefix}_btn_value
-        public int event;     // {prefix}_btn_event（0退出 1网页 2QQ 3QQ群 4查卡 5解绑 6开应用 7分享 8分享QQ 9分享微信 10复制）
-        public String value;  // {prefix}_btn_event_value（无则回退 {prefix}_event_value）
+public static class Btn {
+        public String text;   
+        public int event;     
+        public String value;  
 
         public boolean enabled() {
             return text != null && text.length() > 0;
         }
     }
 
-    /** 公告（来源 Soft.announcementInfo，字段见 epic_soft_module_info）。 */
-    public static class Notice {
-        public String title;          // title_value
-        public String content;        // msg_value
-        public Btn confirm = new Btn(); // confirm_btn_*
-        public Btn cancel = new Btn();  // cancel_btn_*
-        public Btn extra = new Btn();   // extra_btn_*
-        public boolean diffShowEnable;// diff_show_enable
-        public int announcementMode;  // announcement_mode
-        public int dialogStyle;       // dialog_style
-        public int showType;          // show_type
+public static class Notice {
+        public String title;          
+        public String content;        
+        public Btn confirm = new Btn(); 
+        public Btn cancel = new Btn();  
+        public Btn extra = new Btn();   
+        public boolean diffShowEnable;
+        public int announcementMode;  
+        public int dialogStyle;       
+        public int showType;          
         public String raw;
 
         public boolean hasNotice() {
@@ -124,41 +98,39 @@ public class EpicVerifySDK {
         }
     }
 
-    /** 版本（来源 Soft.upgradeInfo，字段见 epic_soft_module_info）。 */
-    public static class Version {
-        public String title;          // title_value
-        public String content;        // msg_value
-        public int version;           // upgrade_version
-        public String downloadUrl;    // upgrade_url
-        public int updateType;        // upgrade_type
-        public String upgradeBtn;     // upgrade_btn_value
-        public String cancelBtn;      // cancel_btn_value
-        public String ignoreBtn;      // ignore_btn_value
-        public String updateLog;      // update_log
-        public boolean cancelEnable;  // upgrade_cancel_enable
-        public boolean ignoreEnable;  // upgrade_ignore_enable
-        public int dialogStyle;       // dialog_style
-        public int showType;          // show_type
+public static class Version {
+        public String title;          
+        public String content;        
+        public int version;           
+        public String downloadUrl;    
+        public int updateType;        
+        public String upgradeBtn;     
+        public String cancelBtn;      
+        public String ignoreBtn;      
+        public String updateLog;      
+        public boolean cancelEnable;  
+        public boolean ignoreEnable;  
+        public int dialogStyle;       
+        public int showType;          
         public boolean hasUpdate;
         public String raw;
     }
 
-    /** 网络验证模块（来源 Soft.verifyInfo，字段见 epic_soft_module_info）。 */
-    public static class VerifyConfig {
-        public String title;            // title_value
-        public String content;          // msg_value
-        public int bindingType;         // binding_type
-        public int heartbeatType;       // heartbeat_type
-        public int heartbeatTime;       // heartbeat_time（分钟）
-        public int heartbeatEvent;      // heartbeat_event
-        public String heartbeatEventValue; // heartbeat_event_value
-        public String cardPlaceholder;  // card_placeholder
-        public String secretKey;        // secretKey
-        public Btn confirm = new Btn(); // confirm_btn_*
-        public Btn cancel = new Btn();  // cancel_btn_*
-        public Btn extra = new Btn();   // extra_btn_*
-        public int dialogStyle;         // dialog_style
-        public int showType;            // show_type
+public static class VerifyConfig {
+        public String title;            
+        public String content;          
+        public int bindingType;         
+        public int heartbeatType;       
+        public int heartbeatTime;       
+        public int heartbeatEvent;      
+        public String heartbeatEventValue; 
+        public String cardPlaceholder;  
+        public String secretKey;        
+        public Btn confirm = new Btn(); 
+        public Btn cancel = new Btn();  
+        public Btn extra = new Btn();   
+        public int dialogStyle;         
+        public int showType;            
         public String raw;
 
         public boolean hasVerify() {
@@ -166,16 +138,15 @@ public class EpicVerifySDK {
         }
     }
 
-    /** 密码进入模块（来源 Soft.passInfo，字段见 epic_soft_module_info）。 */
-    public static class Pass {
-        public int passType;        // pass_type
-        public String title;        // title_value
-        public String content;      // msg_value
-        public Btn confirm = new Btn(); // confirm_btn_*
-        public Btn cancel = new Btn();  // cancel_btn_*
-        public Btn extra = new Btn();   // extra_btn_*
-        public String pass;         // pass（模块内配置的密码）
-        public int showType;        // show_type
+public static class Pass {
+        public int passType;        
+        public String title;        
+        public String content;      
+        public Btn confirm = new Btn(); 
+        public Btn cancel = new Btn();  
+        public Btn extra = new Btn();   
+        public String pass;         
+        public int showType;        
         public String raw;
 
         public boolean hasPass() {
@@ -187,18 +158,15 @@ public class EpicVerifySDK {
         this(new String[]{host}, port, appKey, PUBLIC_KEY_BASE64);
     }
 
-    /** 多服务器（主/备）构造器：连接失败自动按顺序切换下一个 host。 */
-    public EpicVerifySDK(String[] hosts, int port, String appKey) throws EpicVerifyException {
+public EpicVerifySDK(String[] hosts, int port, String appKey) throws EpicVerifyException {
         this(hosts, port, appKey, PUBLIC_KEY_BASE64);
     }
 
-    /** 可指定公钥的构造器（默认使用内嵌公钥，一般仅需使用默认构造器）。 */
-    public EpicVerifySDK(String host, int port, String appKey, String publicKeyBase64) throws EpicVerifyException {
+public EpicVerifySDK(String host, int port, String appKey, String publicKeyBase64) throws EpicVerifyException {
         this(new String[]{host}, port, appKey, publicKeyBase64);
     }
 
-    /** 多服务器 + 自定义公钥（一般用前两个构造器即可）。 */
-    public EpicVerifySDK(String[] hosts, int port, String appKey, String publicKeyBase64) throws EpicVerifyException {
+public EpicVerifySDK(String[] hosts, int port, String appKey, String publicKeyBase64) throws EpicVerifyException {
         if (hosts == null || hosts.length == 0) throw new EpicVerifyException("hosts is empty");
         for (String h : hosts) {
             if (h == null || h.length() == 0) throw new EpicVerifyException("host is empty");
@@ -212,7 +180,7 @@ public class EpicVerifySDK {
         } catch (Exception e) {
             throw new EpicVerifyException("init rsa public key failed: " + e.getMessage(), e);
         }
-        // appKey 自适应：344 位 Base64 视为"已是加密 AppKey"；否则视为"明文 AppKey"，自动用公钥加密
+        
         if (isEncryptedAppKey(appKey)) {
             this.appKey = appKey;
         } else {
@@ -235,9 +203,7 @@ public class EpicVerifySDK {
         return true;
     }
 
-    // ==================== 配置项 ====================
-
-    public void setDebug(boolean debug) {
+public void setDebug(boolean debug) {
         this.debug = debug;
     }
 
@@ -269,8 +235,7 @@ public class EpicVerifySDK {
         return card;
     }
 
-
-    public void setAutoHeartbeat(boolean autoHeartbeat) {
+public void setAutoHeartbeat(boolean autoHeartbeat) {
         this.autoHeartbeat = autoHeartbeat;
     }
 
@@ -286,14 +251,11 @@ public class EpicVerifySDK {
         this.heartbeatFailListener = listener;
     }
 
-    /** 通用心跳监听：每次心跳都回调（含成功），适合实时打印到日志。 */
-    public void setOnHeartbeatListener(HeartbeatListener listener) {
+public void setOnHeartbeatListener(HeartbeatListener listener) {
         this.heartbeatListener = listener;
     }
 
-    // ==================== 状态读取 ====================
-
-    public LoginResult getLoginResult() {
+public LoginResult getLoginResult() {
         if (token == null || token.length() == 0) return null;
         LoginResult r = new LoginResult();
         r.token = token;
@@ -301,8 +263,7 @@ public class EpicVerifySDK {
         return r;
     }
 
-    /** 剩余有效秒数（未验证返回 -1）。 */
-    public long getTimeRemaining() {
+public long getTimeRemaining() {
         if (expire <= 0) return -1L;
         long ms = expire - System.currentTimeMillis();
         return ms <= 0 ? 0L : ms / 1000L;
@@ -316,15 +277,11 @@ public class EpicVerifySDK {
         return lastSoftConfig;
     }
 
-    /** 最近一次成功连接的服务器（主备切换时用于排查）。 */
-    public String getLastServer() {
+public String getLastServer() {
         return lastServer;
     }
 
-    // ==================== 工具 ====================
-
-    /** 明文 AppKey -> 加密 AppKey（使用内嵌公钥，PKCS1 随机填充，每次结果不同）。 */
-    public static String encryptAppKey(String plaintext) throws EpicVerifyException {
+public static String encryptAppKey(String plaintext) throws EpicVerifyException {
         try {
             return RSAUtil.encryptWithPublicKey(plaintext, RSAUtil.readPublicKey(PUBLIC_KEY_BASE64));
         } catch (Exception e) {
@@ -332,10 +289,7 @@ public class EpicVerifySDK {
         }
     }
 
-    // ==================== 卡密 API ====================
-
-    /** 卡密验证（Card.Verify）。成功后自动开始心跳。 */
-    public Resp cardVerify() throws EpicVerifyException {
+public Resp cardVerify() throws EpicVerifyException {
         LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
         data.put("card", card);
         data.put("mac", deviceId);
@@ -344,8 +298,7 @@ public class EpicVerifySDK {
         return resp;
     }
 
-    /** 在线校验 / 心跳（Card.Valid）。 */
-    public Resp cardValid() throws EpicVerifyException {
+public Resp cardValid() throws EpicVerifyException {
         if (token == null || token.length() == 0) {
             throw new EpicVerifyException("not logged in, token is empty");
         }
@@ -368,23 +321,20 @@ public class EpicVerifySDK {
         return resp;
     }
 
-    /** 卡密查询（Card.Query）。 */
-    public Resp cardQuery() throws EpicVerifyException {
+public Resp cardQuery() throws EpicVerifyException {
         LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
         data.put("card", card);
         return requestCard(1, data);
     }
 
-    /** 卡密解绑（Card.Unbind）。 */
-    public Resp cardUnbind() throws EpicVerifyException {
+public Resp cardUnbind() throws EpicVerifyException {
         LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
         data.put("card", card);
         data.put("mac", deviceId);
         return requestCard(3, data);
     }
 
-    /** 密码验证（Card.Pass）。成功后自动开始心跳。 */
-    public Resp cardPass() throws EpicVerifyException {
+public Resp cardPass() throws EpicVerifyException {
         LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
         data.put("card", card);
         Resp resp = requestCard(4, data);
@@ -392,17 +342,13 @@ public class EpicVerifySDK {
         return resp;
     }
 
-    // ==================== 应用配置 API ====================
-
-    /** 拉取应用云端配置（Soft）。 */
-    public Resp getSoftwareConfig() throws EpicVerifyException {
+public Resp getSoftwareConfig() throws EpicVerifyException {
         Resp resp = requestSoft();
         lastSoftConfig = resp;
         return resp;
     }
 
-    /** 远程公告（来源 Soft.announcementInfo）。 */
-    public Notice getSoftwareNotice() throws EpicVerifyException {
+public Notice getSoftwareNotice() throws EpicVerifyException {
         return parseNotice(getSoftwareConfig());
     }
 
@@ -411,8 +357,7 @@ public class EpicVerifySDK {
         return parseNotice(softConfig);
     }
 
-    /** 应用最新版本（来源 Soft.upgradeInfo）。 */
-    public Version getSoftwareLatestVersion(String currentVersion) throws EpicVerifyException {
+public Version getSoftwareLatestVersion(String currentVersion) throws EpicVerifyException {
         return parseVersion(getSoftwareConfig(), currentVersion);
     }
 
@@ -421,8 +366,7 @@ public class EpicVerifySDK {
         return parseVersion(softConfig, currentVersion);
     }
 
-    /** 网络验证模块配置（来源 Soft.verifyInfo）。 */
-    public VerifyConfig getVerifyConfig() throws EpicVerifyException {
+public VerifyConfig getVerifyConfig() throws EpicVerifyException {
         return parseVerifyConfig(getSoftwareConfig());
     }
 
@@ -431,8 +375,7 @@ public class EpicVerifySDK {
         return parseVerifyConfig(softConfig);
     }
 
-    /** 密码进入模块配置（来源 Soft.passInfo）。 */
-    public Pass getSoftwarePass() throws EpicVerifyException {
+public Pass getSoftwarePass() throws EpicVerifyException {
         return parsePass(getSoftwareConfig());
     }
 
@@ -441,10 +384,7 @@ public class EpicVerifySDK {
         return parsePass(softConfig);
     }
 
-    // ==================== 生命周期 ====================
-
-    /** 释放资源：停止心跳并关闭内部线程。 */
-    public void release() {
+public void release() {
         synchronized (this) {
             if (heartbeatTimer != null) {
                 heartbeatTimer.cancel();
@@ -453,9 +393,7 @@ public class EpicVerifySDK {
         }
     }
 
-    // ==================== 内部实现 ====================
-
-    private void handleLoginSuccess(Resp resp) {
+private void handleLoginSuccess(Resp resp) {
         if (resp.data != null) {
             String t = resp.data.getString("token");
             if (t != null && t.length() > 0) token = t;
@@ -548,7 +486,7 @@ public class EpicVerifySDK {
             soft.writeBytesField(2, buildMapEntry("packageName", packageName.getBytes("UTF-8")));
         }
         Proto msg = new Proto();
-        msg.writeInt32Field(1, 0); // DataType.Soft
+        msg.writeInt32Field(1, 0); 
         msg.writeBytesField(2, soft.toByteArray());
         return msg.toByteArray();
     }
@@ -557,7 +495,7 @@ public class EpicVerifySDK {
         byte[] basic = buildBasic();
         Proto card = new Proto();
         card.writeBytesField(1, basic);
-        card.writeInt32Field(2, op); // Card.opt
+        card.writeInt32Field(2, op); 
         if (appKey != null && appKey.length() > 0) {
             card.writeBytesField(3, buildMapEntry("appkey", appKey.getBytes("UTF-8")));
         }
@@ -569,7 +507,7 @@ public class EpicVerifySDK {
             }
         }
         Proto msg = new Proto();
-        msg.writeInt32Field(1, 1); // DataType.Card
+        msg.writeInt32Field(1, 1); 
         msg.writeBytesField(3, card.toByteArray());
         return msg.toByteArray();
     }
@@ -789,9 +727,7 @@ public class EpicVerifySDK {
         return s;
     }
 
-    /** 解析按钮：文本={prefix}_btn_value，事件={prefix}_btn_event，值={prefix}_btn_event_value（回退 {prefix}_event_value）。 */
-    /** 解析按钮：文本={prefix}_btn_value，事件={prefix}_btn_event，值={prefix}_btn_event_value（回退 {prefix}_event_value）。 */
-    private static void parseBtn(Obj o, Btn b, String prefix) {
+private static void parseBtn(Obj o, Btn b, String prefix) {
         b.text = o.getString(prefix + "_btn_value");
         b.event = o.getInt(prefix + "_btn_event");
         b.value = o.getString(prefix + "_btn_event_value");

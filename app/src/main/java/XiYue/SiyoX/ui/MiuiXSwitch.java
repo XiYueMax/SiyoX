@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX.ui;
 
@@ -29,7 +28,7 @@ public class MiuiXSwitch extends View {
     private final Paint shadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final RectF trackRect = new RectF();
 
-    private float progress = 0f; // 0.0 = off, 1.0 = on
+    private float progress = 0f; 
     private ValueAnimator animator;
 
     private static final int OFF_COLOR = Color.parseColor("#E5E7EB");
@@ -124,14 +123,12 @@ public class MiuiXSwitch extends View {
         int h = getHeight();
         float radius = h / 2f;
 
-        // 1. Draw Track
-        trackRect.set(0, 0, w, h);
+trackRect.set(0, 0, w, h);
         int currentTrackColor = evaluateColor(progress, OFF_COLOR, ON_COLOR);
         trackPaint.setColor(currentTrackColor);
         canvas.drawRoundRect(trackRect, radius, radius, trackPaint);
 
-        // 2. Draw Thumb Knob
-        float thumbPadding = dpF(2f);
+float thumbPadding = dpF(2f);
         float thumbRadius = radius - thumbPadding;
         float minCenterX = thumbPadding + thumbRadius;
         float maxCenterX = w - thumbPadding - thumbRadius;

@@ -1,4 +1,4 @@
-# SiyoX ProGuard Rules
+
 -dontwarn **
 -keepattributes *Annotation*,InnerClasses,EnclosingMethod,Signature
 -keep class epic.verify.api.** { *; }

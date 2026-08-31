@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX;
 
@@ -23,6 +22,8 @@ public class SiyoXConfig {
 
     public static String CLIENT_NAME = "";
     public static String CLIENT_AUTHOR = "";
+    public static String DEFAULT_NOTICE_TITLE = "官方公告";
+    public static String DEFAULT_NOTICE_CONTENT = "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。";
     public static boolean ENABLE_RESOURCE_MD5_VERIFY = true;
 
     public static class DefaultResource {
@@ -73,18 +74,22 @@ public class SiyoXConfig {
     public static class T3Config {
         public static String API_HOST = "";
         public static String APP_KEY = "";
+        public static String RC4_KEY = "";
         public static String LOGIN_CODE = "";
         public static String NOTICE_CODE = "";
         public static String VERSION_CODE_STR = "";
         public static String HEARTBEAT_CODE = "";
-        public static String RSA_PUBLIC_KEY = "";
     }
 
     public static class WeiYanConfig {
-        public static String API_HOST = "";
+        public static String API_HOST = "wy.llua.cn";
         public static String APP_ID = "";
         public static String APP_KEY = "";
         public static String RC4_KEY = "";
+        public static String API_TOKEN = "";
+        public static String LOGIN_CODE = "kmlogon";
+        public static String NOTICE_CODE = "notice";
+        public static String UPDATE_CODE = "checkupdate";
     }
 
     static {
@@ -96,6 +101,15 @@ public class SiyoXConfig {
             return;
         }
         try {
+            int nativeType = NativeVerify.nativeGetActiveVerifyType();
+            if (nativeType == 1) {
+                CURRENT_VERIFY_TYPE = VerifyType.T3;
+            } else if (nativeType == 2) {
+                CURRENT_VERIFY_TYPE = VerifyType.WEIYAN;
+            } else {
+                CURRENT_VERIFY_TYPE = VerifyType.EPIC;
+            }
+
             String nativeClientName = NativeVerify.nativeGetClientName();
             if (nativeClientName != null && !nativeClientName.isEmpty()) {
                 CLIENT_NAME = nativeClientName;
@@ -103,6 +117,15 @@ public class SiyoXConfig {
             String nativeClientAuthor = NativeVerify.nativeGetClientAuthor();
             if (nativeClientAuthor != null && !nativeClientAuthor.isEmpty()) {
                 CLIENT_AUTHOR = nativeClientAuthor;
+            }
+
+            String nativeNoticeTitle = NativeVerify.nativeGetDefaultNoticeTitle();
+            if (nativeNoticeTitle != null && !nativeNoticeTitle.isEmpty()) {
+                DEFAULT_NOTICE_TITLE = nativeNoticeTitle;
+            }
+            String nativeNoticeContent = NativeVerify.nativeGetDefaultNoticeContent();
+            if (nativeNoticeContent != null && !nativeNoticeContent.isEmpty()) {
+                DEFAULT_NOTICE_CONTENT = nativeNoticeContent;
             }
 
             ENABLE_RESOURCE_MD5_VERIFY = NativeVerify.nativeGetEnableMd5Verify();
@@ -125,11 +148,11 @@ public class SiyoXConfig {
                 JSONObject obj = new JSONObject(t3Json);
                 T3Config.API_HOST = obj.optString("apiHost", T3Config.API_HOST);
                 T3Config.APP_KEY = obj.optString("appKey", T3Config.APP_KEY);
+                T3Config.RC4_KEY = obj.optString("rc4Key", T3Config.RC4_KEY);
                 T3Config.LOGIN_CODE = obj.optString("loginCode", T3Config.LOGIN_CODE);
                 T3Config.NOTICE_CODE = obj.optString("noticeCode", T3Config.NOTICE_CODE);
                 T3Config.VERSION_CODE_STR = obj.optString("versionCode", T3Config.VERSION_CODE_STR);
                 T3Config.HEARTBEAT_CODE = obj.optString("heartbeatCode", T3Config.HEARTBEAT_CODE);
-                T3Config.RSA_PUBLIC_KEY = obj.optString("rsaPublicKey", T3Config.RSA_PUBLIC_KEY);
             }
 
             String wyJson = NativeVerify.nativeGetWeiYanConfigJson();
@@ -139,6 +162,10 @@ public class SiyoXConfig {
                 WeiYanConfig.APP_ID = obj.optString("appId", WeiYanConfig.APP_ID);
                 WeiYanConfig.APP_KEY = obj.optString("appKey", WeiYanConfig.APP_KEY);
                 WeiYanConfig.RC4_KEY = obj.optString("rc4Key", WeiYanConfig.RC4_KEY);
+                WeiYanConfig.API_TOKEN = obj.optString("apiToken", WeiYanConfig.API_TOKEN);
+                WeiYanConfig.LOGIN_CODE = obj.optString("loginCode", WeiYanConfig.LOGIN_CODE);
+                WeiYanConfig.NOTICE_CODE = obj.optString("noticeCode", WeiYanConfig.NOTICE_CODE);
+                WeiYanConfig.UPDATE_CODE = obj.optString("updateCode", WeiYanConfig.UPDATE_CODE);
             }
 
             String resJson = NativeVerify.nativeGetDefaultResourcesJson();

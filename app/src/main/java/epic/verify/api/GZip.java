@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-/**
- * GZip 压缩/解压工具。
- */
 public final class GZip {
 
     private GZip() {

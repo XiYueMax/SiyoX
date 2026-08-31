@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
 
-/**
- * 应用内更新安装结果回调（PackageInstaller.commit 的 resultReceiver）。
- * 安装结果通过 {@link #setListener} 回调给调用方，无监听时用 Toast 提示。
- */
 public class InstallReceiver extends BroadcastReceiver {
 
     public interface Listener {

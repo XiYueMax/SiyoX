@@ -1,6 +1,3 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
-
 package XiYue.SiyoX.hook;
 
 import android.app.Activity;
@@ -12,6 +9,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import XiYue.SiyoX.SiyoXConfig;
+import XiYue.SiyoX.data.SiyoXLogger;
 import XiYue.SiyoX.ui.FloatingOverlayManager;
 
 public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
@@ -35,7 +33,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
     private void hookActivityLifecycle(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
-            // Hook Activity.onCreate
             XposedHelpers.findAndHookMethod(
                 Activity.class,
                 "onCreate",
@@ -45,13 +42,13 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     protected void afterHookedMethod(MethodHookParam param) {
                         Activity activity = (Activity) param.thisObject;
                         if (activity == null || !SiyoXConfig.TARGET_PACKAGE.equals(activity.getPackageName())) return;
-                        XposedBridge.log("[" + TAG + "] Activity onCreate: " + activity.getClass().getName());
+                        SiyoXLogger.init(activity);
+                        SiyoXLogger.i(TAG, "Activity onCreate: " + activity.getClass().getName());
                         FloatingOverlayManager.attach(activity);
                     }
                 }
             );
 
-            // Hook Activity.onPostCreate
             XposedHelpers.findAndHookMethod(
                 Activity.class,
                 "onPostCreate",
@@ -61,13 +58,11 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     protected void afterHookedMethod(MethodHookParam param) {
                         Activity activity = (Activity) param.thisObject;
                         if (activity == null || !SiyoXConfig.TARGET_PACKAGE.equals(activity.getPackageName())) return;
-                        XposedBridge.log("[" + TAG + "] Activity onPostCreate: " + activity.getClass().getName());
                         FloatingOverlayManager.attach(activity);
                     }
                 }
             );
 
-            // Hook Activity.onResume
             XposedHelpers.findAndHookMethod(
                 Activity.class,
                 "onResume",
@@ -81,7 +76,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 }
             );
 
-            // Hook Activity.onWindowFocusChanged
             XposedHelpers.findAndHookMethod(
                 Activity.class,
                 "onWindowFocusChanged",
@@ -101,7 +95,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
         } catch (Throwable t) {
             XposedBridge.log("[" + TAG + "] Error hooking Activity lifecycle: " + t.getMessage());
-            t.printStackTrace();
         }
     }
 }

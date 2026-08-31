@@ -1,8 +1,5 @@
 package epic.verify.api;
 
-/**
- * JDK7/Android 兼容的 Base64 编解码（标准 Base64，带 '=' 填充）。
- */
 public final class Base64 {
 
     private static final char[] ALPHABET =

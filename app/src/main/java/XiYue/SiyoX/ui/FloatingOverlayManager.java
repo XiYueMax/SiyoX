@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX.ui;
 
@@ -33,8 +32,7 @@ public class FloatingOverlayManager {
                 try {
                     if (activity.isFinishing() || activity.isDestroyed()) return;
 
-                    // 允许窗口内容延伸至屏幕摄像头刘海与凹口区域
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         try {
                             WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
                             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
@@ -42,8 +40,7 @@ public class FloatingOverlayManager {
                         } catch (Throwable ignored) {}
                     }
 
-                    // 初始化配置、目录与网络验证
-                    AppSettings.init(activity.getApplicationContext());
+AppSettings.init(activity.getApplicationContext());
                     VerifyManager.init(activity.getApplicationContext());
                     SiyoXDirManager.initDirectories(activity.getApplicationContext());
 
@@ -58,8 +55,7 @@ public class FloatingOverlayManager {
                         return;
                     }
 
-                    // 禁用裁剪并清除内边距，确保悬浮球在全屏任何角落自由拖拽不被裁剪
-                    decorView.setClipChildren(false);
+decorView.setClipChildren(false);
                     decorView.setClipToPadding(false);
                     decorView.setPadding(0, 0, 0, 0);
 

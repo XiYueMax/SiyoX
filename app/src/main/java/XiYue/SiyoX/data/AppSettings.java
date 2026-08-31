@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX.data;
 
@@ -13,6 +12,7 @@ public class AppSettings {
     private static final String KEY_EXPIRE_TIME = "expire_time";
     private static final String KEY_AUTO_VERIFY = "auto_verify";
     private static final String KEY_REMEMBER_CARD = "remember_card";
+    private static final String KEY_INJECTED_PACK = "injected_pack";
 
     private final SharedPreferences sp;
     private static volatile AppSettings instance;
@@ -69,5 +69,13 @@ public class AppSettings {
 
     public void setRememberCard(boolean remember) {
         sp.edit().putBoolean(KEY_REMEMBER_CARD, remember).apply();
+    }
+
+    public String getInjectedPack() {
+        return sp.getString(KEY_INJECTED_PACK, "");
+    }
+
+    public void setInjectedPack(String pack) {
+        sp.edit().putString(KEY_INJECTED_PACK, pack != null ? pack : "").apply();
     }
 }

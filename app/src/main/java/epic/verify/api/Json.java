@@ -5,10 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 极简 JSON 解析器（JDK7 兼容，零依赖）。
- * 支持对象 / 数组 / 字符串 / 数字 / 布尔 / null；数字以原始字符串保留精度。
- */
 public final class Json {
 
     private Json() {
@@ -157,8 +153,7 @@ public final class Json {
         return v;
     }
 
-    /** 紧凑序列化（中文原样输出，不转 unicode 转义）。 */
-    public static String toString(Value v) {
+public static String toString(Value v) {
         if (v == null || v instanceof Null) return "null";
         if (v instanceof Bool) return String.valueOf(((Bool) v).value);
         if (v instanceof Num) return ((Num) v).raw;
@@ -183,8 +178,7 @@ public final class Json {
         return sb.append('}').toString();
     }
 
-    /** 美化输出（缩进 + 中文直显，方便调试查看）。 */
-    public static String toPrettyString(Value v) {
+public static String toPrettyString(Value v) {
         return pretty(v, 0);
     }
 
@@ -238,7 +232,7 @@ public final class Json {
                     if (c < 0x20) {
                         sb.append('\\').append('u').append(String.format("%04x", (int) c));
                     } else {
-                        sb.append(c);   // 中文等原样输出
+                        sb.append(c);   
                     }
             }
         }

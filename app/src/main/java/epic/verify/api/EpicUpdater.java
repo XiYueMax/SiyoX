@@ -16,24 +16,19 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * 应用内更新：下载 APK 到应用私有目录（cacheDir），用 PackageInstaller 安装（无需 FileProvider）。
- * 由 MainActivity / 接入方调用，结果通过回调返回。
- */
 public class EpicUpdater {
 
     public interface Callback {
         void onResult(boolean ok, String msg);
     }
 
-    /** 下载 APK 并安装；url 非法、下载失败、安装失败均回调失败信息。 */
-    public static void downloadAndInstall(final Context context, final String url, final int version, final Callback cb) {
+public static void downloadAndInstall(final Context context, final String url, final int version, final Callback cb) {
         if (url == null || url.length() == 0 || !url.startsWith("http")) {
             notify(cb, false, "下载地址无效");
             return;
         }
         final File file = new File(context.getCacheDir(), "upgrade_" + version + ".apk");
-        if (file.exists() && file.length() > 0) {   // 已下载过则直接安装
+        if (file.exists() && file.length() > 0) {   
             installApk(context, file, cb);
             return;
         }
@@ -66,8 +61,7 @@ public class EpicUpdater {
         t.start();
     }
 
-    /** PackageInstaller 安装（API 21+）；API 19-20 回退 file:// 安装。 */
-    public static void installApk(Context context, File file, Callback cb) {
+public static void installApk(Context context, File file, Callback cb) {
         try {
             if (Build.VERSION.SDK_INT < 21) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);

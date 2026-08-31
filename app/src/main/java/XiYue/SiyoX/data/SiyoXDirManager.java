@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX.data;
 
@@ -27,8 +26,7 @@ public class SiyoXDirManager {
         try {
             String pkgName = context.getPackageName();
 
-            // 1. 私有目录: /data/user/0/com.netease.x19/files/SiyoX/
-            File privateDir = new File(context.getFilesDir(), "SiyoX");
+File privateDir = new File(context.getFilesDir(), "SiyoX");
             if (!privateDir.exists()) {
                 privateDir.mkdirs();
             }
@@ -38,8 +36,7 @@ public class SiyoXDirManager {
                 extractLogoTo(context, privateLogoFile);
             }
 
-            // 2. 外部存储作用域目录: /sdcard/Android/data/com.netease.x19/SiyoX/
-            File extBaseDir = null;
+File extBaseDir = null;
             try {
                 File extFiles = context.getExternalFilesDir(null);
                 if (extFiles != null && extFiles.getParentFile() != null) {
@@ -52,21 +49,22 @@ public class SiyoXDirManager {
             }
 
             File resourcesDir = new File(extBaseDir, "Resources");
-            File scriptDir = new File(extBaseDir, "Script");
+            File logDir = new File(extBaseDir, "Log");
 
             if (!resourcesDir.exists()) resourcesDir.mkdirs();
-            if (!scriptDir.exists()) scriptDir.mkdirs();
+            if (!logDir.exists()) logDir.mkdirs();
 
-            // 也复制一份到 Android/data/com.netease.x19/SiyoX/Resources/
+            SiyoXLogger.init(context);
+
             File extLogoFile = new File(resourcesDir, "Logo.png");
             if (!extLogoFile.exists() || extLogoFile.length() == 0) {
                 extractLogoTo(context, extLogoFile);
             }
 
-            Log.i(TAG, "SiyoX directories initialized successfully!");
+            SiyoXLogger.i(TAG, "SiyoX directories initialized successfully!");
 
         } catch (Throwable t) {
-            Log.e(TAG, "Error initializing SiyoX directories: " + t.getMessage(), t);
+            SiyoXLogger.e(TAG, "Error initializing SiyoX directories: " + t.getMessage(), t);
         }
     }
 
@@ -93,14 +91,13 @@ public class SiyoXDirManager {
     }
 
     public static InputStream openLogoInputStream(Context context) {
-        // 1. Try from createPackageContext
+        
         try {
             Context modCtx = context.createPackageContext("XiYue.SiyoX", Context.CONTEXT_IGNORE_SECURITY);
             return modCtx.getAssets().open("logo.png");
         } catch (Throwable ignored) {}
 
-        // 2. Try from module APK file
-        try {
+try {
             PackageManager pm = context.getPackageManager();
             ApplicationInfo appInfo = pm.getApplicationInfo("XiYue.SiyoX", 0);
             if (appInfo.sourceDir != null) {
@@ -113,8 +110,7 @@ public class SiyoXDirManager {
             }
         } catch (Throwable ignored) {}
 
-        // 3. Try from module Resources via PM
-        try {
+try {
             PackageManager pm = context.getPackageManager();
             Resources modRes = pm.getResourcesForApplication("XiYue.SiyoX");
             int resId = modRes.getIdentifier("logo", "drawable", "XiYue.SiyoX");
@@ -123,8 +119,7 @@ public class SiyoXDirManager {
             }
         } catch (Throwable ignored) {}
 
-        // 4. Try current context assets/resources
-        try {
+try {
             return context.getAssets().open("logo.png");
         } catch (Throwable ignored) {}
 

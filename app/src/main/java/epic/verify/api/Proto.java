@@ -3,10 +3,6 @@ package epic.verify.api;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
-/**
- * Protobuf 变长（varint / length-delimited）编码器。
- * 仅为 VerifyMessage.proto 手写实现，零外部依赖。
- */
 public final class Proto {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream(256);

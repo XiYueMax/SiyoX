@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -17,24 +16,16 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 
-    signingConfigs {
-        create("release") {
-            storeFile = rootProject.file("SiyoX.jks")
-            storePassword = "SiyoX"
-            keyAlias = "SiyoX"
-            keyPassword = "SiyoX"
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
+        ndk {
+            abiFilters += setOf("arm64-v8a")
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = null
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -42,7 +33,7 @@ android {
         }
         debug {
             applicationIdSuffix = ""
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = null
         }
     }
 
@@ -89,7 +80,6 @@ android {
     }
 }
 
-// 彻底禁用 ART Profile / Baseline Profile 生成，移除 assets/dexopt
 tasks.matching { it.name.contains("ArtProfile") || it.name.contains("BaselineProfile") }.configureEach {
     enabled = false
 }
@@ -98,6 +88,5 @@ dependencies {
     implementation("androidx.core:core:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
 
-    // Xposed API (provided at runtime by LSPosed/Xposed framework)
-    compileOnly("de.robv.android.xposed:api:82")
+compileOnly("de.robv.android.xposed:api:82")
 }

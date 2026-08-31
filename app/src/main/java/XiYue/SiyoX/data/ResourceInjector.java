@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX.data;
 
@@ -34,14 +33,35 @@ public class ResourceInjector {
 
     private static final String TAG = "SiyoX_ResourceInjector";
 
-    // 目标资源包路径 (网易我的世界特定首发材质包目录)
-    public static final String TARGET_PACK_REL_PATH = "games/com.netease/resource_packs/3.9_FirstPatch_2024_res_s1_texture_647d7cd2-1f2d-5959-a82f-c1093988afd0_0_0_2";
+public static final String TARGET_PACK_REL_PATH = "games/com.netease/resource_packs/3.9_FirstPatch_2024_res_s1_texture_647d7cd2-1f2d-5959-a82f-c1093988afd0_0_0_2";
 
     private static final ExecutorService executor = Executors.newCachedThreadPool();
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
 
+    public static class DownloadTask {
+        private volatile boolean isPaused = false;
+        private volatile boolean isCancelled = false;
+
+        public void pause() {
+            this.isPaused = true;
+        }
+
+        public void cancel() {
+            this.isCancelled = true;
+        }
+
+        public boolean isPaused() {
+            return isPaused;
+        }
+
+        public boolean isCancelled() {
+            return isCancelled;
+        }
+    }
+
     public interface DownloadCallback {
         void onProgress(int percent, long currentBytes, long totalBytes);
+        void onPaused();
         void onSuccess(File downloadedFile);
         void onError(String error);
     }
@@ -52,20 +72,14 @@ public class ResourceInjector {
         void onError(String error);
     }
 
-    /**
-     * 获取目标资源包所在目录
-     */
-    public static File getTargetPackDir(Context context) {
+public static File getTargetPackDir(Context context) {
         if (context == null) {
             return new File("/data/user/0/com.netease.x19/files/" + TARGET_PACK_REL_PATH);
         }
         return new File(context.getFilesDir(), TARGET_PACK_REL_PATH);
     }
 
-    /**
-     * 获取直链下载文件的存放目录 (隐藏私有目录，不展示在UI)
-     */
-    public static File getResFilesDir(Context context) {
+public static File getResFilesDir(Context context) {
         File dir;
         if (context == null) {
             dir = new File("/data/user/0/com.netease.x19/files/SiyoX/ResFiles");
@@ -78,10 +92,7 @@ public class ResourceInjector {
         return dir;
     }
 
-    /**
-     * 获取原版资源备份目录
-     */
-    public static File getBackupDir(Context context) {
+public static File getBackupDir(Context context) {
         File dir;
         if (context == null) {
             dir = new File("/data/user/0/com.netease.x19/files/SiyoX/Backup/3.9_FirstPatch");
@@ -94,30 +105,24 @@ public class ResourceInjector {
         return dir;
     }
 
-    /**
-     * 检查并确保已备份初始原版资源
-     */
-    public static void ensureBackup(Context context) {
+public static void ensureBackup(Context context) {
         try {
             File targetDir = getTargetPackDir(context);
             File backupDir = getBackupDir(context);
             if (targetDir.exists() && targetDir.isDirectory()) {
                 File[] existingBackups = backupDir.listFiles();
                 if (existingBackups == null || existingBackups.length == 0) {
-                    Log.i(TAG, "Creating initial backup of resource pack...");
+                    SiyoXLogger.i(TAG, "Creating initial backup of resource pack...");
                     copyDirectory(targetDir, backupDir);
-                    Log.i(TAG, "Initial backup completed successfully.");
+                    SiyoXLogger.i(TAG, "Initial backup completed successfully.");
                 }
             }
         } catch (Throwable t) {
-            Log.e(TAG, "Failed to ensure backup: " + t.getMessage(), t);
+            SiyoXLogger.e(TAG, "Failed to ensure backup: " + t.getMessage(), t);
         }
     }
 
-    /**
-     * 清空资源包：将目标目录恢复至注入前的初始原版状态
-     */
-    public static boolean restoreBackup(Context context) {
+public static boolean restoreBackup(Context context) {
         try {
             File targetDir = getTargetPackDir(context);
             File backupDir = getBackupDir(context);
@@ -125,43 +130,35 @@ public class ResourceInjector {
             if (backupDir.exists() && backupDir.isDirectory()) {
                 File[] backupFiles = backupDir.listFiles();
                 if (backupFiles != null && backupFiles.length > 0) {
-                    // 1. 清空当前目标目录
+                    
                     deleteDirectory(targetDir);
                     targetDir.mkdirs();
 
-                    // 2. 复制备份文件回目标目录
-                    copyDirectory(backupDir, targetDir);
+copyDirectory(backupDir, targetDir);
 
-                    // 3. 重新生成 folder_md5.json 确保校验通过
-                    regenerateFolderMd5(targetDir);
+regenerateFolderMd5(targetDir);
                     return true;
                 }
             }
 
-            // 若无完整备份，则清空非核心文件并重构
-            if (targetDir.exists()) {
+if (targetDir.exists()) {
                 deleteDirectory(targetDir);
                 targetDir.mkdirs();
                 return true;
             }
             return false;
         } catch (Throwable t) {
-            Log.e(TAG, "Failed to restore backup: " + t.getMessage(), t);
+            SiyoXLogger.e(TAG, "Failed to restore backup: " + t.getMessage(), t);
             return false;
         }
     }
 
-    /**
-     * 下载网络直链资源包 (带进度回调与原子化 Temp 保护)
-     */
-    public static void downloadResource(final Context context, final String urlStr, final String fileName, final DownloadCallback callback) {
-        downloadResource(context, urlStr, fileName, null, callback);
+    public static DownloadTask downloadResource(final Context context, final String urlStr, final String fileName, final DownloadCallback callback) {
+        return downloadResource(context, urlStr, fileName, null, callback);
     }
 
-    /**
-     * 下载网络直链资源包 (带进度回调、预期 MD5 校验与原子化 Temp 保护)
-     */
-    public static void downloadResource(final Context context, final String urlStr, final String fileName, final String expectedMd5, final DownloadCallback callback) {
+    public static DownloadTask downloadResource(final Context context, final String urlStr, final String fileName, final String expectedMd5, final DownloadCallback callback) {
+        final DownloadTask task = new DownloadTask();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -174,9 +171,9 @@ public class ResourceInjector {
                     final File targetFile = new File(resDir, fileName);
                     tempFile = new File(resDir, fileName + ".tmp");
 
-                    // 1. 若上次遗留了残缺临时文件，先清理干净
-                    if (tempFile.exists()) {
-                        tempFile.delete();
+                    long existingBytes = 0;
+                    if (tempFile.exists() && tempFile.isFile()) {
+                        existingBytes = tempFile.length();
                     }
 
                     URL url = new URL(urlStr);
@@ -185,6 +182,10 @@ public class ResourceInjector {
                     conn.setReadTimeout(30000);
                     conn.setInstanceFollowRedirects(true);
                     conn.setRequestProperty("User-Agent", "Mozilla/5.0 SiyoX-Client/1.0");
+
+                    if (existingBytes > 0) {
+                        conn.setRequestProperty("Range", "bytes=" + existingBytes + "-");
+                    }
 
                     int responseCode = conn.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_MOVED_TEMP ||
@@ -196,28 +197,61 @@ public class ResourceInjector {
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setConnectTimeout(15000);
                         conn.setReadTimeout(30000);
+                        if (existingBytes > 0) {
+                            conn.setRequestProperty("Range", "bytes=" + existingBytes + "-");
+                        }
                         responseCode = conn.getResponseCode();
                     }
 
+                    boolean isPartial = (responseCode == 206);
                     if (responseCode != HttpURLConnection.HTTP_OK && responseCode != 206) {
-                        throw new Exception("HTTP " + responseCode + ": " + conn.getResponseMessage());
+                        if (existingBytes > 0 && responseCode == 416) {
+                            tempFile.delete();
+                            existingBytes = 0;
+                            conn.disconnect();
+                            conn = (HttpURLConnection) url.openConnection();
+                            conn.setConnectTimeout(15000);
+                            conn.setReadTimeout(30000);
+                            responseCode = conn.getResponseCode();
+                            isPartial = false;
+                        } else {
+                            throw new Exception("HTTP " + responseCode + ": " + conn.getResponseMessage());
+                        }
                     }
 
-                    final long totalBytes = conn.getContentLength();
+                    long serverContentLength = conn.getContentLength();
+                    final long totalBytes = isPartial ? (existingBytes + serverContentLength) : (serverContentLength > 0 ? serverContentLength : -1);
+                    long downloadedBytes = isPartial ? existingBytes : 0;
+
                     is = new BufferedInputStream(conn.getInputStream());
-                    os = new BufferedOutputStream(new FileOutputStream(tempFile));
+                    os = new BufferedOutputStream(new FileOutputStream(tempFile, isPartial));
 
                     byte[] buffer = new byte[8192];
                     int len;
-                    long downloadedBytes = 0;
                     long lastNotifyTime = 0;
 
                     while ((len = is.read(buffer)) != -1) {
+                        if (task.isCancelled()) {
+                            try { os.close(); is.close(); } catch (Throwable ignored) {}
+                            if (tempFile.exists()) tempFile.delete();
+                            return;
+                        }
+                        if (task.isPaused()) {
+                            try { os.close(); is.close(); } catch (Throwable ignored) {}
+                            mainHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (callback != null) callback.onPaused();
+                                }
+                            });
+                            return;
+                        }
+
                         os.write(buffer, 0, len);
                         downloadedBytes += len;
 
                         long now = System.currentTimeMillis();
-                        if (now - lastNotifyTime > 100 || downloadedBytes == totalBytes) {
+                        if (now - lastNotifyTime > 100 || (totalBytes > 0 && downloadedBytes == totalBytes)) {
                             lastNotifyTime = now;
                             final int percent = totalBytes > 0 ? (int) ((downloadedBytes * 100) / totalBytes) : -1;
                             final long cur = downloadedBytes;
@@ -238,7 +272,6 @@ public class ResourceInjector {
                     is.close();
                     is = null;
 
-                    // 2. MD5 完整性原子校验 (在临时文件上校验，校验失败立即销毁，绝不污染正式文件)
                     if (expectedMd5 != null && !expectedMd5.trim().isEmpty() && SiyoXConfig.ENABLE_RESOURCE_MD5_VERIFY) {
                         String tempMd5 = computeFileMd5(tempFile);
                         if (tempMd5 == null || !tempMd5.equalsIgnoreCase(expectedMd5.trim())) {
@@ -249,13 +282,11 @@ public class ResourceInjector {
                         }
                     }
 
-                    // 3. 原子重命名：将校验通过的 .tmp 覆盖替换至正式文件
                     if (targetFile.exists()) {
                         targetFile.delete();
                     }
                     boolean renamed = tempFile.renameTo(targetFile);
                     if (!renamed) {
-                        // 降级兜底复制
                         copyFile(tempFile, targetFile);
                         tempFile.delete();
                     }
@@ -270,10 +301,8 @@ public class ResourceInjector {
                     });
 
                 } catch (final Throwable t) {
-                    Log.e(TAG, "Download error: " + t.getMessage(), t);
-                    if (tempFile != null && tempFile.exists()) {
-                        tempFile.delete();
-                    }
+                    if (task.isCancelled() || task.isPaused()) return;
+                    SiyoXLogger.e(TAG, "Download error: " + t.getMessage(), t);
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -285,20 +314,27 @@ public class ResourceInjector {
                 } finally {
                     try { if (os != null) os.close(); } catch (Throwable ignored) {}
                     try { if (is != null) is.close(); } catch (Throwable ignored) {}
-                    if (conn != null) conn.disconnect();
+                    try { if (conn != null) conn.disconnect(); } catch (Throwable ignored) {}
                 }
             }
         });
+        return task;
     }
 
-    /**
-     * 执行资源包注入
-     * 1. 备份原版目录
-     * 2. 移除 contents.json 与 manifest.json
-     * 3. 解压所有资源文件并覆盖
-     * 4. 重新计算并生成 folder_md5.json
-     */
-    public static void injectZip(final Context context, final File zipFile, final InjectCallback callback) {
+    public static boolean deleteResource(Context context, String fileName) {
+        try {
+            File resDir = getResFilesDir(context);
+            File targetFile = new File(resDir, fileName);
+            File tempFile = new File(resDir, fileName + ".tmp");
+            boolean d1 = !targetFile.exists() || targetFile.delete();
+            boolean d2 = !tempFile.exists() || tempFile.delete();
+            return d1 && d2;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+public static void injectZip(final Context context, final File zipFile, final InjectCallback callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -315,7 +351,6 @@ public class ResourceInjector {
                         targetDir.mkdirs();
                     }
 
-                    // 1. 删除目标目录下可能残留的 contents.json 或 manifest.json
                     File targetContents = new File(targetDir, "contents.json");
                     if (targetContents.exists()) targetContents.delete();
                     File targetManifest = new File(targetDir, "manifest.json");
@@ -330,14 +365,12 @@ public class ResourceInjector {
                         ZipEntry entry = entries.nextElement();
                         String name = entry.getName();
 
-                        // 统一路径分隔符
                         String normName = name.replace('\\', '/');
 
-                        // 自动过滤/删除 contents.json 与 manifest.json，绝不解压
                         String lowerName = normName.toLowerCase();
                         if (lowerName.equals("contents.json") || lowerName.endsWith("/contents.json")
                                 || lowerName.equals("manifest.json") || lowerName.endsWith("/manifest.json")) {
-                            Log.i(TAG, "Skipping filtered file in zip: " + name);
+                            SiyoXLogger.i(TAG, "Skipping filtered file in zip: " + name);
                             continue;
                         }
 
@@ -349,40 +382,34 @@ public class ResourceInjector {
                                 outFile.getParentFile().mkdirs();
                             }
 
-                            InputStream in = zip.getInputStream(entry);
-                            OutputStream out = new FileOutputStream(outFile);
-                            byte[] buf = new byte[8192];
-                            int len;
-                            while ((len = in.read(buf)) > 0) {
-                                out.write(buf, 0, len);
+                            InputStream zis = zip.getInputStream(entry);
+                            OutputStream zos = new FileOutputStream(outFile);
+                            byte[] zbuf = new byte[8192];
+                            int zlen;
+                            while ((zlen = zis.read(zbuf)) > 0) {
+                                zos.write(zbuf, 0, zlen);
                             }
-                            out.flush();
-                            out.close();
-                            in.close();
+                            zos.flush();
+                            zos.close();
+                            zis.close();
                         }
                     }
                     zip.close();
 
-                    // 2. 再次确保目标目录没有 contents.json 和 manifest.json
-                    if (targetContents.exists()) targetContents.delete();
-                    if (targetManifest.exists()) targetManifest.delete();
-
-                    postProgress(callback, "正在重新生成 folder_md5.json 校验索引...");
-
-                    // 3. 递归扫描整个目标目录，重新生成 folder_md5.json
+                    postProgress(callback, "正在构建资源校验数据...");
                     regenerateFolderMd5(targetDir);
 
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             if (callback != null) {
-                                callback.onSuccess("材质资源注入成功！");
+                                callback.onSuccess("材质资源注入成功！请重启游戏应用以生效。");
                             }
                         }
                     });
 
                 } catch (final Throwable t) {
-                    Log.e(TAG, "Inject error: " + t.getMessage(), t);
+                    SiyoXLogger.e(TAG, "Inject error: " + t.getMessage(), t);
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -407,10 +434,7 @@ public class ResourceInjector {
         });
     }
 
-    /**
-     * 递归遍历 targetDir，计算所有文件的 MD5 (排除 folder_md5.json)，输出标准的 folder_md5.json
-     */
-    public static void regenerateFolderMd5(File targetDir) throws Exception {
+public static void regenerateFolderMd5(File targetDir) throws Exception {
         if (targetDir == null || !targetDir.exists() || !targetDir.isDirectory()) {
             return;
         }
@@ -429,7 +453,7 @@ public class ResourceInjector {
         fos.flush();
         fos.close();
 
-        Log.i(TAG, "Generated folder_md5.json with " + md5Map.size() + " entries.");
+        SiyoXLogger.i(TAG, "Generated folder_md5.json with " + md5Map.size() + " entries.");
     }
 
     private static void scanDirectoryForMd5(File rootDir, File currentDir, Map<String, String> md5Map) {
@@ -442,10 +466,9 @@ public class ResourceInjector {
             } else if (f.isFile()) {
                 String fileName = f.getName();
                 if (fileName.equalsIgnoreCase("folder_md5.json")) {
-                    continue; // 排除自身
+                    continue; 
                 }
 
-                // 获取相对路径
                 String rootPath = rootDir.getAbsolutePath();
                 String filePath = f.getAbsolutePath();
                 if (filePath.startsWith(rootPath)) {
@@ -454,8 +477,6 @@ public class ResourceInjector {
                         relPath = relPath.substring(1);
                     }
 
-                    // 网易 Minecraft 资源包规范在 folder_md5.json 中通常使用反斜杠 \\ 或正斜杠
-                    // 统一替换为反斜杠 \\ 匹配官方格式 (textures\sfxs\...)
                     String formattedKey = relPath.replace('/', '\\');
 
                     String md5 = computeFileMd5(f);
@@ -467,10 +488,7 @@ public class ResourceInjector {
         }
     }
 
-    /**
-     * 计算文件的 32 位小写 MD5 Hex 字符串
-     */
-    public static String computeFileMd5(File file) {
+public static String computeFileMd5(File file) {
         if (file == null || !file.exists() || !file.isFile()) return null;
         InputStream is = null;
         try {
@@ -488,7 +506,7 @@ public class ResourceInjector {
             }
             return sb.toString();
         } catch (Throwable t) {
-            Log.e(TAG, "Failed to compute MD5 for " + file.getAbsolutePath() + ": " + t.getMessage());
+            SiyoXLogger.e(TAG, "Failed to compute MD5 for " + file.getAbsolutePath() + ": " + t.getMessage());
             return null;
         } finally {
             try { if (is != null) is.close(); } catch (Throwable ignored) {}

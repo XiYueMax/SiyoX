@@ -2,13 +2,6 @@ package epic.verify.api;
 
 import epic.verify.api.Json.Obj;
 
-
-
-/**
- * 服务端响应统一封装，对应响应 JSON：
- * { "code": 200, "msg": "...", "data": {...}, "time": ...,
- *   "layout": {...}, "private_template": {...}, "public_template": {...} }
- */
 public class Resp {
 
     public int code;

@@ -1,16 +1,5 @@
 package epic.verify.api;
 
-
-
-
-/**
- * AppKey 转换工具：明文 AppKey → 加密 AppKey（Base64，约 344 字符）。
- *
- * 命令行用法（在装有 JRE/JDK 的机器上）：
- *   java -cp epic-verify-sdk.jar epic.verify.api.AppKeyConverter EE862FA143AE0AA9C8ED1D1519A474E6
- *
- * 输出即为"加密 AppKey"，可直接填入 SDK 或注入 dex。
- */
 public class AppKeyConverter {
 
     public static void main(String[] args) {
@@ -34,8 +23,7 @@ public class AppKeyConverter {
         }
     }
 
-    /** 明文 AppKey -> 加密 AppKey（使用内嵌公钥，PKCS1 随机填充，每次结果不同但均可使用）。 */
-    public static String convert(String plaintext) throws EpicVerifyException {
+public static String convert(String plaintext) throws EpicVerifyException {
         return EpicVerifySDK.encryptAppKey(plaintext);
     }
 }

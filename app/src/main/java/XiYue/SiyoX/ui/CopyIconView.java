@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX.ui;
 
@@ -59,8 +58,7 @@ public class CopyIconView extends View {
 
         float corner = dpF(2f);
 
-        // 1. Back rectangle path (Top and Right side of the back page)
-        float bLeft = w * 0.35f;
+float bLeft = w * 0.35f;
         float bTop = h * 0.12f;
         float bRight = w * 0.88f;
         float bBottom = h * 0.72f;
@@ -71,7 +69,7 @@ public class CopyIconView extends View {
         float fBottom = h * 0.88f;
 
         backPath.reset();
-        // Start above front rectangle on the left border of back page
+        
         backPath.moveTo(bLeft, fTop - dpF(1f));
         backPath.lineTo(bLeft, bTop + corner);
         backPath.quadTo(bLeft, bTop, bLeft + corner, bTop);
@@ -83,8 +81,7 @@ public class CopyIconView extends View {
 
         canvas.drawPath(backPath, paint);
 
-        // 2. Front rectangle (Bottom-Left page, completely transparent inside)
-        frontRect.set(fLeft, fTop, fRight, fBottom);
+frontRect.set(fLeft, fTop, fRight, fBottom);
         canvas.drawRoundRect(frontRect, corner, corner, paint);
     }
 

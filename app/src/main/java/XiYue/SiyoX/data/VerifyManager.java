@@ -1,6 +1,3 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
-
 package XiYue.SiyoX.data;
 
 import android.annotation.SuppressLint;
@@ -15,10 +12,13 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,8 +44,8 @@ public class VerifyManager {
     private boolean isVerified = false;
     private long expireTimestamp = 0L;
     private String statusMessage = "未验证";
-    private String noticeTitle = "官方公告";
-    private String noticeContent = "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。";
+    private String noticeTitle = SiyoXConfig.DEFAULT_NOTICE_TITLE;
+    private String noticeContent = SiyoXConfig.DEFAULT_NOTICE_CONTENT;
 
     private static volatile VerifyManager instance;
 
@@ -99,11 +99,10 @@ public class VerifyManager {
         AppSettings.get().setExpireTime(0L);
     }
 
-
     public String getActiveProviderName() {
         switch (SiyoXConfig.CURRENT_VERIFY_TYPE) {
             case T3:
-                return "T3 网络验证 (C/Java)";
+                return "T3 网络验证 (Native C/C++)";
             case WEIYAN:
                 return "微验验证 (Native C)";
             case EPIC:
@@ -125,7 +124,6 @@ public class VerifyManager {
     public String getAndroidId() {
         return getHWID();
     }
-
 
     public void loadSoftwareNotice(final NoticeCallback callback) {
         new Thread(new Runnable() {
@@ -157,27 +155,142 @@ public class VerifyManager {
 
                         case WEIYAN: {
                             if (NativeVerify.isNativeLoaded()) {
-                                String nativeResp = NativeVerify.nativeFetchNotice(2);
-                                if (nativeResp != null && !nativeResp.isEmpty()) {
-                                    JSONObject json = new JSONObject(nativeResp);
+                                try {
+                                    String nativeResp = NativeVerify.nativeFetchNotice(2);
+                                    if (nativeResp != null && !nativeResp.isEmpty()) {
+                                        JSONObject json = new JSONObject(nativeResp);
+                                        int code = json.optInt("code", -1);
+                                        if (code == 200) {
+                                            JSONObject msgObj = json.optJSONObject("msg");
+                                            String gg = msgObj != null ? msgObj.optString("app_gg", "") : json.optString("msg", "");
+                                            if (!gg.isEmpty()) {
+                                                noticeTitle = SiyoXConfig.DEFAULT_NOTICE_TITLE;
+                                                noticeContent = gg;
+                                                notifyNoticeResult(callback, true, noticeTitle, noticeContent);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+                            try {
+                                String host = SiyoXConfig.WeiYanConfig.API_HOST;
+                                if (host == null || host.isEmpty()) host = "wy.llua.cn";
+                                if (!host.startsWith("http://") && !host.startsWith("https://")) host = "http://" + host;
+                                String appId = SiyoXConfig.WeiYanConfig.APP_ID;
+                                String rc4Key = SiyoXConfig.WeiYanConfig.RC4_KEY;
+                                String apiToken = SiyoXConfig.WeiYanConfig.API_TOKEN;
+                                String noticeCode = SiyoXConfig.WeiYanConfig.NOTICE_CODE;
+                                if (noticeCode == null || noticeCode.isEmpty()) noticeCode = "notice";
+
+                                String url = host + "/api/?id=" + noticeCode;
+                                String postBody = "app=" + appId;
+
+                                byte[] respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
+                                String respStr = (respBytes != null && respBytes.length > 0) ? new String(respBytes, "UTF-8").trim() : "";
+                                if (respStr.contains("\"code\":-1") && !noticeCode.equals("notice")) {
+                                    url = host + "/api/?id=notice";
+                                    respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
+                                    respStr = (respBytes != null && respBytes.length > 0) ? new String(respBytes, "UTF-8").trim() : "";
+                                }
+                                if (!respStr.isEmpty()) {
+                                    String decStr = respStr;
+                                    if (!respStr.startsWith("{")) {
+                                        String d = rc4DecryptHexToString(rc4Key, respStr);
+                                        if (d != null && !d.isEmpty() && d.startsWith("{")) {
+                                            decStr = d;
+                                        }
+                                    }
+
+                                    JSONObject json = new JSONObject(decStr);
                                     int code = json.optInt("code", -1);
                                     if (code == 200) {
                                         JSONObject msgObj = json.optJSONObject("msg");
-                                        if (msgObj != null) {
-                                            noticeTitle = "微验官方公告";
-                                            noticeContent = msgObj.optString("app_gg", "欢迎使用 SiyoX 模块！");
+                                        String gg = msgObj != null ? msgObj.optString("app_gg", "") : json.optString("msg", "");
+                                        if (!gg.isEmpty()) {
+                                            noticeTitle = SiyoXConfig.DEFAULT_NOTICE_TITLE;
+                                            noticeContent = gg;
+                                            notifyNoticeResult(callback, true, noticeTitle, noticeContent);
+                                            return;
                                         }
-                                        notifyNoticeResult(callback, true, noticeTitle, noticeContent);
-                                        return;
                                     }
                                 }
-                            }
-                            notifyNoticeResult(callback, true, "微验官方公告", "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。");
+                            } catch (Throwable ignored) {}
+                            notifyNoticeResult(callback, true, SiyoXConfig.DEFAULT_NOTICE_TITLE, SiyoXConfig.DEFAULT_NOTICE_CONTENT);
                             break;
                         }
 
                         case T3: {
-                            notifyNoticeResult(callback, true, "T3 官方公告", "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。");
+                            if (NativeVerify.isNativeLoaded()) {
+                                try {
+                                    String nativeResp = NativeVerify.nativeT3FetchNotice();
+                                    if (nativeResp != null && !nativeResp.isEmpty()) {
+                                        JSONObject json = new JSONObject(nativeResp);
+                                        int code = json.optInt("code", -1);
+                                        if (code == 200) {
+                                            String notice = json.optString("msg", "");
+                                            if (!notice.isEmpty() && !notice.endsWith("=")) {
+                                                noticeTitle = SiyoXConfig.DEFAULT_NOTICE_TITLE;
+                                                noticeContent = notice;
+                                                notifyNoticeResult(callback, true, noticeTitle, noticeContent);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+                            String rc4Key = SiyoXConfig.T3Config.RC4_KEY;
+                            String appKey = SiyoXConfig.T3Config.APP_KEY;
+                            String url = buildT3Url(SiyoXConfig.T3Config.API_HOST, SiyoXConfig.T3Config.NOTICE_CODE);
+                            if (url != null && !url.isEmpty()) {
+                                try {
+                                    byte[] respBytes;
+                                    if (rc4Key != null && !rc4Key.isEmpty() && !rc4Key.equals("your_t3_rc4_key")) {
+                                        long now = System.currentTimeMillis() / 1000L;
+                                        String tEnc = hexRc4Encrypt(rc4Key, String.valueOf(now));
+                                        String sSrc = "t=" + tEnc + "&" + appKey;
+                                        String sVal = md5(sSrc);
+                                        String sEnc = hexRc4Encrypt(rc4Key, sVal);
+                                        String postBody = "t=" + tEnc + "&s=" + sEnc;
+                                        respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
+                                    } else {
+                                        respBytes = httpGetBytes(url);
+                                    }
+                                    if (respBytes != null && respBytes.length > 0) {
+                                        String text;
+                                        if (rc4Key != null && !rc4Key.isEmpty() && !rc4Key.equals("your_t3_rc4_key")) {
+                                            text = rc4DecryptBytesToString(rc4Key, respBytes);
+                                        } else {
+                                            text = new String(respBytes, "UTF-8");
+                                            if (text.contains("\uFFFD")) text = new String(respBytes, "GBK");
+                                        }
+                                        text = text.trim();
+                                        if (!text.isEmpty()) {
+                                            try {
+                                                JSONObject json = new JSONObject(text);
+                                                int code = json.optInt("code", -1);
+                                                if (code == 200) {
+                                                    String notice = json.optString("msg", "");
+                                                    if (!notice.isEmpty() && !notice.endsWith("=")) {
+                                                        noticeTitle = SiyoXConfig.DEFAULT_NOTICE_TITLE;
+                                                        noticeContent = notice;
+                                                        notifyNoticeResult(callback, true, noticeTitle, noticeContent);
+                                                        return;
+                                                    }
+                                                }
+                                            } catch (Exception ignored) {
+                                                if (!text.startsWith("{") && !text.endsWith("=") && !text.contains("404")) {
+                                                    noticeTitle = SiyoXConfig.DEFAULT_NOTICE_TITLE;
+                                                    noticeContent = text;
+                                                    notifyNoticeResult(callback, true, noticeTitle, noticeContent);
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+                            notifyNoticeResult(callback, true, SiyoXConfig.DEFAULT_NOTICE_TITLE, SiyoXConfig.DEFAULT_NOTICE_CONTENT);
                             break;
                         }
                     }
@@ -209,45 +322,106 @@ public class VerifyManager {
             public void run() {
                 try {
                     String androidId = getAndroidId();
+                    SiyoXLogger.i("SiyoX_VerifyManager", "Verifying card via provider: " + getActiveProviderName());
 
                     switch (SiyoXConfig.CURRENT_VERIFY_TYPE) {
                         case EPIC: {
-                            // 摇光云 (EPIC) 验证
                             EpicVerifySDK sdk = new EpicVerifySDK(
                                     SiyoXConfig.EpicConfig.HOSTS,
                                     SiyoXConfig.EpicConfig.PORT,
                                     SiyoXConfig.EpicConfig.APP_KEY
                             );
                             sdk.setDeviceId(androidId);
-                            sdk.setPackageName(SiyoXConfig.TARGET_PACKAGE);
                             sdk.setCard(cardKey.trim());
+                            sdk.setPackageName(SiyoXConfig.TARGET_PACKAGE);
 
                             Resp resp = sdk.cardVerify();
                             if (resp.isSuccess()) {
-                                long expire = 0L;
-                                try {
-                                    if (resp.data != null) {
-                                        expire = resp.data.getLong("expire");
-                                    }
-                                } catch (Exception ignored) {}
-                                onVerifySuccess(cardKey.trim(), expire, callback);
+                                EpicVerifySDK.LoginResult result = sdk.getLoginResult();
+                                if (result != null) {
+                                    onVerifySuccess(cardKey.trim(), result.expire, callback);
+                                } else {
+                                    onVerifyFailed("解析登录数据失败", callback);
+                                }
                             } else {
-                                onVerifyFailed(resp.msg != null ? resp.msg : "验证失败", callback);
+                                onVerifyFailed(resp.msg, callback);
                             }
                             break;
                         }
 
                         case WEIYAN: {
-                            // 微验 (Native C) 验证
                             if (NativeVerify.isNativeLoaded()) {
-                                String nativeResp = NativeVerify.nativeVerifyCard(2, cardKey.trim(), androidId);
-                                if (nativeResp != null && !nativeResp.isEmpty()) {
-                                    JSONObject json = new JSONObject(nativeResp);
+                                try {
+                                    String nativeResp = NativeVerify.nativeVerifyCard(2, cardKey.trim(), androidId);
+                                    if (nativeResp != null && !nativeResp.isEmpty()) {
+                                        JSONObject json = new JSONObject(nativeResp);
+                                        int code = json.optInt("code", -1);
+                                        if (code == 200) {
+                                            JSONObject msgObj = json.optJSONObject("msg");
+                                            long expireTime = 0L;
+                                            if (msgObj != null) {
+                                                expireTime = msgObj.optLong("vip", msgObj.optLong("vip_time", msgObj.optLong("end_time", 0L)));
+                                            } else {
+                                                expireTime = json.optLong("vip", json.optLong("vip_time", json.optLong("end_time", 0L)));
+                                            }
+                                            long expireMs = expireTime > 0 ? (expireTime > 100000000000L ? expireTime : expireTime * 1000L) : (System.currentTimeMillis() + 86400000L);
+                                            onVerifySuccess(cardKey.trim(), expireMs, callback);
+                                            return;
+                                        } else {
+                                            String msg = json.optString("msg", "微验卡密验证失败");
+                                            onVerifyFailed(msg, callback);
+                                            return;
+                                        }
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+                            try {
+                                String host = SiyoXConfig.WeiYanConfig.API_HOST;
+                                if (host == null || host.isEmpty()) host = "wy.llua.cn";
+                                if (!host.startsWith("http://") && !host.startsWith("https://")) host = "http://" + host;
+                                String appId = SiyoXConfig.WeiYanConfig.APP_ID;
+                                String appKey = SiyoXConfig.WeiYanConfig.APP_KEY;
+                                String rc4Key = SiyoXConfig.WeiYanConfig.RC4_KEY;
+                                String apiToken = SiyoXConfig.WeiYanConfig.API_TOKEN;
+                                String loginCode = SiyoXConfig.WeiYanConfig.LOGIN_CODE;
+                                if (loginCode == null || loginCode.isEmpty()) loginCode = "kmlogon";
+
+                                long now = System.currentTimeMillis() / 1000L;
+                                String signSrc = "kami=" + cardKey.trim() + "&markcode=" + androidId + "&t=" + now + "&" + appKey;
+                                String signMd5 = md5(signSrc);
+                                String plainData = "kami=" + cardKey.trim() + "&markcode=" + androidId + "&t=" + now + "&sign=" + signMd5 + "&value=" + now + (int)(Math.random() * 10000);
+                                String dataHex = hexRc4Encrypt(rc4Key, plainData);
+
+                                String url = host + "/api/?id=" + loginCode;
+                                String postBody = "app=" + appId + "&data=" + dataHex;
+
+                                byte[] respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
+                                String respStr = (respBytes != null && respBytes.length > 0) ? new String(respBytes, "UTF-8").trim() : "";
+                                if (respStr.contains("\"code\":-1") && !loginCode.equals("kmlogon")) {
+                                    url = host + "/api/?id=kmlogon";
+                                    respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
+                                    respStr = (respBytes != null && respBytes.length > 0) ? new String(respBytes, "UTF-8").trim() : "";
+                                }
+                                if (!respStr.isEmpty()) {
+                                    String decStr = respStr;
+                                    if (!respStr.startsWith("{")) {
+                                        String d = rc4DecryptHexToString(rc4Key, respStr);
+                                        if (d != null && !d.isEmpty() && d.startsWith("{")) {
+                                            decStr = d;
+                                        }
+                                    }
+
+                                    JSONObject json = new JSONObject(decStr);
                                     int code = json.optInt("code", -1);
                                     if (code == 200) {
                                         JSONObject msgObj = json.optJSONObject("msg");
-                                        long vip = msgObj != null ? msgObj.optLong("vip", 0L) : 0L;
-                                        long expireMs = vip > 0 ? vip * 1000L : System.currentTimeMillis() + 86400000L * 30;
+                                        long expireTime = 0L;
+                                        if (msgObj != null) {
+                                            expireTime = msgObj.optLong("vip", msgObj.optLong("vip_time", msgObj.optLong("end_time", 0L)));
+                                        } else {
+                                            expireTime = json.optLong("vip", json.optLong("vip_time", json.optLong("end_time", 0L)));
+                                        }
+                                        long expireMs = expireTime > 0 ? (expireTime > 100000000000L ? expireTime : expireTime * 1000L) : (System.currentTimeMillis() + 86400000L);
                                         onVerifySuccess(cardKey.trim(), expireMs, callback);
                                         return;
                                     } else {
@@ -256,32 +430,148 @@ public class VerifyManager {
                                         return;
                                     }
                                 }
+                            } catch (Throwable t) {
+                                SiyoXLogger.w("SiyoX_VerifyManager", "WeiYan verification exception: " + t.getMessage());
                             }
-                            onVerifyFailed("Native C 微验模块加载失败", callback);
+                            onVerifyFailed("连接微验服务器失败", callback);
                             break;
                         }
 
                         case T3: {
-                            // T3 网络验证
-                            String host = SiyoXConfig.T3Config.API_HOST;
+                            if (NativeVerify.isNativeLoaded()) {
+                                try {
+                                    String nativeResp = NativeVerify.nativeT3VerifyCard(cardKey.trim(), androidId);
+                                    if (nativeResp != null && !nativeResp.isEmpty()) {
+                                        JSONObject json = new JSONObject(nativeResp);
+                                        int code = json.optInt("code", -1);
+                                        if (code == 200) {
+                                            JSONObject data = json.optJSONObject("data");
+                                            long expireMs = 0L;
+                                            String endTimeStr = json.optString("end_time", "");
+                                            if (endTimeStr.isEmpty() && data != null) {
+                                                endTimeStr = data.optString("end_time", "");
+                                            }
+                                            if (!endTimeStr.isEmpty()) {
+                                                try {
+                                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                                    Date d = sdf.parse(endTimeStr);
+                                                    if (d != null) expireMs = d.getTime();
+                                                } catch (Throwable ignored) {}
+                                            }
+                                            if (expireMs == 0L) {
+                                                long availSec = json.optLong("available", data != null ? data.optLong("available", 0L) : 0L);
+                                                if (availSec > 0) {
+                                                    expireMs = System.currentTimeMillis() + availSec * 1000L;
+                                                }
+                                            }
+                                            if (expireMs == 0L) {
+                                                expireMs = System.currentTimeMillis() + 86400000L;
+                                            }
+                                            onVerifySuccess(cardKey.trim(), expireMs, callback);
+                                            return;
+                                        } else {
+                                            String msg = json.optString("msg", "");
+                                            if (!msg.isEmpty()) {
+                                                onVerifyFailed(msg, callback);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+
+                            String rc4Key = SiyoXConfig.T3Config.RC4_KEY;
                             String appKey = SiyoXConfig.T3Config.APP_KEY;
-                            String loginCode = SiyoXConfig.T3Config.LOGIN_CODE;
-                            String time = String.valueOf(System.currentTimeMillis() / 1000);
-                            String sign = md5("appkey=" + appKey + "&card=" + cardKey.trim() + "&imei=" + androidId + "&t=" + time).toLowerCase();
-
-                            String url = host.endsWith("/") ? host + "api/login" : host + "/api/login";
-                            String body = "appkey=" + appKey + "&code=" + loginCode + "&card=" + cardKey.trim() + "&imei=" + androidId + "&t=" + time + "&sign=" + sign;
-
-                            String responseStr = httpPost(url, body);
-                            JSONObject json = new JSONObject(responseStr);
-                            int code = json.optInt("code", json.optInt("status", -1));
-                            String msg = json.optString("msg", json.optString("message", ""));
-
-                            if (code == 200 || code == 1 || json.optBoolean("success", false)) {
-                                JSONObject data = json.optJSONObject("data");
-                                long endTime = data != null ? data.optLong("end_time", 0L) : 0L;
-                                onVerifySuccess(cardKey.trim(), endTime * 1000L, callback);
+                            String url = buildT3Url(SiyoXConfig.T3Config.API_HOST, SiyoXConfig.T3Config.LOGIN_CODE);
+                            byte[] respBytes;
+                            if (rc4Key != null && !rc4Key.isEmpty() && !rc4Key.equals("your_t3_rc4_key")) {
+                                long now = System.currentTimeMillis() / 1000L;
+                                String kEnc = hexRc4Encrypt(rc4Key, cardKey.trim());
+                                String iEnc = hexRc4Encrypt(rc4Key, androidId);
+                                String tEnc = hexRc4Encrypt(rc4Key, String.valueOf(now));
+                                String sSrc = "kami=" + kEnc + "&imei=" + iEnc + "&t=" + tEnc + "&" + appKey;
+                                String sVal = md5(sSrc);
+                                String sEnc = hexRc4Encrypt(rc4Key, sVal);
+                                String postBody = "kami=" + kEnc + "&imei=" + iEnc + "&t=" + tEnc + "&s=" + sEnc;
+                                respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
                             } else {
+                                String body = "kami=" + URLEncoder.encode(cardKey.trim(), "GBK") + "&imei=" + URLEncoder.encode(androidId, "GBK");
+                                respBytes = httpPostBytes(url, body.getBytes("GBK"));
+                            }
+
+                            String responseStr;
+                            if (rc4Key != null && !rc4Key.isEmpty() && !rc4Key.equals("your_t3_rc4_key")) {
+                                responseStr = rc4DecryptBytesToString(rc4Key, respBytes);
+                            } else {
+                                responseStr = new String(respBytes, "UTF-8");
+                                if (responseStr.contains("\uFFFD")) {
+                                    responseStr = new String(respBytes, "GBK");
+                                }
+                            }
+                            responseStr = responseStr.trim();
+                            SiyoXLogger.i("SiyoX_VerifyManager", "T3 login response: " + responseStr);
+
+                            if (responseStr.startsWith("{")) {
+                                JSONObject json = new JSONObject(responseStr);
+                                int code = json.optInt("code", -1);
+                                if (code == 200) {
+                                    JSONObject data = json.optJSONObject("data");
+                                    long expireMs = 0L;
+                                    String endTimeStr = json.optString("end_time", "");
+                                    if (endTimeStr.isEmpty() && data != null) {
+                                        endTimeStr = data.optString("end_time", "");
+                                    }
+                                    if (!endTimeStr.isEmpty()) {
+                                        try {
+                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                            Date d = sdf.parse(endTimeStr);
+                                            if (d != null) expireMs = d.getTime();
+                                        } catch (Throwable ignored) {}
+                                    }
+                                    if (expireMs == 0L) {
+                                        long availSec = json.optLong("available", data != null ? data.optLong("available", 0L) : 0L);
+                                        if (availSec > 0) {
+                                            expireMs = System.currentTimeMillis() + availSec * 1000L;
+                                        }
+                                    }
+                                    if (expireMs == 0L) {
+                                        expireMs = System.currentTimeMillis() + 86400000L;
+                                    }
+                                    onVerifySuccess(cardKey.trim(), expireMs, callback);
+                                    return;
+                                } else {
+                                    String msg = json.optString("msg", "");
+                                    onVerifyFailed(msg.isEmpty() ? "T3 验证失败" : msg, callback);
+                                    return;
+                                }
+                            } else if (responseStr.contains("登录成功:200") || responseStr.contains("登录成功")) {
+                                long expireMs = 0L;
+                                String[] lines = responseStr.split(";");
+                                for (String line : lines) {
+                                    line = line.trim();
+                                    if (line.startsWith("到期时间:")) {
+                                        String timeStr = line.substring("到期时间:".length()).trim();
+                                        try {
+                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                            Date d = sdf.parse(timeStr);
+                                            if (d != null) expireMs = d.getTime();
+                                        } catch (Throwable ignored) {}
+                                    } else if (line.startsWith("剩余时间:")) {
+                                        String secStr = line.substring("剩余时间:".length()).trim();
+                                        try {
+                                            long sec = Long.parseLong(secStr);
+                                            if (expireMs == 0L && sec > 0) {
+                                                expireMs = System.currentTimeMillis() + sec * 1000L;
+                                            }
+                                        } catch (Throwable ignored) {}
+                                    }
+                                }
+                                if (expireMs == 0L) {
+                                    expireMs = System.currentTimeMillis() + 86400000L;
+                                }
+                                onVerifySuccess(cardKey.trim(), expireMs, callback);
+                            } else {
+                                String msg = responseStr.replace(";", "").replace("\r", "").replace("\n", " ").trim();
                                 onVerifyFailed(msg.isEmpty() ? "T3 验证失败" : msg, callback);
                             }
                             break;
@@ -296,6 +586,7 @@ public class VerifyManager {
     }
 
     private void onVerifySuccess(final String card, final long expireMs, final VerifyCallback callback) {
+        SiyoXLogger.i("SiyoX_VerifyManager", "Card verified successfully, expire: " + formatDate(expireMs));
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -312,6 +603,7 @@ public class VerifyManager {
     }
 
     private void onVerifyFailed(final String msg, final VerifyCallback callback) {
+        SiyoXLogger.w("SiyoX_VerifyManager", "Card verification failed: " + msg);
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -324,7 +616,19 @@ public class VerifyManager {
         });
     }
 
-    private String httpPost(String urlStr, String body) throws Exception {
+    private static String buildT3Url(String host, String code) {
+        if (code == null || code.trim().isEmpty()) return "";
+        code = code.trim();
+        if (code.startsWith("http://") || code.startsWith("https://")) {
+            return code;
+        }
+        if (host == null || host.trim().isEmpty()) {
+            host = "http://w2.t3yanzheng.com";
+        }
+        return host.endsWith("/") ? host + code : host + "/" + code;
+    }
+
+    private byte[] httpPostBytes(String urlStr, byte[] bodyBytes) throws Exception {
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
@@ -333,21 +637,110 @@ public class VerifyManager {
         conn.setDoOutput(true);
         conn.setDoInput(true);
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("User-Agent", "SiyoX/1.0");
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 10)");
 
         OutputStream os = conn.getOutputStream();
-        os.write(body.getBytes("UTF-8"));
+        os.write(bodyBytes);
         os.flush();
         os.close();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
+        InputStream is = conn.getResponseCode() >= 400 ? conn.getErrorStream() : conn.getInputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buf = new byte[4096];
+        int len;
+        while ((len = is.read(buf)) != -1) {
+            baos.write(buf, 0, len);
         }
-        reader.close();
-        return sb.toString().trim();
+        is.close();
+        return baos.toByteArray();
+    }
+
+    private byte[] httpGetBytes(String urlStr) throws Exception {
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setConnectTimeout(8000);
+        conn.setReadTimeout(8000);
+        conn.setDoInput(true);
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 10)");
+
+        InputStream is = conn.getResponseCode() >= 400 ? conn.getErrorStream() : conn.getInputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buf = new byte[4096];
+        int len;
+        while ((len = is.read(buf)) != -1) {
+            baos.write(buf, 0, len);
+        }
+        is.close();
+        return baos.toByteArray();
+    }
+
+    private static byte[] rc4Crypt(byte[] key, byte[] data) {
+        if (key == null || key.length == 0 || data == null || data.length == 0) return new byte[0];
+        int[] s = new int[256];
+        for (int i = 0; i < 256; i++) s[i] = i;
+        int j = 0;
+        for (int i = 0; i < 256; i++) {
+            j = (j + s[i] + (key[i % key.length] & 0xFF)) & 0xFF;
+            int t = s[i]; s[i] = s[j]; s[j] = t;
+        }
+        int i = 0; j = 0;
+        byte[] out = new byte[data.length];
+        for (int k = 0; k < data.length; k++) {
+            i = (i + 1) & 0xFF;
+            j = (j + s[i]) & 0xFF;
+            int t = s[i]; s[i] = s[j]; s[j] = t;
+            out[k] = (byte) (data[k] ^ s[(s[i] + s[j]) & 0xFF]);
+        }
+        return out;
+    }
+
+    private static String hexRc4Encrypt(String key, String text) {
+        if (key == null || key.isEmpty() || text == null || text.isEmpty()) return "";
+        try {
+            byte[] keyBytes = key.getBytes("UTF-8");
+            byte[] textBytes = text.getBytes("UTF-8");
+            byte[] enc = rc4Crypt(keyBytes, textBytes);
+            StringBuilder sb = new StringBuilder(enc.length * 2);
+            for (byte b : enc) {
+                sb.append(String.format("%02x", b & 0xFF));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static String rc4DecryptBytesToString(String key, byte[] cipherBytes) {
+        if (key == null || key.isEmpty() || cipherBytes == null || cipherBytes.length == 0) return "";
+        try {
+            byte[] keyBytes = key.getBytes("UTF-8");
+            byte[] dec = rc4Crypt(keyBytes, cipherBytes);
+            String utf8 = new String(dec, "UTF-8");
+            if (!utf8.contains("\uFFFD")) {
+                return utf8;
+            }
+            return new String(dec, "GBK");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static String rc4DecryptHexToString(String key, String hexStr) {
+        if (key == null || key.isEmpty() || hexStr == null || hexStr.length() < 2) return "";
+        try {
+            hexStr = hexStr.trim();
+            int len = hexStr.length();
+            if (len % 2 != 0) return "";
+            byte[] cipherBytes = new byte[len / 2];
+            for (int i = 0; i < len; i += 2) {
+                cipherBytes[i / 2] = (byte) ((Character.digit(hexStr.charAt(i), 16) << 4)
+                        + Character.digit(hexStr.charAt(i + 1), 16));
+            }
+            return rc4DecryptBytesToString(key, cipherBytes);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     private String md5(String input) {
@@ -369,7 +762,6 @@ public class VerifyManager {
         try {
             Intent intent;
             if (eventType == 3) {
-                // QQ Group
                 String url = "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=" + value + "&card_type=group&source=qrcode";
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             } else {

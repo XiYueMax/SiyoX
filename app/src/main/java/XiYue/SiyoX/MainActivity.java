@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX;
 
@@ -73,10 +72,7 @@ public class MainActivity extends Activity {
         contentLayout.setPadding(dp16, dp20 + dp(24), dp16, dp20);
         contentLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        // ==========================================
-        // 1. 第一个卡片：左侧是 Logo，右侧是 SiyoX，第二行显示版本号
-        // ==========================================
-        LinearLayout headerCard = createCard(isDark);
+LinearLayout headerCard = createCard(isDark);
         headerCard.setPadding(dp16, dp16, dp16, dp16);
 
         LinearLayout headerRow = new LinearLayout(this);
@@ -84,8 +80,7 @@ public class MainActivity extends Activity {
         headerRow.setGravity(Gravity.CENTER_VERTICAL);
         headerRow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        // 左侧 Logo
-        ImageView logoView = new ImageView(this);
+ImageView logoView = new ImageView(this);
         int logoSize = dp(56);
         LinearLayout.LayoutParams logoParams = new LinearLayout.LayoutParams(logoSize, logoSize);
         logoView.setLayoutParams(logoParams);
@@ -99,19 +94,16 @@ public class MainActivity extends Activity {
         logoView.setClipToOutline(true);
         headerRow.addView(logoView);
 
-        // 右侧文字列 (第一行 SiyoX，第二行版本号)
-        LinearLayout headerTextCol = new LinearLayout(this);
+LinearLayout headerTextCol = new LinearLayout(this);
         headerTextCol.setOrientation(LinearLayout.VERTICAL);
         headerTextCol.setGravity(Gravity.CENTER_VERTICAL);
         headerTextCol.setPadding(dp14, 0, 0, 0);
         headerTextCol.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 
-        // 第一行: Siyo (黑/白) + X (蓝)
-        View titleView = SiyoXOverlayLayout.createSiyoXTitleView(this, 22f, isDark);
+View titleView = SiyoXOverlayLayout.createSiyoXTitleView(this, 22f, isDark);
         headerTextCol.addView(titleView);
 
-        // 第二行: 版本号
-        TextView tvVersion = new TextView(this);
+TextView tvVersion = new TextView(this);
         tvVersion.setText("版本号: " + SiyoXConfig.VERSION_NAME);
         tvVersion.setTextSize(13f);
         tvVersion.setTextColor(SiyoXTheme.getTextSecondary(isDark));
@@ -122,10 +114,7 @@ public class MainActivity extends Activity {
         headerCard.addView(headerRow);
         contentLayout.addView(headerCard);
 
-        // ==========================================
-        // 2. 第二个卡片：模块状态 (客户端名称，客户端作者，模块名称，模块作者，HWID)
-        // ==========================================
-        LinearLayout statusCard = createCard(isDark);
+LinearLayout statusCard = createCard(isDark);
         statusCard.setPadding(dp16, dp16, dp16, dp16);
 
         TextView tvStatusTitle = new TextView(this);
@@ -138,28 +127,20 @@ public class MainActivity extends Activity {
 
         statusCard.addView(createDivider(isDark));
 
-        // 1) 客户端名称
-        statusCard.addView(createInfoRow("客户端名称", SiyoXConfig.CLIENT_NAME, isDark));
+statusCard.addView(createInfoRow("客户端名称", SiyoXConfig.CLIENT_NAME, isDark));
         statusCard.addView(createDivider(isDark));
 
-        // 2) 客户端作者
-        statusCard.addView(createInfoRow("客户端作者", SiyoXConfig.CLIENT_AUTHOR, isDark));
+statusCard.addView(createInfoRow("客户端作者", SiyoXConfig.CLIENT_AUTHOR, isDark));
         statusCard.addView(createDivider(isDark));
 
-        // 3) 模块名称
-        statusCard.addView(createCustomInfoRow("模块名称", SiyoXOverlayLayout.createSiyoXTitleView(this, 13f, isDark), isDark));
+statusCard.addView(createCustomInfoRow("模块名称", SiyoXOverlayLayout.createSiyoXTitleView(this, 13f, isDark), isDark));
         statusCard.addView(createDivider(isDark));
 
-        // 4) 模块作者
-        statusCard.addView(createInfoRow("模块作者", SiyoXConfig.AUTHOR, isDark)); // @XiYueMax
+statusCard.addView(createInfoRow("模块作者", SiyoXConfig.AUTHOR, isDark)); 
 
         contentLayout.addView(statusCard);
 
-
-        // ==========================================
-        // 3. 第三个卡片：GitHub 开源链接，点击即可跳转
-        // ==========================================
-        LinearLayout githubCard = createCard(isDark);
+LinearLayout githubCard = createCard(isDark);
         githubCard.setPadding(dp16, dp16, dp16, dp16);
         githubCard.setBackground(createRippleDrawable(SiyoXTheme.getCardBg(isDark), isDark ? Color.parseColor("#2A3A50") : Color.parseColor("#EBF5FF"), dp(16)));
         githubCard.setClickable(true);

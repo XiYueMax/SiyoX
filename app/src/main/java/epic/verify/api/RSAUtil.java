@@ -8,11 +8,6 @@ import java.util.List;
 
 import javax.crypto.Cipher;
 
-/**
- * RSA 工具：RSA/ECB/PKCS1Padding，2048 位。
- * - encryptWithPublicKey ：公钥加密（官网换 Key / 请求前加密 AppKey）
- * - decryptWithPublicKey ：公钥“解密”（还原服务器用私钥加密的响应）
- */
 public final class RSAUtil {
 
     public static final String ALGORITHM = "RSA/ECB/PKCS1Padding";

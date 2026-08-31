@@ -1,5 +1,4 @@
-// Copyright 2026, SiyoX contributors
-// SPDX-License-Identifier: Apache-2.0
+
 
 package XiYue.SiyoX.ui;
 
@@ -30,7 +29,7 @@ public class MiuiXCheckBox extends View {
     private final RectF boxRect = new RectF();
     private final Path checkPath = new Path();
 
-    private float progress = 0f; // 0.0 = unchecked, 1.0 = checked
+    private float progress = 0f; 
     private ValueAnimator animator;
 
     private static final int CHECKED_COLOR = Color.parseColor("#0A84FF");
@@ -134,21 +133,18 @@ public class MiuiXCheckBox extends View {
 
         boxRect.set(dpF(1.5f), dpF(1.5f), w - dpF(1.5f), h - dpF(1.5f));
 
-        // 1. Draw Background
-        int currentBgColor = evaluateColor(progress, uncheckedBg, CHECKED_COLOR);
+int currentBgColor = evaluateColor(progress, uncheckedBg, CHECKED_COLOR);
         boxPaint.setColor(currentBgColor);
         boxPaint.setStyle(Paint.Style.FILL);
         canvas.drawRoundRect(boxRect, radius, radius, boxPaint);
 
-        // 2. Draw Border when unchecked or transitioning
-        if (progress < 1f) {
+if (progress < 1f) {
             int currentBorderColor = evaluateColor(progress, uncheckedBorder, CHECKED_COLOR);
             borderPaint.setColor(currentBorderColor);
             canvas.drawRoundRect(boxRect, radius, radius, borderPaint);
         }
 
-        // 3. Draw Checkmark when checked
-        if (progress > 0f) {
+if (progress > 0f) {
             checkPaint.setAlpha((int) (255 * progress));
 
             float startX = w * 0.28f;

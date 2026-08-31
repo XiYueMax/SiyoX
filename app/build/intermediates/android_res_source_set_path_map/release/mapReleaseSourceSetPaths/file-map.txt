@@ -1,8 +1,0 @@
-XiYue.SiyoX.app-pngs-0 C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\build\generated\res\pngs\release
-XiYue.SiyoX.app-updated_navigation_xml-1 C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\build\generated\updated_navigation_xml\release
-XiYue.SiyoX.app-packageReleaseResources-2 C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\build\intermediates\incremental\release\packageReleaseResources\merged.dir
-XiYue.SiyoX.app-packageReleaseResources-3 C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\build\intermediates\incremental\release\packageReleaseResources\stripped.dir
-XiYue.SiyoX.app-release-4 C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\build\intermediates\merged_res\release\mergeReleaseResources
-XiYue.SiyoX.app-main-5 C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\main\res
-XiYue.SiyoX.app-release-6 C:\Users\Administrator\Desktop\SiyoX\SiyoX Src\app\src\release\res
-gradleHome-0 C:\Users\Administrator\.gradle

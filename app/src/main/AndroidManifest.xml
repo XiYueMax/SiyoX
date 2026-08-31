@@ -18,13 +18,12 @@
         android:theme="@style/Theme.SiyoX"
         tools:targetApi="35">
 
-        <!-- Xposed / LSPosed Module Declaration -->
-        <meta-data
+<meta-data
             android:name="xposedmodule"
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="SiyoX - 网易我的世界网络验证与辅助增强模块" />
+            android:value="Open-source Minecraft NetEase edition resource hot-injection module" />
         <meta-data
             android:name="xposedminversion"
             android:value="54" />
@@ -32,8 +31,7 @@
             android:name="xposedscope"
             android:value="com.netease.x19" />
 
-        <!-- Launcher Activity (Desktop App with MiuiX UI) -->
-        <activity
+<activity
             android:name="XiYue.SiyoX.MainActivity"
             android:exported="true"
             android:icon="@drawable/logo"
@@ -46,8 +44,7 @@
             </intent-filter>
         </activity>
 
-        <!-- EPIC In-app Updater Install Broadcast Receiver -->
-        <receiver
+<receiver
             android:name="epic.verify.api.InstallReceiver"
             android:exported="false" />
 
