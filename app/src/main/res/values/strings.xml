@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SiyoX</string>
+    <string name="app_desc">SiyoX - 网易我的世界网络验证与增强模块</string>
+    <string name="verify_title">SiyoX 授权验证</string>
+    <string name="verify_hint">请输入卡密</string>
+    <string name="verify_btn">立即验证</string>
+    <string name="verify_success">验证成功，正在进入游戏…</string>
+    <string name="verify_failed">验证失败</string>
+    <string name="card_query">卡密查询</string>
+    <string name="card_unbind">解绑设备</string>
+    <string name="join_group">官方交流群</string>
+    <string name="official_site">官方网站</string>
+    <string name="pass_login">密码通道</string>
+    <string name="heartbeat_active">心跳在线</string>
+    <string name="module_scope">com.netease.x19</string>
+</resources>
