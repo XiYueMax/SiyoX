@@ -24,9 +24,14 @@ public class SiyoXConfig {
     public static String CLIENT_AUTHOR = "";
     public static String DEFAULT_NOTICE_TITLE = "官方公告";
     public static String DEFAULT_NOTICE_CONTENT = "欢迎使用 SiyoX 模块！请输入授权卡密激活后开始体验。";
-    public static String DEFAULT_UPDATE_TITLE = "发现新版本";
+    public static String DEFAULT_UPDATE_TITLE = "SiyoX 更新公告";
     public static String DEFAULT_UPDATE_LOG = "有新版本可用，请及时更新以获得最佳体验！";
     public static boolean ENABLE_RESOURCE_MD5_VERIFY = true;
+    public static boolean ENABLE_LOGIN_VIDEO_REPLACE = false;
+    public static String LOGIN_VIDEO_URL = "";
+    public static boolean ENABLE_WATERMARK = true;
+    public static String WATERMARK_TEXT = "SiyoX Client";
+    public static boolean ALLOW_PANEL_TOGGLE_WATERMARK = true;
 
     public static class DefaultResource {
         public final String name;
@@ -151,6 +156,18 @@ public class SiyoXConfig {
             }
 
             ENABLE_RESOURCE_MD5_VERIFY = NativeVerify.nativeGetEnableMd5Verify();
+            ENABLE_LOGIN_VIDEO_REPLACE = NativeVerify.nativeGetEnableLoginVideoReplace();
+            String nativeLoginVideoUrl = NativeVerify.nativeGetLoginVideoUrl();
+            if (nativeLoginVideoUrl != null && !nativeLoginVideoUrl.isEmpty()) {
+                LOGIN_VIDEO_URL = nativeLoginVideoUrl;
+            }
+
+            ENABLE_WATERMARK = NativeVerify.nativeGetEnableWatermark();
+            String nativeWmText = NativeVerify.nativeGetWatermarkText();
+            if (nativeWmText != null && !nativeWmText.isEmpty()) {
+                WATERMARK_TEXT = nativeWmText;
+            }
+            ALLOW_PANEL_TOGGLE_WATERMARK = NativeVerify.nativeGetAllowPanelToggleWatermark();
 
             String nativeEpicAppKey = NativeVerify.nativeGetEpicAppKey();
             if (nativeEpicAppKey != null && !nativeEpicAppKey.isEmpty()) {

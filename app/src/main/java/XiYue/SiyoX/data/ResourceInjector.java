@@ -72,6 +72,21 @@ public static final String TARGET_PACK_REL_PATH = "games/com.netease/resource_pa
         void onError(String error);
     }
 
+    public interface GlobalResourceDownloadListener {
+        void onDownloadProgress(String packName, int percent, long currentBytes, long totalBytes);
+        void onDownloadComplete(String packName, boolean success, String message);
+    }
+
+    private static GlobalResourceDownloadListener globalDownloadListener;
+
+    public static void setGlobalDownloadListener(GlobalResourceDownloadListener listener) {
+        globalDownloadListener = listener;
+    }
+
+    public static GlobalResourceDownloadListener getGlobalDownloadListener() {
+        return globalDownloadListener;
+    }
+
 public static File getTargetPackDir(Context context) {
         if (context == null) {
             return new File("/data/user/0/com.netease.x19/files/" + TARGET_PACK_REL_PATH);
@@ -261,6 +276,9 @@ if (targetDir.exists()) {
                                     if (callback != null) {
                                         callback.onProgress(percent, cur, totalBytes);
                                     }
+                                    if (globalDownloadListener != null) {
+                                        globalDownloadListener.onDownloadProgress(fileName, percent, cur, totalBytes);
+                                    }
                                 }
                             });
                         }
@@ -297,6 +315,9 @@ if (targetDir.exists()) {
                             if (callback != null) {
                                 callback.onSuccess(targetFile);
                             }
+                            if (globalDownloadListener != null) {
+                                globalDownloadListener.onDownloadComplete(fileName, true, "下载完成");
+                            }
                         }
                     });
 
@@ -308,6 +329,9 @@ if (targetDir.exists()) {
                         public void run() {
                             if (callback != null) {
                                 callback.onError(t.getMessage());
+                            }
+                            if (globalDownloadListener != null) {
+                                globalDownloadListener.onDownloadComplete(fileName, false, t.getMessage());
                             }
                         }
                     });
@@ -358,43 +382,59 @@ public static void injectZip(final Context context, final File zipFile, final In
 
                     postProgress(callback, "正在解压材质资源文件...");
 
-                    ZipFile zip = new ZipFile(zipFile);
-                    Enumeration<? extends ZipEntry> entries = zip.entries();
+                    ZipFile zip = null;
+                    try {
+                        String canonicalTargetDir = targetDir.getCanonicalPath();
+                        zip = new ZipFile(zipFile);
+                        Enumeration<? extends ZipEntry> entries = zip.entries();
 
-                    while (entries.hasMoreElements()) {
-                        ZipEntry entry = entries.nextElement();
-                        String name = entry.getName();
+                        while (entries.hasMoreElements()) {
+                            ZipEntry entry = entries.nextElement();
+                            String name = entry.getName();
 
-                        String normName = name.replace('\\', '/');
+                            String normName = name.replace('\\', '/');
 
-                        String lowerName = normName.toLowerCase();
-                        if (lowerName.equals("contents.json") || lowerName.endsWith("/contents.json")
-                                || lowerName.equals("manifest.json") || lowerName.endsWith("/manifest.json")) {
-                            SiyoXLogger.i(TAG, "Skipping filtered file in zip: " + name);
-                            continue;
+                            String lowerName = normName.toLowerCase();
+                            if (lowerName.equals("contents.json") || lowerName.endsWith("/contents.json")
+                                    || lowerName.equals("manifest.json") || lowerName.endsWith("/manifest.json")) {
+                                SiyoXLogger.i(TAG, "Skipping filtered file in zip: " + name);
+                                continue;
+                            }
+
+                            File outFile = new File(targetDir, normName);
+                            String canonicalOut = outFile.getCanonicalPath();
+                            if (!canonicalOut.startsWith(canonicalTargetDir + File.separator) && !canonicalOut.equals(canonicalTargetDir)) {
+                                SiyoXLogger.w(TAG, "Skipping malicious zip entry: " + name);
+                                continue;
+                            }
+
+                            if (entry.isDirectory()) {
+                                outFile.mkdirs();
+                            } else {
+                                if (outFile.getParentFile() != null && !outFile.getParentFile().exists()) {
+                                    outFile.getParentFile().mkdirs();
+                                }
+
+                                InputStream zis = zip.getInputStream(entry);
+                                OutputStream zos = new FileOutputStream(outFile);
+                                try {
+                                    byte[] zbuf = new byte[8192];
+                                    int zlen;
+                                    while ((zlen = zis.read(zbuf)) > 0) {
+                                        zos.write(zbuf, 0, zlen);
+                                    }
+                                    zos.flush();
+                                } finally {
+                                    try { zos.close(); } catch (Throwable ignored) {}
+                                    try { zis.close(); } catch (Throwable ignored) {}
+                                }
+                            }
                         }
-
-                        File outFile = new File(targetDir, normName);
-                        if (entry.isDirectory()) {
-                            outFile.mkdirs();
-                        } else {
-                            if (outFile.getParentFile() != null && !outFile.getParentFile().exists()) {
-                                outFile.getParentFile().mkdirs();
-                            }
-
-                            InputStream zis = zip.getInputStream(entry);
-                            OutputStream zos = new FileOutputStream(outFile);
-                            byte[] zbuf = new byte[8192];
-                            int zlen;
-                            while ((zlen = zis.read(zbuf)) > 0) {
-                                zos.write(zbuf, 0, zlen);
-                            }
-                            zos.flush();
-                            zos.close();
-                            zis.close();
+                    } finally {
+                        if (zip != null) {
+                            try { zip.close(); } catch (Throwable ignored) {}
                         }
                     }
-                    zip.close();
 
                     postProgress(callback, "正在构建资源校验数据...");
                     regenerateFolderMd5(targetDir);
@@ -434,7 +474,7 @@ public static void injectZip(final Context context, final File zipFile, final In
         });
     }
 
-public static void regenerateFolderMd5(File targetDir) throws Exception {
+    public static void regenerateFolderMd5(File targetDir) throws Exception {
         if (targetDir == null || !targetDir.exists() || !targetDir.isDirectory()) {
             return;
         }
@@ -448,10 +488,16 @@ public static void regenerateFolderMd5(File targetDir) throws Exception {
         }
 
         File md5File = new File(targetDir, "folder_md5.json");
-        FileOutputStream fos = new FileOutputStream(md5File);
-        fos.write(json.toString().getBytes("UTF-8"));
-        fos.flush();
-        fos.close();
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(md5File);
+            fos.write(json.toString().getBytes("UTF-8"));
+            fos.flush();
+        } finally {
+            if (fos != null) {
+                try { fos.close(); } catch (Throwable ignored) {}
+            }
+        }
 
         SiyoXLogger.i(TAG, "Generated folder_md5.json with " + md5Map.size() + " entries.");
     }
@@ -488,7 +534,7 @@ public static void regenerateFolderMd5(File targetDir) throws Exception {
         }
     }
 
-public static String computeFileMd5(File file) {
+    public static String computeFileMd5(File file) {
         if (file == null || !file.exists() || !file.isFile()) return null;
         InputStream is = null;
         try {
@@ -525,28 +571,29 @@ public static String computeFileMd5(File file) {
                 }
             }
         } else {
-            InputStream in = new FileInputStream(src);
-            OutputStream out = new FileOutputStream(dest);
+            copyFile(src, dest);
+        }
+    }
+
+    private static void copyFile(File src, File dest) throws Exception {
+        if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = new FileInputStream(src);
+            out = new FileOutputStream(dest);
             byte[] buf = new byte[8192];
             int len;
             while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
-            in.close();
-            out.close();
+            out.flush();
+        } finally {
+            try { if (out != null) out.close(); } catch (Throwable ignored) {}
+            try { if (in != null) in.close(); } catch (Throwable ignored) {}
         }
-    }
-
-    private static void copyFile(File src, File dest) throws Exception {
-        InputStream in = new FileInputStream(src);
-        OutputStream out = new FileOutputStream(dest);
-        byte[] buf = new byte[8192];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
-        in.close();
-        out.close();
     }
 
     private static void deleteDirectory(File dir) {

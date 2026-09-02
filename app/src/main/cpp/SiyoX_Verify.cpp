@@ -401,6 +401,31 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeGetEnableMd5Verify(JNIEnv *env, jclass 
     return SIYOX_ENABLE_MD5_VERIFY ? JNI_TRUE : JNI_FALSE;
 }
 
+JNIEXPORT jboolean JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetEnableLoginVideoReplace(JNIEnv *env, jclass clazz) {
+    return SIYOX_ENABLE_LOGIN_VIDEO_REPLACE ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetLoginVideoUrl(JNIEnv *env, jclass clazz) {
+    return env->NewStringUTF(SIYOX_LOGIN_VIDEO_URL);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetEnableWatermark(JNIEnv *env, jclass clazz) {
+    return SIYOX_ENABLE_WATERMARK ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jstring JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetWatermarkText(JNIEnv *env, jclass clazz) {
+    return env->NewStringUTF(SIYOX_WATERMARK_TEXT);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_XiYue_SiyoX_data_NativeVerify_nativeGetAllowPanelToggleWatermark(JNIEnv *env, jclass clazz) {
+    return SIYOX_ALLOW_PANEL_TOGGLE_WATERMARK ? JNI_TRUE : JNI_FALSE;
+}
+
 JNIEXPORT jstring JNICALL
 Java_XiYue_SiyoX_data_NativeVerify_nativeGetEpicAppKey(JNIEnv *env, jclass clazz) {
     return env->NewStringUTF(SIYOX_EPIC_APP_KEY);
@@ -474,7 +499,7 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeGetWeiYanConfigJson(JNIEnv *env, jclass
 
 JNIEXPORT jstring JNICALL
 Java_XiYue_SiyoX_data_NativeVerify_nativeGetDefaultResourcesJson(JNIEnv *env, jclass clazz) {
-    char json[8192] = "[";
+    std::string json = "[";
     size_t count = SIYOX_DEFAULT_RESOURCES_COUNT;
     for (size_t i = 0; i < count; i++) {
         char item[2048];
@@ -485,10 +510,10 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeGetDefaultResourcesJson(JNIEnv *env, jc
             SIYOX_DEFAULT_RESOURCES[i].md5,
             SIYOX_DEFAULT_RESOURCES[i].description,
             (i < count - 1) ? "," : "");
-        strncat(json, item, sizeof(json) - strlen(json) - 1);
+        json += item;
     }
-    strncat(json, "]", sizeof(json) - strlen(json) - 1);
-    return env->NewStringUTF(json);
+    json += "]";
+    return env->NewStringUTF(json.c_str());
 }
 
 JNIEXPORT jstring JNICALL
@@ -497,6 +522,10 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeT3VerifyCard(
         jclass clazz,
         jstring card_str,
         jstring imei_str) {
+
+    if (card_str == nullptr || imei_str == nullptr) {
+        return env->NewStringUTF("{\"code\":-1,\"msg\":\"参数不能为空\"}");
+    }
 
     const char *card = env->GetStringUTFChars(card_str, nullptr);
     const char *imei = env->GetStringUTFChars(imei_str, nullptr);
@@ -593,6 +622,10 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeT3Heartbeat(
         jstring card_str,
         jstring statecode_str) {
 
+    if (card_str == nullptr || statecode_str == nullptr) {
+        return env->NewStringUTF("{\"code\":-1,\"msg\":\"参数不能为空\"}");
+    }
+
     const char *card = env->GetStringUTFChars(card_str, nullptr);
     const char *statecode = env->GetStringUTFChars(statecode_str, nullptr);
 
@@ -636,6 +669,10 @@ Java_XiYue_SiyoX_data_NativeVerify_nativeVerifyCard(
         jint verify_type,
         jstring card_str,
         jstring imei_str) {
+
+    if (card_str == nullptr || imei_str == nullptr) {
+        return env->NewStringUTF("{\"code\":-1,\"msg\":\"参数不能为空\"}");
+    }
 
     const char *card = env->GetStringUTFChars(card_str, nullptr);
     const char *imei = env->GetStringUTFChars(imei_str, nullptr);

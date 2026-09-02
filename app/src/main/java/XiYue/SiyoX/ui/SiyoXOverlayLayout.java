@@ -48,11 +48,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -66,6 +69,7 @@ import java.util.List;
 
 import XiYue.SiyoX.SiyoXConfig;
 import XiYue.SiyoX.data.AppSettings;
+import XiYue.SiyoX.data.LoginVideoManager;
 import XiYue.SiyoX.data.ResourceInjector;
 import XiYue.SiyoX.data.SiyoXDirManager;
 import XiYue.SiyoX.data.SiyoXLogger;
@@ -85,6 +89,8 @@ private FrameLayout fullScreenVerifyView;
     private FrameLayout floatingBall;
     private FrameLayout inGamePanelScrim;
     private FrameLayout updateModalScrim;
+    private DynamicIslandView dynamicIslandView;
+    private TextView tvWatermark;
     private RippleWaveView rippleWaveView;
     private FrameLayout panelContainer;
     private FrameLayout cardWrapper;
@@ -572,30 +578,6 @@ LinearLayout leftSidebar = new LinearLayout(getContext());
         categoryListLayout.setOrientation(LinearLayout.VERTICAL);
         categoryListLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        String[] categories = new String[]{"资源列表", "辅助功能", "个人中心", "关于软件"};
-        categoryTabViews.clear();
-
-        for (int i = 0; i < categories.length; i++) {
-            final int index = i;
-            TextView tabView = new TextView(getContext());
-            tabView.setText(categories[i]);
-            tabView.setTextSize(12.5f);
-            tabView.setPadding(dp10, dp8, dp10, dp8);
-            tabView.setGravity(Gravity.CENTER_VERTICAL);
-            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            p.setMargins(0, dp(3), 0, dp(3));
-            tabView.setLayoutParams(p);
-
-            tabView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switchCategory(index);
-                }
-            });
-
-            categoryTabViews.add(tabView);
-            categoryListLayout.addView(tabView);
-        }
         leftSidebar.addView(categoryListLayout);
         mainContentRow.addView(leftSidebar);
 
@@ -620,7 +602,76 @@ ScrollView rightScrollView = new ScrollView(getContext());
         inGamePanelScrim.addView(panelContainer);
         addView(inGamePanelScrim);
 
+        dynamicIslandView = new DynamicIslandView(getContext());
+        dynamicIslandView.setVisibility(appSettings.isDynamicIslandEnabled() && verifyManager.isVerified() ? View.VISIBLE : View.GONE);
+        addView(dynamicIslandView, new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, Gravity.TOP));
+
+        tvWatermark = new TextView(getContext());
+        tvWatermark.setText(SiyoXConfig.WATERMARK_TEXT);
+        tvWatermark.setTextSize(10.5f);
+        tvWatermark.setTextColor(Color.parseColor("#668E8E93"));
+        tvWatermark.setShadowLayer(dp(1.2f), 1, 1, Color.parseColor("#80000000"));
+        tvWatermark.setClickable(false);
+        tvWatermark.setFocusable(false);
+        FrameLayout.LayoutParams wmParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.END);
+        wmParams.setMargins(0, 0, dp(12), dp(8));
+        addView(tvWatermark, wmParams);
+        updateWatermarkVisibility();
+
+        updateCategories();
         switchCategory(0);
+    }
+
+    private void updateCategories() {
+        if (categoryListLayout == null) return;
+        categoryListLayout.removeAllViews();
+        categoryTabViews.clear();
+        int dp10 = dp(10);
+        int dp8 = dp(8);
+
+        List<String> categories = new ArrayList<>();
+        categories.add("资源列表");
+        categories.add("辅助功能");
+        categories.add("个人中心");
+        categories.add("关于软件");
+        if (appSettings.isDevModeEnabled()) {
+            categories.add("开发调试");
+        }
+
+        for (int i = 0; i < categories.size(); i++) {
+            final int index = i;
+            TextView tabView = new TextView(getContext());
+            tabView.setText(categories.get(i));
+            tabView.setTextSize(12.5f);
+            tabView.setPadding(dp10, dp8, dp10, dp8);
+            tabView.setGravity(Gravity.CENTER_VERTICAL);
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            p.setMargins(0, dp(3), 0, dp(3));
+            tabView.setLayoutParams(p);
+
+            tabView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switchCategory(index);
+                }
+            });
+
+            categoryTabViews.add(tabView);
+            categoryListLayout.addView(tabView);
+        }
+    }
+
+    private void updateWatermarkVisibility() {
+        if (tvWatermark == null) return;
+        if (!verifyManager.isVerified()) {
+            tvWatermark.setVisibility(View.GONE);
+            return;
+        }
+        boolean show = SiyoXConfig.ENABLE_WATERMARK;
+        if (SiyoXConfig.ALLOW_PANEL_TOGGLE_WATERMARK) {
+            show = show && appSettings.isWatermarkEnabled();
+        }
+        tvWatermark.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
 private void switchCategory(int categoryIndex) {
@@ -640,7 +691,7 @@ private void switchCategory(int categoryIndex) {
             }
         }
 
-featureListContent.setAlpha(0f);
+        featureListContent.setAlpha(0f);
         featureListContent.setTranslationY(dp(10));
         renderFeatureList(categoryIndex);
         featureListContent.animate()
@@ -661,15 +712,10 @@ featureListContent.setAlpha(0f);
         int dp8 = dp(8);
 
         if (categoryIndex == 0) {
-            
             renderResourceList(isDark);
-
         } else if (categoryIndex == 1) {
-            
             renderAuxiliaryFeatures(isDark);
-
         } else if (categoryIndex == 2) {
-            
             LinearLayout profileCard = createInnerCard(isDark);
             profileCard.setPadding(dp16, dp14, dp16, dp14);
 
@@ -721,7 +767,6 @@ featureListContent.setAlpha(0f);
             }
 
         } else if (categoryIndex == 3) {
-            
             LinearLayout aboutCard = createInnerCard(isDark);
             aboutCard.setPadding(dp16, dp14, dp16, dp14);
 
@@ -731,13 +776,354 @@ featureListContent.setAlpha(0f);
             aboutCard.addView(createDivider(isDark));
             aboutCard.addView(createCustomInfoRow("软件名称", createSiyoXTitle(14f, isDark), isDark));
             aboutCard.addView(createDivider(isDark));
-            aboutCard.addView(createInfoRowItem("内部版本", String.valueOf(SiyoXConfig.VERSION_CODE), isDark));
+
+            TextView tvVersion = new TextView(getContext());
+            tvVersion.setText(String.valueOf(SiyoXConfig.VERSION_CODE));
+            tvVersion.setTextSize(13f);
+            tvVersion.setTypeface(Typeface.DEFAULT_BOLD);
+            tvVersion.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+            tvVersion.setSoundEffectsEnabled(false);
+            tvVersion.setClickable(true);
+            tvVersion.setFocusable(false);
+            tvVersion.setBackground(null);
+
+            View versionRow = createCustomInfoRow("模块版本", tvVersion, isDark);
+            versionRow.setSoundEffectsEnabled(false);
+            versionRow.setBackground(null);
+            versionRow.setClickable(true);
+
+            OnClickListener devModeTrigger = new OnClickListener() {
+                private int clickCount = 0;
+                private long lastClickTime = 0;
+
+                @Override
+                public void onClick(View v) {
+                    long now = System.currentTimeMillis();
+                    if (now - lastClickTime > 2500) {
+                        clickCount = 0;
+                    }
+                    lastClickTime = now;
+                    clickCount++;
+                    if (clickCount >= 5) {
+                        clickCount = 0;
+                        if (!appSettings.isDevModeEnabled()) {
+                            showCustomConfirmDialog("开发者调试模式", "是否进入开发者调试模式？开启后将在左侧导航栏显示“开发调试”入口。", "取消", "确定进入", false, new Runnable() {
+                                @Override
+                                public void run() {
+                                    appSettings.setDevModeEnabled(true);
+                                    updateCategories();
+                                    switchCategory(4);
+                                    Toast.makeText(getContext(), "已进入开发者调试模式", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "开发者调试模式已处于开启状态", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            };
+            tvVersion.setOnClickListener(devModeTrigger);
+            versionRow.setOnClickListener(devModeTrigger);
+
+            aboutCard.addView(versionRow);
             aboutCard.addView(createDivider(isDark));
             aboutCard.addView(createInfoRowItem("软件作者", SiyoXConfig.AUTHOR, isDark)); 
             aboutCard.addView(createDivider(isDark));
             aboutCard.addView(createInfoRowItem("当前作用域", SiyoXConfig.TARGET_PACKAGE, isDark));
 
             featureListContent.addView(aboutCard);
+
+        } else if (categoryIndex == 4) {
+            renderDevDebugFeatures(isDark);
+        }
+    }
+
+    private void renderDevDebugFeatures(final boolean isDark) {
+        int dp16 = dp(16);
+        int dp14 = dp(14);
+        int dp12 = dp(12);
+        int dp10 = dp(10);
+        int dp8 = dp(8);
+
+        LinearLayout islandTestCard = createInnerCard(isDark);
+        islandTestCard.setPadding(dp16, dp14, dp16, dp14);
+
+        TextView tvIslandHeader = new TextView(getContext());
+        tvIslandHeader.setText("灵动岛状态与进度模拟");
+        tvIslandHeader.setTextSize(13.5f);
+        tvIslandHeader.setTypeface(Typeface.DEFAULT_BOLD);
+        tvIslandHeader.setTextColor(SiyoXTheme.getAccentBlue());
+        tvIslandHeader.setPadding(0, 0, 0, dp10);
+        islandTestCard.addView(tvIslandHeader);
+
+        LinearLayout row1 = new LinearLayout(getContext());
+        row1.setOrientation(LinearLayout.HORIZONTAL);
+        row1.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38)));
+
+        Button btnSimResProg = new Button(getContext());
+        btnSimResProg.setText("模拟资源下载 (45%)");
+        btnSimResProg.setTextSize(12f);
+        btnSimResProg.setTypeface(Typeface.DEFAULT_BOLD);
+        btnSimResProg.setTextColor(Color.WHITE);
+        btnSimResProg.setBackground(createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(8)));
+        styleCleanButton(btnSimResProg);
+        LinearLayout.LayoutParams lpBtn1 = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        lpBtn1.setMargins(0, 0, dp8, 0);
+        btnSimResProg.setLayoutParams(lpBtn1);
+        btnSimResProg.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ResourceInjector.getGlobalDownloadListener() != null) {
+                    ResourceInjector.getGlobalDownloadListener().onDownloadProgress("测试资源包.zip", 45, 4500, 10000);
+                }
+            }
+        });
+        row1.addView(btnSimResProg);
+
+        Button btnSimResDone = new Button(getContext());
+        btnSimResDone.setText("模拟下载完成");
+        btnSimResDone.setTextSize(12f);
+        btnSimResDone.setTypeface(Typeface.DEFAULT_BOLD);
+        btnSimResDone.setTextColor(Color.WHITE);
+        btnSimResDone.setBackground(createRippleDrawable(Color.parseColor("#30D158"), Color.parseColor("#249A40"), dp(8)));
+        styleCleanButton(btnSimResDone);
+        LinearLayout.LayoutParams lpBtn2 = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        btnSimResDone.setLayoutParams(lpBtn2);
+        btnSimResDone.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ResourceInjector.getGlobalDownloadListener() != null) {
+                    ResourceInjector.getGlobalDownloadListener().onDownloadComplete("测试资源包.zip", true, "下载完成");
+                }
+            }
+        });
+        row1.addView(btnSimResDone);
+        islandTestCard.addView(row1);
+
+        LinearLayout rowSimAnim = new LinearLayout(getContext());
+        rowSimAnim.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams lpRowSim = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38));
+        lpRowSim.setMargins(0, dp8, 0, 0);
+        rowSimAnim.setLayoutParams(lpRowSim);
+
+        Button btnSimFull = new Button(getContext());
+        btnSimFull.setText("模拟完整下载过程");
+        btnSimFull.setTextSize(12f);
+        btnSimFull.setTypeface(Typeface.DEFAULT_BOLD);
+        btnSimFull.setTextColor(Color.WHITE);
+        btnSimFull.setBackground(createRippleDrawable(Color.parseColor("#5856D6"), Color.parseColor("#4442A8"), dp(8)));
+        styleCleanButton(btnSimFull);
+        LinearLayout.LayoutParams lpBtnFull = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        lpBtnFull.setMargins(0, 0, dp8, 0);
+        btnSimFull.setLayoutParams(lpBtnFull);
+        btnSimFull.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSimulatedDownload();
+            }
+        });
+        rowSimAnim.addView(btnSimFull);
+
+        Button btnStopSim = new Button(getContext());
+        btnStopSim.setText("停止模拟进度");
+        btnStopSim.setTextSize(12f);
+        btnStopSim.setTypeface(Typeface.DEFAULT_BOLD);
+        btnStopSim.setTextColor(Color.WHITE);
+        btnStopSim.setBackground(createRippleDrawable(Color.parseColor("#8E8E93"), Color.parseColor("#636366"), dp(8)));
+        styleCleanButton(btnStopSim);
+        LinearLayout.LayoutParams lpBtnStop = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        btnStopSim.setLayoutParams(lpBtnStop);
+        btnStopSim.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopSimulatedDownload();
+            }
+        });
+        rowSimAnim.addView(btnStopSim);
+        islandTestCard.addView(rowSimAnim);
+
+        LinearLayout row2 = new LinearLayout(getContext());
+        row2.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams lpRow2 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38));
+        lpRow2.setMargins(0, dp8, 0, 0);
+        row2.setLayoutParams(lpRow2);
+
+        Button btnSimVidProg = new Button(getContext());
+        btnSimVidProg.setText("模拟视频下载 (80%)");
+        btnSimVidProg.setTextSize(12f);
+        btnSimVidProg.setTypeface(Typeface.DEFAULT_BOLD);
+        btnSimVidProg.setTextColor(Color.WHITE);
+        btnSimVidProg.setBackground(createRippleDrawable(Color.parseColor("#FF9500"), Color.parseColor("#CC7700"), dp(8)));
+        styleCleanButton(btnSimVidProg);
+        LinearLayout.LayoutParams lpBtn3 = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        lpBtn3.setMargins(0, 0, dp8, 0);
+        btnSimVidProg.setLayoutParams(lpBtn3);
+        btnSimVidProg.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (LoginVideoManager.get().getGlobalListener() != null) {
+                    LoginVideoManager.get().getGlobalListener().onProgress(80, "下载中");
+                }
+            }
+        });
+        row2.addView(btnSimVidProg);
+
+        Button btnSimFail = new Button(getContext());
+        btnSimFail.setText("模拟下载失败");
+        btnSimFail.setTextSize(12f);
+        btnSimFail.setTypeface(Typeface.DEFAULT_BOLD);
+        btnSimFail.setTextColor(Color.WHITE);
+        btnSimFail.setBackground(createRippleDrawable(Color.parseColor("#FF3B30"), Color.parseColor("#CC2E26"), dp(8)));
+        styleCleanButton(btnSimFail);
+        LinearLayout.LayoutParams lpBtn4 = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        btnSimFail.setLayoutParams(lpBtn4);
+        btnSimFail.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ResourceInjector.getGlobalDownloadListener() != null) {
+                    ResourceInjector.getGlobalDownloadListener().onDownloadComplete("测试资源包.zip", false, "网络连接失败");
+                }
+            }
+        });
+        row2.addView(btnSimFail);
+        islandTestCard.addView(row2);
+
+        featureListContent.addView(islandTestCard);
+
+        LinearLayout dialogTestCard = createInnerCard(isDark);
+        dialogTestCard.setPadding(dp16, dp14, dp16, dp14);
+        LinearLayout.LayoutParams lpDiaCard = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        lpDiaCard.setMargins(0, dp12, 0, 0);
+        dialogTestCard.setLayoutParams(lpDiaCard);
+
+        TextView tvDialogHeader = new TextView(getContext());
+        tvDialogHeader.setText("弹窗与功能触发测试");
+        tvDialogHeader.setTextSize(13.5f);
+        tvDialogHeader.setTypeface(Typeface.DEFAULT_BOLD);
+        tvDialogHeader.setTextColor(SiyoXTheme.getAccentBlue());
+        tvDialogHeader.setPadding(0, 0, 0, dp10);
+        dialogTestCard.addView(tvDialogHeader);
+
+        LinearLayout row3 = new LinearLayout(getContext());
+        row3.setOrientation(LinearLayout.HORIZONTAL);
+        row3.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38)));
+
+        Button btnTestUpdate = new Button(getContext());
+        btnTestUpdate.setText("触发更新弹窗");
+        btnTestUpdate.setTextSize(12f);
+        btnTestUpdate.setTypeface(Typeface.DEFAULT_BOLD);
+        btnTestUpdate.setTextColor(isDark ? Color.WHITE : Color.parseColor("#1C1C1E"));
+        int btnBg = isDark ? Color.parseColor("#3A3A3C") : Color.parseColor("#E5E7EB");
+        int btnPressed = isDark ? Color.parseColor("#2C2C2E") : Color.parseColor("#D1D5DB");
+        btnTestUpdate.setBackground(createRippleDrawable(btnBg, btnPressed, dp(8)));
+        styleCleanButton(btnTestUpdate);
+        LinearLayout.LayoutParams lpBtn5 = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        lpBtn5.setMargins(0, 0, dp8, 0);
+        btnTestUpdate.setLayoutParams(lpBtn5);
+        btnTestUpdate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VerifyManager.setUpdateDismissed(false);
+                VerifyManager.SoftwareUpdate update = new VerifyManager.SoftwareUpdate();
+                update.hasUpdate = true;
+                update.latestVersionCode = 999;
+                update.latestVersionName = "9.9.9";
+                update.title = "开发者测试更新";
+                update.log = "1. 这是开发者调试模式下的模拟更新弹窗\n2. 测试当前版本与最新版本排版展示\n3. 欢迎测试各项按钮响应";
+                update.downloadUrl = "https://example.com/test.apk";
+                update.isForce = false;
+                showUpdateDialog(update);
+            }
+        });
+        row3.addView(btnTestUpdate);
+
+        Button btnTestNotice = new Button(getContext());
+        btnTestNotice.setText("触发弹窗");
+        btnTestNotice.setTextSize(12f);
+        btnTestNotice.setTypeface(Typeface.DEFAULT_BOLD);
+        btnTestNotice.setTextColor(isDark ? Color.WHITE : Color.parseColor("#1C1C1E"));
+        btnTestNotice.setBackground(createRippleDrawable(btnBg, btnPressed, dp(8)));
+        styleCleanButton(btnTestNotice);
+        LinearLayout.LayoutParams lpBtn6 = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+        btnTestNotice.setLayoutParams(lpBtn6);
+        btnTestNotice.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCustomConfirmDialog("测试官方公告", "这是一条在开发者调试模式下触发的模拟公告信息，用于检查公告弹窗的字体排版、边距与滚动交互。", "关闭", "确定", false, null);
+            }
+        });
+        row3.addView(btnTestNotice);
+        dialogTestCard.addView(row3);
+
+        featureListContent.addView(dialogTestCard);
+
+        Button btnCloseDevMode = new Button(getContext());
+        btnCloseDevMode.setText("关闭开发者调试模式");
+        btnCloseDevMode.setTextSize(13.5f);
+        btnCloseDevMode.setTypeface(Typeface.DEFAULT_BOLD);
+        btnCloseDevMode.setTextColor(Color.parseColor("#FF3B30"));
+        btnCloseDevMode.setBackground(createExitRippleDrawable(SiyoXTheme.getExitBtnBg(isDark), dp(12)));
+        styleCleanButton(btnCloseDevMode);
+        LinearLayout.LayoutParams lpCloseDev = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(44));
+        lpCloseDev.setMargins(0, dp14, 0, 0);
+        btnCloseDevMode.setLayoutParams(lpCloseDev);
+        btnCloseDevMode.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showConfirmDialog("关闭开发调试", "确定要关闭开发者调试模式并隐藏开发调试分类吗？", "确定关闭", true, new Runnable() {
+                    @Override
+                    public void run() {
+                        stopSimulatedDownload();
+                        appSettings.setDevModeEnabled(false);
+                        updateCategories();
+                        switchCategory(3);
+                        Toast.makeText(getContext(), "已退出开发者调试模式", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        featureListContent.addView(btnCloseDevMode);
+    }
+
+    private boolean isSimulatingDownload = false;
+    private int simProgress = 0;
+    private final Handler simHandler = new Handler(Looper.getMainLooper());
+    private final Runnable simRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!isSimulatingDownload) return;
+            simProgress += 4;
+            if (simProgress < 100) {
+                if (ResourceInjector.getGlobalDownloadListener() != null) {
+                    ResourceInjector.getGlobalDownloadListener().onDownloadProgress("模拟资源包.zip", simProgress, simProgress * 1024L * 1024L, 100L * 1024L * 1024L);
+                }
+                simHandler.postDelayed(this, 120);
+            } else {
+                isSimulatingDownload = false;
+                simProgress = 0;
+                if (ResourceInjector.getGlobalDownloadListener() != null) {
+                    ResourceInjector.getGlobalDownloadListener().onDownloadComplete("模拟资源包.zip", true, "下载完成");
+                }
+            }
+        }
+    };
+
+    private void startSimulatedDownload() {
+        stopSimulatedDownload();
+        isSimulatingDownload = true;
+        simProgress = 0;
+        if (ResourceInjector.getGlobalDownloadListener() != null) {
+            ResourceInjector.getGlobalDownloadListener().onDownloadProgress("模拟资源包.zip", 0, 0, 100L * 1024L * 1024L);
+        }
+        simHandler.postDelayed(simRunnable, 120);
+    }
+
+    private void stopSimulatedDownload() {
+        isSimulatingDownload = false;
+        simProgress = 0;
+        simHandler.removeCallbacks(simRunnable);
+        if (dynamicIslandView != null) {
+            dynamicIslandView.resetToIdle();
         }
     }
 
@@ -1364,8 +1750,33 @@ if (res.description != null && !res.description.isEmpty()) {
         clearCard.addView(btnClear);
         featureListContent.addView(clearCard);
 
-TextView titleModule = createSectionTitle("模块功能", isDark);
+        TextView titleModule = createSectionTitle("模块功能", isDark);
         featureListContent.addView(titleModule);
+
+        featureListContent.addView(createDynamicIslandFeatureCard("灵动岛悬浮顶栏", "在游戏顶部实时显示客户端名称、精准时钟与各项下载进度", appSettings.isDynamicIslandEnabled(), isDark, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDynamicIslandSettingsDialog();
+            }
+        }, new MiuiXSwitch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                appSettings.setDynamicIslandEnabled(isChecked);
+                if (dynamicIslandView != null) {
+                    dynamicIslandView.setVisibility(isChecked && verifyManager.isVerified() ? View.VISIBLE : View.GONE);
+                }
+            }
+        }));
+
+        if (SiyoXConfig.ALLOW_PANEL_TOGGLE_WATERMARK) {
+            featureListContent.addView(createMiuiXFeatureCard("屏幕右下角水印", "在屏幕右下角以灰色字体常驻显示专属水印信息", appSettings.isWatermarkEnabled(), isDark, new MiuiXSwitch.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                    appSettings.setWatermarkEnabled(isChecked);
+                    updateWatermarkVisibility();
+                }
+            }));
+        }
 
         featureListContent.addView(createMiuiXFeatureCard("辅助功能模块 01", "核心辅助功能模块，可在源码中接入具体功能", false, isDark, new MiuiXSwitch.OnCheckedChangeListener() {
             @Override
@@ -1490,6 +1901,59 @@ LinearLayout btnCopy = new LinearLayout(getContext());
 
         row.addView(rightView);
         return row;
+    }
+
+    private View createDynamicIslandFeatureCard(String title, String desc, boolean initial, boolean isDark, OnClickListener settingsClickListener, MiuiXSwitch.OnCheckedChangeListener listener) {
+        LinearLayout card = new LinearLayout(getContext());
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        cardParams.setMargins(0, 0, 0, dp(8));
+        card.setLayoutParams(cardParams);
+        card.setBackground(createCardBg(SiyoXTheme.getInnerCardBg(isDark), Color.TRANSPARENT, dp(14)));
+        card.setPadding(dp(14), dp(12), dp(14), dp(12));
+
+        LinearLayout textCol = new LinearLayout(getContext());
+        textCol.setOrientation(LinearLayout.VERTICAL);
+        textCol.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView tvTitle = new TextView(getContext());
+        tvTitle.setText(title);
+        tvTitle.setTextSize(14f);
+        tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
+        tvTitle.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        textCol.addView(tvTitle);
+
+        TextView tvDesc = new TextView(getContext());
+        tvDesc.setText(desc);
+        tvDesc.setTextSize(11f);
+        tvDesc.setTextColor(SiyoXTheme.getTextSecondary(isDark));
+        tvDesc.setPadding(0, dp(2), 0, 0);
+        textCol.addView(tvDesc);
+
+        card.addView(textCol);
+
+        LinearLayout btnSettings = new LinearLayout(getContext());
+        btnSettings.setGravity(Gravity.CENTER);
+        btnSettings.setBackground(createRippleDrawable(Color.TRANSPARENT, Color.parseColor("#20000000"), dp(8)));
+        btnSettings.setClickable(true);
+        btnSettings.setPadding(dp(6), dp(6), dp(6), dp(6));
+        LinearLayout.LayoutParams btnSettingsParams = new LinearLayout.LayoutParams(dp(32), dp(32));
+        btnSettingsParams.setMargins(0, 0, dp(8), 0);
+        btnSettings.setLayoutParams(btnSettingsParams);
+
+        SettingsIconView settingsIcon = new SettingsIconView(getContext());
+        settingsIcon.setIconColor(Color.BLACK);
+        btnSettings.addView(settingsIcon);
+        btnSettings.setOnClickListener(settingsClickListener);
+        card.addView(btnSettings);
+
+        MiuiXSwitch miuixSwitch = new MiuiXSwitch(getContext());
+        miuixSwitch.setChecked(initial, false);
+        miuixSwitch.setOnCheckedChangeListener(listener);
+        card.addView(miuixSwitch);
+
+        return card;
     }
 
     private View createMiuiXFeatureCard(String title, String desc, boolean initial, boolean isDark, MiuiXSwitch.OnCheckedChangeListener listener) {
@@ -1668,6 +2132,9 @@ panelContainer.setScaleX(0.85f);
                         if (verifyManager.isVerified()) {
                             floatingBall.setVisibility(View.VISIBLE);
                         }
+                        if (dynamicIslandView != null && appSettings.isDynamicIslandEnabled() && verifyManager.isVerified()) {
+                            dynamicIslandView.bringToFront();
+                        }
                     }
                 })
                 .start();
@@ -1754,15 +2221,27 @@ String savedCard = appSettings.getCard();
             fullScreenVerifyView.setVisibility(View.VISIBLE);
             floatingBall.setVisibility(View.GONE);
             inGamePanelScrim.setVisibility(View.GONE);
+            if (dynamicIslandView != null) {
+                dynamicIslandView.setVisibility(View.GONE);
+            }
+            if (tvWatermark != null) {
+                tvWatermark.setVisibility(View.GONE);
+            }
         }
     }
 
     private void onVerifySuccess() {
         fullScreenVerifyView.setVisibility(View.GONE);
         floatingBall.setVisibility(View.VISIBLE);
+        if (dynamicIslandView != null) {
+            dynamicIslandView.updateClientName();
+            dynamicIslandView.setVisibility(appSettings.isDynamicIslandEnabled() ? View.VISIBLE : View.GONE);
+        }
+        updateWatermarkVisibility();
         if (tvTopExpireBadge != null) {
             tvTopExpireBadge.setText("到期时间: " + VerifyManager.formatDate(verifyManager.getExpireTimestamp()));
         }
+        LoginVideoManager.get().checkAndStartLoginVideo(getContext());
         checkAndShowUpdateDialog();
     }
 
@@ -1770,7 +2249,7 @@ String savedCard = appSettings.getCard();
         verifyManager.checkSoftwareUpdate(new VerifyManager.UpdateCallback() {
             @Override
             public void onUpdateResult(final boolean hasUpdate, final VerifyManager.SoftwareUpdate update) {
-                if (hasUpdate && update != null) {
+                if (hasUpdate && update != null && (!VerifyManager.isUpdateDismissed() || update.isForce)) {
                     post(new Runnable() {
                         @Override
                         public void run() {
@@ -1784,7 +2263,6 @@ String savedCard = appSettings.getCard();
 
     private void showUpdateDialog(final VerifyManager.SoftwareUpdate update) {
         if (update == null || !update.hasUpdate) return;
-        if (VerifyManager.isUpdateDismissed() && !update.isForce) return;
         try {
             if (updateModalScrim != null) {
                 removeView(updateModalScrim);
@@ -2030,32 +2508,36 @@ String savedCard = appSettings.getCard();
                 File cacheDir = getContext().getExternalCacheDir();
                 if (cacheDir == null) cacheDir = getContext().getCacheDir();
                 final File apkFile = new File(cacheDir, "siyox_update_" + latestVersion + ".apk");
+                HttpURLConnection conn = null;
+                InputStream is = null;
+                OutputStream os = null;
                 try {
                     URL u = new URL(url);
-                    HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-                    conn.setConnectTimeout(15000);
-                    conn.setReadTimeout(30000);
-                    conn.setInstanceFollowRedirects(true);
-                    conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android)");
-                    conn.connect();
+                    int redirectCount = 0;
+                    while (redirectCount < 5) {
+                        conn = (HttpURLConnection) u.openConnection();
+                        conn.setConnectTimeout(15000);
+                        conn.setReadTimeout(30000);
+                        conn.setInstanceFollowRedirects(true);
+                        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android)");
+                        conn.connect();
 
-                    int responseCode = conn.getResponseCode();
-                    if (responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308) {
-                        String redirectUrl = conn.getHeaderField("Location");
-                        if (redirectUrl != null && !redirectUrl.isEmpty()) {
-                            conn.disconnect();
-                            u = new URL(redirectUrl);
-                            conn = (HttpURLConnection) u.openConnection();
-                            conn.setConnectTimeout(15000);
-                            conn.setReadTimeout(30000);
-                            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android)");
-                            conn.connect();
+                        int responseCode = conn.getResponseCode();
+                        if (responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308) {
+                            String redirectUrl = conn.getHeaderField("Location");
+                            if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                                conn.disconnect();
+                                u = new URL(redirectUrl);
+                                redirectCount++;
+                                continue;
+                            }
                         }
+                        break;
                     }
 
                     int totalLength = conn.getContentLength();
-                    InputStream is = conn.getInputStream();
-                    OutputStream os = new FileOutputStream(apkFile);
+                    is = conn.getInputStream();
+                    os = new FileOutputStream(apkFile);
                     byte[] buffer = new byte[8192];
                     int read;
                     long downloaded = 0;
@@ -2080,8 +2562,11 @@ String savedCard = appSettings.getCard();
                     }
                     os.flush();
                     os.close();
+                    os = null;
                     is.close();
+                    is = null;
                     conn.disconnect();
+                    conn = null;
 
                     if (apkFile.exists() && apkFile.length() > 0) {
                         post(new Runnable() {
@@ -2113,6 +2598,10 @@ String savedCard = appSettings.getCard();
                             } catch (Throwable ignored) {}
                         }
                     });
+                } finally {
+                    try { if (os != null) os.close(); } catch (Throwable ignored) {}
+                    try { if (is != null) is.close(); } catch (Throwable ignored) {}
+                    try { if (conn != null) conn.disconnect(); } catch (Throwable ignored) {}
                 }
             }
         }).start();
@@ -2218,6 +2707,375 @@ private static class RippleWaveView extends View {
                 canvas.drawCircle(centerX, centerY, currentRadius, wavePaint);
             }
         }
+    }
+
+    private void showDynamicIslandSettingsDialog() {
+        try {
+            final Dialog dialog = new Dialog(getContext());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setDimAmount(0.4f);
+            }
+
+            final boolean isDark = SiyoXTheme.isDarkMode(getContext());
+            int dp16 = dp(16);
+            int dp12 = dp(12);
+            int dp10 = dp(10);
+            int dp8 = dp(8);
+            int dp6 = dp(6);
+
+            final LinearLayout container = new LinearLayout(getContext());
+            container.setOrientation(LinearLayout.VERTICAL);
+            container.setPadding(dp16, dp16, dp16, dp16);
+            container.setBackground(createCardBg(SiyoXTheme.getCardBg(isDark), Color.TRANSPARENT, dp(18)));
+
+            int maxW = Math.min(getRealScreenSize()[0] - dp(32), dp(620));
+            LinearLayout.LayoutParams cParams = new LinearLayout.LayoutParams(maxW, LayoutParams.WRAP_CONTENT);
+            container.setLayoutParams(cParams);
+
+            TextView tvTitle = new TextView(getContext());
+            tvTitle.setText("灵动岛个性化设置");
+            tvTitle.setTextSize(16.5f);
+            tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
+            tvTitle.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+            tvTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+            tvTitle.setPadding(0, 0, 0, dp12);
+            container.addView(tvTitle);
+
+            final Runnable setTranslucent = new Runnable() {
+                @Override
+                public void run() {
+                    container.animate().alpha(0.18f).setDuration(120).start();
+                    if (dialog.getWindow() != null) {
+                        dialog.getWindow().setDimAmount(0.05f);
+                    }
+                }
+            };
+
+            final Runnable setOpaque = new Runnable() {
+                @Override
+                public void run() {
+                    container.animate().alpha(1.0f).setDuration(120).start();
+                    if (dialog.getWindow() != null) {
+                        dialog.getWindow().setDimAmount(0.4f);
+                    }
+                }
+            };
+
+            LinearLayout bodyRow = new LinearLayout(getContext());
+            bodyRow.setOrientation(LinearLayout.HORIZONTAL);
+            bodyRow.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+            LinearLayout leftCol = new LinearLayout(getContext());
+            leftCol.setOrientation(LinearLayout.VERTICAL);
+            leftCol.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1.25f));
+            leftCol.setPadding(0, 0, dp10, 0);
+
+            TextView tvLeftTitle = new TextView(getContext());
+            tvLeftTitle.setText("位置与尺寸调节");
+            tvLeftTitle.setTextSize(12.5f);
+            tvLeftTitle.setTypeface(Typeface.DEFAULT_BOLD);
+            tvLeftTitle.setTextColor(SiyoXTheme.getAccentBlue());
+            tvLeftTitle.setPadding(0, 0, 0, dp6);
+            leftCol.addView(tvLeftTitle);
+
+            final TextView tvScaleVal = new TextView(getContext());
+            tvScaleVal.setText("缩放大小: " + appSettings.getIslandScale() + "%");
+            tvScaleVal.setTextSize(11.5f);
+            tvScaleVal.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+            tvScaleVal.setTypeface(Typeface.DEFAULT_BOLD);
+            leftCol.addView(tvScaleVal);
+
+            final SeekBar sbScale = new SeekBar(getContext());
+            sbScale.setMax(100);
+            sbScale.setProgress(appSettings.getIslandScale() - 50);
+            sbScale.setSplitTrack(false);
+            sbScale.setProgressTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbScale.setThumbTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbScale.setPadding(dp(12), dp(2), dp(12), dp(8));
+            sbScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    int val = 50 + progress;
+                    tvScaleVal.setText("缩放大小: " + val + "%");
+                    appSettings.setIslandScale(val);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applyTransform();
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    setTranslucent.run();
+                }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    setOpaque.run();
+                }
+            });
+            leftCol.addView(sbScale);
+
+            final TextView tvPosXVal = new TextView(getContext());
+            tvPosXVal.setText("水平偏移: " + appSettings.getIslandPosX() + " dp");
+            tvPosXVal.setTextSize(11.5f);
+            tvPosXVal.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+            tvPosXVal.setTypeface(Typeface.DEFAULT_BOLD);
+            leftCol.addView(tvPosXVal);
+
+            final SeekBar sbPosX = new SeekBar(getContext());
+            sbPosX.setMax(600);
+            sbPosX.setProgress(appSettings.getIslandPosX() + 300);
+            sbPosX.setSplitTrack(false);
+            sbPosX.setProgressTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbPosX.setThumbTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbPosX.setPadding(dp(12), dp(2), dp(12), dp(8));
+            sbPosX.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    int val = progress - 300;
+                    tvPosXVal.setText("水平偏移: " + val + " dp");
+                    appSettings.setIslandPosX(val);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applyTransform();
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    setTranslucent.run();
+                }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    setOpaque.run();
+                }
+            });
+            leftCol.addView(sbPosX);
+
+            final TextView tvPosYVal = new TextView(getContext());
+            tvPosYVal.setText("垂直位置: " + appSettings.getIslandPosY() + " dp");
+            tvPosYVal.setTextSize(11.5f);
+            tvPosYVal.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+            tvPosYVal.setTypeface(Typeface.DEFAULT_BOLD);
+            leftCol.addView(tvPosYVal);
+
+            final SeekBar sbPosY = new SeekBar(getContext());
+            sbPosY.setMax(300);
+            sbPosY.setProgress(appSettings.getIslandPosY());
+            sbPosY.setSplitTrack(false);
+            sbPosY.setProgressTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbPosY.setThumbTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbPosY.setPadding(dp(12), dp(2), dp(12), dp(8));
+            sbPosY.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    tvPosYVal.setText("垂直位置: " + progress + " dp");
+                    appSettings.setIslandPosY(progress);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applyTransform();
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    setTranslucent.run();
+                }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    setOpaque.run();
+                }
+            });
+            leftCol.addView(sbPosY);
+
+            final TextView tvRadiusVal = new TextView(getContext());
+            tvRadiusVal.setText("圆角弧度: " + appSettings.getIslandCornerRadius() + " dp");
+            tvRadiusVal.setTextSize(11.5f);
+            tvRadiusVal.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+            tvRadiusVal.setTypeface(Typeface.DEFAULT_BOLD);
+            leftCol.addView(tvRadiusVal);
+
+            final SeekBar sbRadius = new SeekBar(getContext());
+            sbRadius.setMax(18);
+            sbRadius.setProgress(appSettings.getIslandCornerRadius() - 6);
+            sbRadius.setSplitTrack(false);
+            sbRadius.setProgressTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbRadius.setThumbTintList(ColorStateList.valueOf(SiyoXTheme.getAccentBlue()));
+            sbRadius.setPadding(dp(12), dp(2), dp(12), dp(6));
+            sbRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    int val = 6 + progress;
+                    tvRadiusVal.setText("圆角弧度: " + val + " dp");
+                    appSettings.setIslandCornerRadius(val);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applyTransform();
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    setTranslucent.run();
+                }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    setOpaque.run();
+                }
+            });
+            leftCol.addView(sbRadius);
+
+            bodyRow.addView(leftCol);
+
+            View vDivider = new View(getContext());
+            vDivider.setBackgroundColor(isDark ? Color.parseColor("#2C2C2E") : Color.parseColor("#E5E7EB"));
+            LinearLayout.LayoutParams vDivParams = new LinearLayout.LayoutParams(dp(1), LayoutParams.MATCH_PARENT);
+            vDivParams.setMargins(dp6, dp6, dp6, dp6);
+            vDivider.setLayoutParams(vDivParams);
+            bodyRow.addView(vDivider);
+
+            LinearLayout rightCol = new LinearLayout(getContext());
+            rightCol.setOrientation(LinearLayout.VERTICAL);
+            rightCol.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1.0f));
+            rightCol.setPadding(dp10, 0, 0, 0);
+
+            TextView tvRightTitle = new TextView(getContext());
+            tvRightTitle.setText("功能开关");
+            tvRightTitle.setTextSize(12.5f);
+            tvRightTitle.setTypeface(Typeface.DEFAULT_BOLD);
+            tvRightTitle.setTextColor(SiyoXTheme.getAccentBlue());
+            tvRightTitle.setPadding(0, 0, 0, dp6);
+            rightCol.addView(tvRightTitle);
+
+            final MiuiXSwitch switchTime = new MiuiXSwitch(getContext());
+            LinearLayout switchTimeRow = createDialogSwitchRow("系统时间", switchTime, appSettings.isIslandShowTime(), isDark, new MiuiXSwitch.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                    appSettings.setIslandShowTime(isChecked);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applySettingsConfig();
+                    }
+                }
+            });
+            rightCol.addView(switchTimeRow);
+
+            final MiuiXSwitch switchAuthor = new MiuiXSwitch(getContext());
+            LinearLayout switchAuthorRow = createDialogSwitchRow("作者信息", switchAuthor, appSettings.isIslandShowAuthor(), isDark, new MiuiXSwitch.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                    appSettings.setIslandShowAuthor(isChecked);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applySettingsConfig();
+                    }
+                }
+            });
+            rightCol.addView(switchAuthorRow);
+
+            final MiuiXSwitch switchProgress = new MiuiXSwitch(getContext());
+            LinearLayout switchProgressRow = createDialogSwitchRow("下载进度", switchProgress, appSettings.isIslandShowProgress(), isDark, new MiuiXSwitch.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(MiuiXSwitch switchView, boolean isChecked) {
+                    appSettings.setIslandShowProgress(isChecked);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applySettingsConfig();
+                    }
+                }
+            });
+            rightCol.addView(switchProgressRow);
+
+            bodyRow.addView(rightCol);
+            container.addView(bodyRow);
+
+            View hDivider = createDivider(isDark);
+            LinearLayout.LayoutParams hDivParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(1));
+            hDivParams.setMargins(0, dp10, 0, dp10);
+            hDivider.setLayoutParams(hDivParams);
+            container.addView(hDivider);
+
+            LinearLayout btnRow = new LinearLayout(getContext());
+            btnRow.setOrientation(LinearLayout.HORIZONTAL);
+            btnRow.setGravity(Gravity.CENTER_VERTICAL);
+            LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(38));
+            btnRow.setLayoutParams(rowParams);
+
+            Button btnReset = new Button(getContext());
+            btnReset.setText("恢复默认");
+            btnReset.setTextSize(13f);
+            btnReset.setTypeface(Typeface.DEFAULT_BOLD);
+            btnReset.setTextColor(isDark ? Color.parseColor("#E5E5EA") : Color.parseColor("#3C3C43"));
+            int resetBg = isDark ? Color.parseColor("#3A3A3C") : Color.parseColor("#E5E7EB");
+            int resetPressed = isDark ? Color.parseColor("#2C2C2E") : Color.parseColor("#D1D5DB");
+            btnReset.setBackground(createRippleDrawable(resetBg, resetPressed, dp(10)));
+            styleCleanButton(btnReset);
+            LinearLayout.LayoutParams resetParams = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+            resetParams.setMargins(0, 0, dp8, 0);
+            btnReset.setLayoutParams(resetParams);
+            btnReset.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    appSettings.setIslandScale(100);
+                    appSettings.setIslandPosX(0);
+                    appSettings.setIslandPosY(10);
+                    appSettings.setIslandCornerRadius(18);
+                    appSettings.setIslandShowTime(true);
+                    appSettings.setIslandShowAuthor(true);
+                    appSettings.setIslandShowProgress(true);
+                    sbScale.setProgress(50);
+                    sbPosX.setProgress(300);
+                    sbPosY.setProgress(10);
+                    sbRadius.setProgress(12);
+                    tvScaleVal.setText("缩放大小: 100%");
+                    tvPosXVal.setText("水平偏移: 0 dp");
+                    tvPosYVal.setText("垂直位置: 10 dp");
+                    tvRadiusVal.setText("圆角弧度: 18 dp");
+                    switchTime.setChecked(true, true);
+                    switchAuthor.setChecked(true, true);
+                    switchProgress.setChecked(true, true);
+                    if (dynamicIslandView != null) {
+                        dynamicIslandView.applyTransform();
+                        dynamicIslandView.applySettingsConfig();
+                    }
+                }
+            });
+            btnRow.addView(btnReset);
+
+            Button btnDone = new Button(getContext());
+            btnDone.setText("完成");
+            btnDone.setTextSize(13f);
+            btnDone.setTypeface(Typeface.DEFAULT_BOLD);
+            btnDone.setTextColor(Color.WHITE);
+            btnDone.setBackground(createRippleDrawable(Color.parseColor("#0A84FF"), Color.parseColor("#0066CC"), dp(10)));
+            styleCleanButton(btnDone);
+            LinearLayout.LayoutParams doneParams = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
+            btnDone.setLayoutParams(doneParams);
+            btnDone.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            btnRow.addView(btnDone);
+
+            container.addView(btnRow);
+            dialog.setContentView(container);
+            dialog.show();
+        } catch (Throwable t) {
+            SiyoXLogger.e("SiyoX_Overlay", "Error showing dynamic island settings dialog: " + t.getMessage(), t);
+        }
+    }
+
+    private LinearLayout createDialogSwitchRow(String title, MiuiXSwitch miuiSwitch, boolean initial, boolean isDark, MiuiXSwitch.OnCheckedChangeListener listener) {
+        LinearLayout row = new LinearLayout(getContext());
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(0, dp(4), 0, dp(4));
+
+        TextView tv = new TextView(getContext());
+        tv.setText(title);
+        tv.setTextSize(13f);
+        tv.setTypeface(Typeface.DEFAULT_BOLD);
+        tv.setTextColor(SiyoXTheme.getTextPrimary(isDark));
+        tv.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+        row.addView(tv);
+
+        miuiSwitch.setChecked(initial, false);
+        miuiSwitch.setOnCheckedChangeListener(listener);
+        row.addView(miuiSwitch);
+        return row;
     }
 
     private void showConfirmDialog(String title, String message, String confirmText, boolean isDanger, final Runnable onConfirm) {
@@ -2499,5 +3357,12 @@ private RippleDrawable createExitRippleDrawable(int normalColor, int radius) {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopSimulatedDownload();
+        simHandler.removeCallbacksAndMessages(null);
     }
 }

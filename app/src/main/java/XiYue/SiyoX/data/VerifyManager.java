@@ -983,6 +983,8 @@ public class VerifyManager {
 
     public void handleEvent(Context context, int eventType, String value) {
         if (value == null || value.trim().isEmpty()) return;
+        Context targetCtx = context != null ? context : appContext;
+        if (targetCtx == null) return;
         try {
             Intent intent;
             if (eventType == 3) {
@@ -992,9 +994,9 @@ public class VerifyManager {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(value));
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            targetCtx.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(context, "无法唤起应用: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(targetCtx, "无法唤起应用: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -31,6 +31,11 @@ public class NativeVerify {
     public static native String nativeGetDefaultUpdateTitle();
     public static native String nativeGetDefaultUpdateLog();
     public static native boolean nativeGetEnableMd5Verify();
+    public static native boolean nativeGetEnableLoginVideoReplace();
+    public static native String nativeGetLoginVideoUrl();
+    public static native boolean nativeGetEnableWatermark();
+    public static native String nativeGetWatermarkText();
+    public static native boolean nativeGetAllowPanelToggleWatermark();
     public static native String nativeGetEpicAppKey();
     public static native int nativeGetEpicPort();
     public static native String[] nativeGetEpicHosts();

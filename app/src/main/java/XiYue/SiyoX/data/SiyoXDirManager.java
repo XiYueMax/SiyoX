@@ -26,9 +26,14 @@ public class SiyoXDirManager {
         try {
             String pkgName = context.getPackageName();
 
-File privateDir = new File(context.getFilesDir(), "SiyoX");
+            File privateDir = new File(context.getFilesDir(), "SiyoX");
             if (!privateDir.exists()) {
                 privateDir.mkdirs();
+            }
+
+            File loginVideoDir = new File(privateDir, "LoginVideo");
+            if (!loginVideoDir.exists()) {
+                loginVideoDir.mkdirs();
             }
 
             File privateLogoFile = new File(privateDir, "Logo.png");
@@ -36,7 +41,7 @@ File privateDir = new File(context.getFilesDir(), "SiyoX");
                 extractLogoTo(context, privateLogoFile);
             }
 
-File extBaseDir = null;
+            File extBaseDir = null;
             try {
                 File extFiles = context.getExternalFilesDir(null);
                 if (extFiles != null && extFiles.getParentFile() != null) {
@@ -69,24 +74,27 @@ File extBaseDir = null;
     }
 
     public static boolean extractLogoTo(Context context, File targetFile) {
+        InputStream is = null;
+        OutputStream os = null;
         try {
-            targetFile.getParentFile().mkdirs();
-            InputStream is = openLogoInputStream(context);
+            if (targetFile.getParentFile() != null) targetFile.getParentFile().mkdirs();
+            is = openLogoInputStream(context);
             if (is == null) return false;
 
-            OutputStream os = new FileOutputStream(targetFile);
+            os = new FileOutputStream(targetFile);
             byte[] buf = new byte[8192];
             int len;
             while ((len = is.read(buf)) > 0) {
                 os.write(buf, 0, len);
             }
             os.flush();
-            os.close();
-            is.close();
             return true;
         } catch (Throwable t) {
             Log.e(TAG, "Failed to extract Logo.png to " + targetFile.getAbsolutePath() + ": " + t.getMessage());
             return false;
+        } finally {
+            try { if (os != null) os.close(); } catch (Throwable ignored) {}
+            try { if (is != null) is.close(); } catch (Throwable ignored) {}
         }
     }
 

@@ -21,8 +21,8 @@
 #define SIYOX_CLIENT_AUTHOR      "XiYue."        //客户端作者
 
 // ==================== 版本信息配置 ====================
-// 内部版本号（必须为整数，网络验证版本比对与更新检测时使用）
-#define SIYOX_VERSION_CODE       2
+// 模块版本号（必须为整数，网络验证版本比对与更新检测时使用）
+#define SIYOX_VERSION_CODE       3
 
 // ==================== 默认官方公告配置 ====================
 // 当网络验证未配置公告或离线/加载前展示的默认标题与内容
@@ -33,6 +33,20 @@
 // 当网络验证未配置更新标题或更新日志时展示的默认内容
 #define SIYOX_DEFAULT_UPDATE_TITLE   "SiyoX 更新公告"
 #define SIYOX_DEFAULT_UPDATE_LOG     "有新版本可用，请及时更新以获得最佳体验！"
+
+// ==================== 登录视频自定义配置 ====================
+// 替换登录视频开关: true: 开启 false: 关闭
+#define SIYOX_ENABLE_LOGIN_VIDEO_REPLACE  false
+// 登录视频直链下载地址[仅支持 MP4 格式直链]
+#define SIYOX_LOGIN_VIDEO_URL             "https://example.com/loginVideo.mp4"
+
+// ==================== 屏幕右下角水印配置 ====================
+// 是否开启右下角水印: true: 开启, false: 关闭
+#define SIYOX_ENABLE_WATERMARK           true
+// 屏幕右下角水印展示文本
+#define SIYOX_WATERMARK_TEXT             "SiyoX Client"
+// 是否允许在面板内开关水印: true: 允许 (在辅助功能中显示水印开关), false: 不允许
+#define SIYOX_ALLOW_PANEL_TOGGLE_WATERMARK true
 
 // ==================== 材质包 MD5 完整性校验开关 ====================
 // true: 开启校验（下载/注入时自动校验 32 位 MD5，防止材质包被篡改或损坏）

@@ -104,7 +104,7 @@ View titleView = SiyoXOverlayLayout.createSiyoXTitleView(this, 22f, isDark);
         headerTextCol.addView(titleView);
 
         TextView tvVersion = new TextView(this);
-        tvVersion.setText("内部版本号: " + SiyoXConfig.VERSION_CODE);
+        tvVersion.setText("模块版本号: " + SiyoXConfig.VERSION_CODE);
         tvVersion.setTextSize(13f);
         tvVersion.setTextColor(SiyoXTheme.getTextSecondary(isDark));
         tvVersion.setPadding(0, dp(4), 0, 0);
