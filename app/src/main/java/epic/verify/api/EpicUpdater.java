@@ -1,5 +1,4 @@
 package epic.verify.api;
-
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -8,27 +7,21 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
-
-public class EpicUpdater {
-
+import java.net.URL;public class EpicUpdater {
     public interface Callback {
         void onResult(boolean ok, String msg);
-    }
-
-public static void downloadAndInstall(final Context context, final String url, final int version, final Callback cb) {
+    }public static void downloadAndInstall(final Context context, final String url, final int version, final Callback cb) {
         if (url == null || url.length() == 0 || !url.startsWith("http")) {
             notify(cb, false, "下载地址无效");
             return;
         }
         final File file = new File(context.getCacheDir(), "upgrade_" + version + ".apk");
-        if (file.exists() && file.length() > 0) {   
+        if (file.exists() && file.length() > 0) {
             installApk(context, file, cb);
             return;
         }
@@ -59,9 +52,7 @@ public static void downloadAndInstall(final Context context, final String url, f
         });
         t.setDaemon(true);
         t.start();
-    }
-
-public static void installApk(Context context, File file, Callback cb) {
+    }public static void installApk(Context context, File file, Callback cb) {
         try {
             if (Build.VERSION.SDK_INT < 21) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -96,7 +87,6 @@ public static void installApk(Context context, File file, Callback cb) {
             EpicUpdater.notify(cb, false, "安装失败: " + e.getMessage());
         }
     }
-
     private static void notify(final Callback cb, final boolean ok, final String msg) {
         if (cb == null) return;
         new Handler(Looper.getMainLooper()).post(new Runnable() {

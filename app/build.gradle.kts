@@ -1,5 +1,4 @@
 
-
 plugins {
     alias(libs.plugins.androidApplication)
 }
@@ -13,7 +12,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 3
-        versionName = "1.0.2"
+        versionName = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

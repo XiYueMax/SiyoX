@@ -1,5 +1,4 @@
 package XiYue.SiyoX.data;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.widget.Toast;
-
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -23,32 +20,24 @@ import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import XiYue.SiyoX.SiyoXConfig;
 import epic.verify.api.EpicVerifySDK;
 import epic.verify.api.Resp;
-
 public class VerifyManager {
-
     public interface VerifyCallback {
         void onResult(boolean success, String message);
     }
-
     public interface NoticeCallback {
         void onResult(boolean success, String title, String content);
     }
-
     private final Context appContext;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
-
     private boolean isVerified = false;
     private long expireTimestamp = 0L;
     private String statusMessage = "未验证";
     private String noticeTitle = SiyoXConfig.DEFAULT_NOTICE_TITLE;
     private String noticeContent = SiyoXConfig.DEFAULT_NOTICE_CONTENT;
-
     private static volatile VerifyManager instance;
-
     private VerifyManager(Context context) {
         this.appContext = context.getApplicationContext() != null ? context.getApplicationContext() : context;
         SiyoXConfig.initContext(this.appContext);
@@ -58,7 +47,6 @@ public class VerifyManager {
             this.statusMessage = "已关闭网络验证";
         }
     }
-
     public static VerifyManager init(Context context) {
         if (instance == null) {
             synchronized (VerifyManager.class) {
@@ -69,37 +57,30 @@ public class VerifyManager {
         }
         return instance;
     }
-
     public static VerifyManager get() {
         if (instance == null) {
             throw new IllegalStateException("VerifyManager must be initialized first");
         }
         return instance;
     }
-
     public boolean isVerified() {
         if (SiyoXConfig.CURRENT_VERIFY_TYPE == SiyoXConfig.VerifyType.NONE) {
             return true;
         }
         return isVerified;
     }
-
     public long getExpireTimestamp() {
         return expireTimestamp;
     }
-
     public String getStatusMessage() {
         return statusMessage;
     }
-
     public String getNoticeTitle() {
         return noticeTitle;
     }
-
     public String getNoticeContent() {
         return noticeContent;
     }
-
     public void logout() {
         if (SiyoXConfig.CURRENT_VERIFY_TYPE == SiyoXConfig.VerifyType.NONE) {
             return;
@@ -110,7 +91,6 @@ public class VerifyManager {
         AppSettings.get().setCard("");
         AppSettings.get().setExpireTime(0L);
     }
-
     public String getActiveProviderName() {
         switch (SiyoXConfig.CURRENT_VERIFY_TYPE) {
             case NONE:
@@ -125,7 +105,6 @@ public class VerifyManager {
                 return "关闭验证";
         }
     }
-
     @SuppressLint("HardwareIds")
     public String getHWID() {
         try {
@@ -135,11 +114,9 @@ public class VerifyManager {
             return "unknown_hwid";
         }
     }
-
     public String getAndroidId() {
         return getHWID();
     }
-
     public void loadSoftwareNotice(final NoticeCallback callback) {
         if (SiyoXConfig.CURRENT_VERIFY_TYPE == SiyoXConfig.VerifyType.NONE) {
             notifyNoticeResult(callback, true, SiyoXConfig.DEFAULT_NOTICE_TITLE, SiyoXConfig.DEFAULT_NOTICE_CONTENT);
@@ -171,7 +148,6 @@ public class VerifyManager {
                             notifyNoticeResult(callback, true, noticeTitle, noticeContent);
                             break;
                         }
-
                         case WEIYAN: {
                             if (NativeVerify.isNativeLoaded()) {
                                 try {
@@ -201,10 +177,8 @@ public class VerifyManager {
                                 String apiToken = SiyoXConfig.WeiYanConfig.API_TOKEN;
                                 String noticeCode = SiyoXConfig.WeiYanConfig.NOTICE_CODE;
                                 if (noticeCode == null || noticeCode.isEmpty()) noticeCode = "notice";
-
                                 String url = host + "/api/?id=" + noticeCode;
                                 String postBody = "app=" + appId;
-
                                 byte[] respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
                                 String respStr = (respBytes != null && respBytes.length > 0) ? new String(respBytes, "UTF-8").trim() : "";
                                 if (respStr.contains("\"code\":-1") && !noticeCode.equals("notice")) {
@@ -220,7 +194,6 @@ public class VerifyManager {
                                             decStr = d;
                                         }
                                     }
-
                                     JSONObject json = new JSONObject(decStr);
                                     int code = json.optInt("code", -1);
                                     if (code == 200) {
@@ -238,7 +211,6 @@ public class VerifyManager {
                             notifyNoticeResult(callback, true, SiyoXConfig.DEFAULT_NOTICE_TITLE, SiyoXConfig.DEFAULT_NOTICE_CONTENT);
                             break;
                         }
-
                         case T3: {
                             if (NativeVerify.isNativeLoaded()) {
                                 try {
@@ -319,7 +291,6 @@ public class VerifyManager {
             }
         }).start();
     }
-
     private void notifyNoticeResult(final NoticeCallback callback, final boolean success, final String title, final String content) {
         if (callback == null) return;
         mainHandler.post(new Runnable() {
@@ -329,7 +300,6 @@ public class VerifyManager {
             }
         });
     }
-
     public static class SoftwareUpdate {
         public boolean hasUpdate = false;
         public int latestVersionCode = 0;
@@ -339,26 +309,20 @@ public class VerifyManager {
         public String downloadUrl = "";
         public boolean isForce = false;
     }
-
     private static SoftwareUpdate cachedSoftwareUpdate = null;
     private static boolean updateDismissed = false;
-
     public static SoftwareUpdate getCachedSoftwareUpdate() {
         return cachedSoftwareUpdate;
     }
-
     public static boolean isUpdateDismissed() {
         return updateDismissed;
     }
-
     public static void setUpdateDismissed(boolean dismissed) {
         updateDismissed = dismissed;
     }
-
     public interface UpdateCallback {
         void onUpdateResult(boolean hasUpdate, SoftwareUpdate update);
     }
-
     private void notifyUpdateResult(final UpdateCallback callback, final boolean hasUpdate, final SoftwareUpdate update) {
         if (hasUpdate && update != null) {
             cachedSoftwareUpdate = update;
@@ -372,7 +336,6 @@ public class VerifyManager {
             }
         });
     }
-
     public void checkSoftwareUpdate(final UpdateCallback callback) {
         if (cachedSoftwareUpdate != null && cachedSoftwareUpdate.hasUpdate) {
             notifyUpdateResult(callback, true, cachedSoftwareUpdate);
@@ -392,7 +355,6 @@ public class VerifyManager {
                             verifyType = 3;
                         }
                     }
-
                     if (verifyType == 1) {
                         EpicVerifySDK sdk = new EpicVerifySDK(
                                 SiyoXConfig.EpicConfig.HOSTS,
@@ -488,7 +450,6 @@ public class VerifyManager {
             }
         }).start();
     }
-
     public void verifyCard(final String cardKey, final VerifyCallback callback) {
         if (SiyoXConfig.CURRENT_VERIFY_TYPE == SiyoXConfig.VerifyType.NONE) {
             onVerifySuccess("免卡密", Long.MAX_VALUE, callback);
@@ -498,14 +459,12 @@ public class VerifyManager {
             if (callback != null) callback.onResult(false, "卡密不能为空");
             return;
         }
-
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     String androidId = getAndroidId();
                     SiyoXLogger.i("SiyoX_VerifyManager", "Verifying card via provider: " + getActiveProviderName());
-
                     switch (SiyoXConfig.CURRENT_VERIFY_TYPE) {
                         case EPIC: {
                             EpicVerifySDK sdk = new EpicVerifySDK(
@@ -516,7 +475,6 @@ public class VerifyManager {
                             sdk.setDeviceId(androidId);
                             sdk.setCard(cardKey.trim());
                             sdk.setPackageName(SiyoXConfig.TARGET_PACKAGE);
-
                             Resp resp = sdk.cardVerify();
                             if (resp.isSuccess()) {
                                 EpicVerifySDK.LoginResult result = sdk.getLoginResult();
@@ -530,7 +488,6 @@ public class VerifyManager {
                             }
                             break;
                         }
-
                         case WEIYAN: {
                             if (NativeVerify.isNativeLoaded()) {
                                 try {
@@ -572,16 +529,13 @@ public class VerifyManager {
                                 String apiToken = SiyoXConfig.WeiYanConfig.API_TOKEN;
                                 String loginCode = SiyoXConfig.WeiYanConfig.LOGIN_CODE;
                                 if (loginCode == null || loginCode.isEmpty()) loginCode = "kmlogon";
-
                                 long now = System.currentTimeMillis() / 1000L;
                                 String signSrc = "kami=" + cardKey.trim() + "&markcode=" + androidId + "&t=" + now + "&" + appKey;
                                 String signMd5 = md5(signSrc);
                                 String plainData = "kami=" + cardKey.trim() + "&markcode=" + androidId + "&t=" + now + "&sign=" + signMd5 + "&v=" + SiyoXConfig.VERSION_CODE + "&value=" + now + (int)(Math.random() * 10000);
                                 String dataHex = hexRc4Encrypt(rc4Key, plainData);
-
                                 String url = host + "/api/?id=" + loginCode;
                                 String postBody = "app=" + appId + "&data=" + dataHex;
-
                                 byte[] respBytes = httpPostBytes(url, postBody.getBytes("UTF-8"));
                                 String respStr = (respBytes != null && respBytes.length > 0) ? new String(respBytes, "UTF-8").trim() : "";
                                 if (respStr.contains("\"code\":-1") && !loginCode.equals("kmlogon")) {
@@ -597,7 +551,6 @@ public class VerifyManager {
                                             decStr = d;
                                         }
                                     }
-
                                     JSONObject json = new JSONObject(decStr);
                                     int code = json.optInt("code", -1);
                                     if (code == 200) {
@@ -628,7 +581,6 @@ public class VerifyManager {
                             onVerifyFailed("连接微验服务器失败", callback);
                             break;
                         }
-
                         case T3: {
                             if (NativeVerify.isNativeLoaded()) {
                                 try {
@@ -671,7 +623,6 @@ public class VerifyManager {
                                     }
                                 } catch (Throwable ignored) {}
                             }
-
                             String rc4Key = SiyoXConfig.T3Config.RC4_KEY;
                             String appKey = SiyoXConfig.T3Config.APP_KEY;
                             String url = buildT3Url(SiyoXConfig.T3Config.API_HOST, SiyoXConfig.T3Config.LOGIN_CODE);
@@ -690,7 +641,6 @@ public class VerifyManager {
                                 String body = "kami=" + URLEncoder.encode(cardKey.trim(), "GBK") + "&imei=" + URLEncoder.encode(androidId, "GBK");
                                 respBytes = httpPostBytes(url, body.getBytes("GBK"));
                             }
-
                             String responseStr;
                             if (rc4Key != null && !rc4Key.isEmpty() && !rc4Key.equals("your_t3_rc4_key")) {
                                 responseStr = rc4DecryptBytesToString(rc4Key, respBytes);
@@ -702,7 +652,6 @@ public class VerifyManager {
                             }
                             responseStr = responseStr.trim();
                             SiyoXLogger.i("SiyoX_VerifyManager", "T3 login response: " + responseStr);
-
                             if (responseStr.startsWith("{")) {
                                 JSONObject json = new JSONObject(responseStr);
                                 int code = json.optInt("code", -1);
@@ -769,14 +718,12 @@ public class VerifyManager {
                             break;
                         }
                     }
-
                 } catch (Exception e) {
                     onVerifyFailed("连接异常: " + e.getMessage(), callback);
                 }
             }
         }).start();
     }
-
     private String extractErrorMessage(JSONObject json, String defaultMsg) {
         if (json == null) return defaultMsg;
         String msg = json.optString("msg", "");
@@ -801,7 +748,6 @@ public class VerifyManager {
         }
         return msg.trim();
     }
-
     private void onVerifySuccess(final String card, final long expireMs, final VerifyCallback callback) {
         final String safeCard = (card == null || card.trim().equalsIgnoreCase("null")) ? "" : card.trim();
         SiyoXLogger.i("SiyoX_VerifyManager", "Card verified successfully, expire: " + formatDate(expireMs));
@@ -819,7 +765,6 @@ public class VerifyManager {
             }
         });
     }
-
     private void onVerifyFailed(final String msg, final VerifyCallback callback) {
         final String displayMsg;
         if (msg == null || msg.trim().isEmpty() || msg.trim().equalsIgnoreCase("null")) {
@@ -839,7 +784,6 @@ public class VerifyManager {
             }
         });
     }
-
     private static String buildT3Url(String host, String code) {
         if (code == null || code.trim().isEmpty()) return "";
         code = code.trim();
@@ -851,7 +795,6 @@ public class VerifyManager {
         }
         return host.endsWith("/") ? host + code : host + "/" + code;
     }
-
     private byte[] httpPostBytes(String urlStr, byte[] bodyBytes) throws Exception {
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -862,12 +805,10 @@ public class VerifyManager {
         conn.setDoInput(true);
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 10)");
-
         OutputStream os = conn.getOutputStream();
         os.write(bodyBytes);
         os.flush();
         os.close();
-
         InputStream is = conn.getResponseCode() >= 400 ? conn.getErrorStream() : conn.getInputStream();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buf = new byte[4096];
@@ -878,7 +819,6 @@ public class VerifyManager {
         is.close();
         return baos.toByteArray();
     }
-
     private byte[] httpGetBytes(String urlStr) throws Exception {
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -887,7 +827,6 @@ public class VerifyManager {
         conn.setReadTimeout(8000);
         conn.setDoInput(true);
         conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 10)");
-
         InputStream is = conn.getResponseCode() >= 400 ? conn.getErrorStream() : conn.getInputStream();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buf = new byte[4096];
@@ -898,7 +837,6 @@ public class VerifyManager {
         is.close();
         return baos.toByteArray();
     }
-
     private static byte[] rc4Crypt(byte[] key, byte[] data) {
         if (key == null || key.length == 0 || data == null || data.length == 0) return new byte[0];
         int[] s = new int[256];
@@ -918,7 +856,6 @@ public class VerifyManager {
         }
         return out;
     }
-
     private static String hexRc4Encrypt(String key, String text) {
         if (key == null || key.isEmpty() || text == null || text.isEmpty()) return "";
         try {
@@ -934,7 +871,6 @@ public class VerifyManager {
             return "";
         }
     }
-
     private static String rc4DecryptBytesToString(String key, byte[] cipherBytes) {
         if (key == null || key.isEmpty() || cipherBytes == null || cipherBytes.length == 0) return "";
         try {
@@ -949,7 +885,6 @@ public class VerifyManager {
             return "";
         }
     }
-
     private static String rc4DecryptHexToString(String key, String hexStr) {
         if (key == null || key.isEmpty() || hexStr == null || hexStr.length() < 2) return "";
         try {
@@ -966,7 +901,6 @@ public class VerifyManager {
             return "";
         }
     }
-
     private String md5(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -980,7 +914,6 @@ public class VerifyManager {
             return "";
         }
     }
-
     public void handleEvent(Context context, int eventType, String value) {
         if (value == null || value.trim().isEmpty()) return;
         Context targetCtx = context != null ? context : appContext;
@@ -999,7 +932,6 @@ public class VerifyManager {
             Toast.makeText(targetCtx, "无法唤起应用: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
     public static String formatDate(long ms) {
         if (SiyoXConfig.CURRENT_VERIFY_TYPE == SiyoXConfig.VerifyType.NONE || ms == Long.MAX_VALUE) {
             return "永久";

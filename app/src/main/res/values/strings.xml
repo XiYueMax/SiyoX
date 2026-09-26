@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SiyoX</string>
-    <string name="app_desc">SiyoX - 网易我的世界网络验证与增强模块</string>
+    <string name="app_desc">Minecraft Xposed Module</string>
     <string name="verify_title">SiyoX 授权验证</string>
     <string name="verify_hint">请输入卡密</string>
     <string name="verify_btn">立即验证</string>

@@ -1,7 +1,4 @@
-package epic.verify.api;
-
-public class AppKeyConverter {
-
+package epic.verify.api;public class AppKeyConverter {
     public static void main(String[] args) {
         if (args == null || args.length == 0) {
             System.out.println("用法: java -cp epic-verify-sdk.jar epic.verify.api.AppKeyConverter <明文AppKey>");
@@ -21,9 +18,7 @@ public class AppKeyConverter {
         } catch (EpicVerifyException e) {
             System.out.println("[错误] 转换失败: " + e.getMessage());
         }
-    }
-
-public static String convert(String plaintext) throws EpicVerifyException {
+    }public static String convert(String plaintext) throws EpicVerifyException {
         return EpicVerifySDK.encryptAppKey(plaintext);
     }
 }

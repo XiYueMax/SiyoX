@@ -1,40 +1,28 @@
 package epic.verify.api;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
-public final class Json {
-
+import java.util.Map;public final class Json {
     private Json() {
     }
-
     public static abstract class Value {
     }
-
     public static final class Null extends Value {
         public static final Null INSTANCE = new Null();
-
         private Null() {
         }
     }
-
     public static final class Bool extends Value {
         public final boolean value;
-
         public Bool(boolean v) {
             this.value = v;
         }
     }
-
     public static final class Num extends Value {
         public final String raw;
-
         public Num(String r) {
             this.raw = r;
         }
-
         public int intValue() {
             try {
                 return Integer.parseInt(raw);
@@ -42,7 +30,6 @@ public final class Json {
             }
             return (int) longValue();
         }
-
         public long longValue() {
             try {
                 return Long.parseLong(raw);
@@ -54,7 +41,6 @@ public final class Json {
             }
             return 0L;
         }
-
         public double doubleValue() {
             try {
                 return Double.parseDouble(raw);
@@ -63,30 +49,23 @@ public final class Json {
             return 0d;
         }
     }
-
     public static final class Str extends Value {
         public final String value;
-
         public Str(String v) {
             this.value = v;
         }
     }
-
     public static final class Arr extends Value {
         public final List<Value> items = new ArrayList<Value>();
     }
-
     public static final class Obj extends Value {
         public final Map<String, Value> map = new LinkedHashMap<String, Value>();
-
         public boolean has(String key) {
             return map.containsKey(key);
         }
-
         public Value get(String key) {
             return map.get(key);
         }
-
         public String getString(String key) {
             Value v = map.get(key);
             if (v == null || v instanceof Null) return null;
@@ -95,12 +74,10 @@ public final class Json {
             if (v instanceof Bool) return String.valueOf(((Bool) v).value);
             return v.toString();
         }
-
         public String optString(String key, String def) {
             String s = getString(key);
             return s == null ? def : s;
         }
-
         public int getInt(String key) {
             Value v = map.get(key);
             if (v instanceof Num) return ((Num) v).intValue();
@@ -112,7 +89,6 @@ public final class Json {
             }
             return 0;
         }
-
         public long getLong(String key) {
             Value v = map.get(key);
             if (v instanceof Num) return ((Num) v).longValue();
@@ -124,7 +100,6 @@ public final class Json {
             }
             return 0L;
         }
-
         public boolean getBoolean(String key) {
             Value v = map.get(key);
             if (v instanceof Bool) return ((Bool) v).value;
@@ -132,18 +107,15 @@ public final class Json {
             if (v instanceof Str) return "true".equalsIgnoreCase(((Str) v).value);
             return false;
         }
-
         public Obj getObject(String key) {
             Value v = map.get(key);
             return v instanceof Obj ? (Obj) v : null;
         }
-
         public Arr getArray(String key) {
             Value v = map.get(key);
             return v instanceof Arr ? (Arr) v : null;
         }
     }
-
     public static Value parse(String text) {
         if (text == null) return null;
         Parser p = new Parser(text);
@@ -151,9 +123,7 @@ public final class Json {
         p.skipWs();
         if (!p.atEnd()) throw new IllegalArgumentException("trailing content at pos " + p.pos);
         return v;
-    }
-
-public static String toString(Value v) {
+    }public static String toString(Value v) {
         if (v == null || v instanceof Null) return "null";
         if (v instanceof Bool) return String.valueOf(((Bool) v).value);
         if (v instanceof Num) return ((Num) v).raw;
@@ -176,12 +146,9 @@ public static String toString(Value v) {
             sb.append(quote(e.getKey())).append(':').append(toString(e.getValue()));
         }
         return sb.append('}').toString();
-    }
-
-public static String toPrettyString(Value v) {
+    }public static String toPrettyString(Value v) {
         return pretty(v, 0);
     }
-
     private static String pretty(Value v, int depth) {
         if (v instanceof Obj) {
             Obj o = (Obj) v;
@@ -208,13 +175,11 @@ public static String toPrettyString(Value v) {
         }
         return toString(v);
     }
-
     private static String indent(int n) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) sb.append("  ");
         return sb.toString();
     }
-
     private static String quote(String s) {
         if (s == null) return "\"\"";
         StringBuilder sb = new StringBuilder("\"");
@@ -232,29 +197,24 @@ public static String toPrettyString(Value v) {
                     if (c < 0x20) {
                         sb.append('\\').append('u').append(String.format("%04x", (int) c));
                     } else {
-                        sb.append(c);   
+                        sb.append(c);
                     }
             }
         }
         return sb.append('"').toString();
     }
-
     private static final class Parser {
         private final String s;
         private int pos;
-
         Parser(String s) {
             this.s = s;
         }
-
         boolean atEnd() {
             return pos >= s.length();
         }
-
         char peek() {
             return s.charAt(pos);
         }
-
         void skipWs() {
             while (pos < s.length()) {
                 char c = s.charAt(pos);
@@ -262,7 +222,6 @@ public static String toPrettyString(Value v) {
                 else break;
             }
         }
-
         Value parseValue() {
             skipWs();
             char c = s.charAt(pos);
@@ -286,7 +245,6 @@ public static String toPrettyString(Value v) {
                     return parseNumber();
             }
         }
-
         Obj parseObject() {
             pos++;
             Obj o = new Obj();
@@ -317,7 +275,6 @@ public static String toPrettyString(Value v) {
                 throw new IllegalArgumentException("expected ',' or '}' at pos " + pos);
             }
         }
-
         Arr parseArray() {
             pos++;
             Arr a = new Arr();
@@ -341,7 +298,6 @@ public static String toPrettyString(Value v) {
                 throw new IllegalArgumentException("expected ',' or ']' at pos " + pos);
             }
         }
-
         String parseString() {
             if (peek() != '"') throw new IllegalArgumentException("expected '\"' at pos " + pos);
             pos++;
@@ -383,7 +339,6 @@ public static String toPrettyString(Value v) {
             }
             throw new IllegalArgumentException("unterminated string");
         }
-
         Num parseNumber() {
             int start = pos;
             if (pos < s.length() && (peek() == '-' || peek() == '+')) pos++;
@@ -396,7 +351,6 @@ public static String toPrettyString(Value v) {
             if (num.length() == 0) throw new IllegalArgumentException("invalid number at pos " + start);
             return new Num(num);
         }
-
         void expect(String lit) {
             if (s.startsWith(lit, pos)) {
                 pos += lit.length();

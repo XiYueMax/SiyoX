@@ -1,25 +1,17 @@
-
-
 package XiYue.SiyoX;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import XiYue.SiyoX.data.NativeVerify;
-
 public class SiyoXConfig {
-
     public static final String APP_NAME = "SiyoX";
     public static final String PACKAGE_NAME = "XiYue.SiyoX";
-    public static String VERSION_NAME = "2";
-    public static int VERSION_CODE = 2;
+    public static String VERSION_NAME = "1.0.3";
+    public static int VERSION_CODE = 3;
     public static final String AUTHOR = "@XiYueMax";
     public static final String GITHUB_URL = "https://github.com/XiYueMax/SiyoX";
     public static final String TARGET_PACKAGE = "com.netease.x19";
-
     public static String CLIENT_NAME = "";
     public static String CLIENT_AUTHOR = "";
     public static String DEFAULT_NOTICE_TITLE = "官方公告";
@@ -32,20 +24,17 @@ public class SiyoXConfig {
     public static boolean ENABLE_WATERMARK = true;
     public static String WATERMARK_TEXT = "SiyoX Client";
     public static boolean ALLOW_PANEL_TOGGLE_WATERMARK = true;
-
     public static class DefaultResource {
         public final String name;
         public final String url;
         public final String md5;
         public final String description;
-
         public DefaultResource(String name, String url, String md5, String description) {
             this.name = name;
             this.url = url;
             this.md5 = md5;
             this.description = description;
         }
-
         public String getFileName() {
             try {
                 if (url != null && url.contains("/")) {
@@ -61,24 +50,27 @@ public class SiyoXConfig {
             return (md5 != null && !md5.trim().isEmpty() ? md5.trim().toLowerCase() : "res_" + Math.abs(name.hashCode())) + ".zip";
         }
     }
-
     public static DefaultResource[] DEFAULT_RESOURCES = new DefaultResource[0];
-
+    public static final String DEFAULT_ENTITY_KILLER_PATTERNS =
+            ".*sword.*,.*jian.*,.*blade.*,.*dao.*,.*weapon.*,.*armor.*," +
+            ".*attachables.*,.*attachable.*,.*animations.*,.*animation_controllers.*," +
+            ".*render_controllers.*,.*player\\.entity.*," +
+            ".*chatExtensionMainScreenMsgNew.*,.*netease_chat_screen_extension.*," +
+            ".*neteaseVoiceTrans.*,.*speakSectionUI.*,.*gameChatMainUI.*,.*gameChatPlayerInfoTipsUI.*";
+    public static String ENTITY_KILLER_PATTERNS = DEFAULT_ENTITY_KILLER_PATTERNS;
+    public static boolean ENABLE_ENTITY_KILLER = true;
     public enum VerifyType {
         NONE,
         EPIC,
         T3,
         WEIYAN
     }
-
     public static VerifyType CURRENT_VERIFY_TYPE = VerifyType.NONE;
-
     public static class EpicConfig {
         public static String APP_KEY = "";
         public static String[] HOSTS = new String[0];
         public static int PORT = 5000;
     }
-
     public static class T3Config {
         public static String API_HOST = "";
         public static String APP_KEY = "";
@@ -88,7 +80,6 @@ public class SiyoXConfig {
         public static String VERSION_CODE_STR = "";
         public static String HEARTBEAT_CODE = "";
     }
-
     public static class WeiYanConfig {
         public static String API_HOST = "wy.llua.cn";
         public static String APP_ID = "";
@@ -99,14 +90,11 @@ public class SiyoXConfig {
         public static String NOTICE_CODE = "notice";
         public static String UPDATE_CODE = "checkupdate";
     }
-
     public static void initContext(android.content.Context context) {
     }
-
     static {
         loadNativeConfig();
     }
-
     public static void loadNativeConfig() {
         if (!NativeVerify.isNativeLoaded()) {
             return;
@@ -122,13 +110,11 @@ public class SiyoXConfig {
             } else {
                 CURRENT_VERIFY_TYPE = VerifyType.NONE;
             }
-
             int nativeVersionCode = NativeVerify.nativeGetVersionCode();
             if (nativeVersionCode > 0) {
                 VERSION_CODE = nativeVersionCode;
                 VERSION_NAME = String.valueOf(nativeVersionCode);
             }
-
             String nativeClientName = NativeVerify.nativeGetClientName();
             if (nativeClientName != null && !nativeClientName.isEmpty()) {
                 CLIENT_NAME = nativeClientName;
@@ -137,7 +123,6 @@ public class SiyoXConfig {
             if (nativeClientAuthor != null && !nativeClientAuthor.isEmpty()) {
                 CLIENT_AUTHOR = nativeClientAuthor;
             }
-
             String nativeNoticeTitle = NativeVerify.nativeGetDefaultNoticeTitle();
             if (nativeNoticeTitle != null && !nativeNoticeTitle.isEmpty()) {
                 DEFAULT_NOTICE_TITLE = nativeNoticeTitle;
@@ -154,14 +139,12 @@ public class SiyoXConfig {
             if (nativeUpdateLog != null && !nativeUpdateLog.isEmpty()) {
                 DEFAULT_UPDATE_LOG = nativeUpdateLog;
             }
-
             ENABLE_RESOURCE_MD5_VERIFY = NativeVerify.nativeGetEnableMd5Verify();
             ENABLE_LOGIN_VIDEO_REPLACE = NativeVerify.nativeGetEnableLoginVideoReplace();
             String nativeLoginVideoUrl = NativeVerify.nativeGetLoginVideoUrl();
             if (nativeLoginVideoUrl != null && !nativeLoginVideoUrl.isEmpty()) {
                 LOGIN_VIDEO_URL = nativeLoginVideoUrl;
             }
-
             ENABLE_WATERMARK = NativeVerify.nativeGetEnableWatermark();
             String nativeWmText = NativeVerify.nativeGetWatermarkText();
             if (nativeWmText != null && !nativeWmText.isEmpty()) {
@@ -169,6 +152,11 @@ public class SiyoXConfig {
             }
             ALLOW_PANEL_TOGGLE_WATERMARK = NativeVerify.nativeGetAllowPanelToggleWatermark();
 
+            ENABLE_ENTITY_KILLER = NativeVerify.nativeGetEnableEntityKiller();
+            String nativeKillerPatterns = NativeVerify.nativeGetDefaultEntityKillerPatterns();
+            if (nativeKillerPatterns != null && !nativeKillerPatterns.trim().isEmpty()) {
+                ENTITY_KILLER_PATTERNS = nativeKillerPatterns.trim();
+            }
             String nativeEpicAppKey = NativeVerify.nativeGetEpicAppKey();
             if (nativeEpicAppKey != null && !nativeEpicAppKey.isEmpty()) {
                 EpicConfig.APP_KEY = nativeEpicAppKey;
@@ -181,7 +169,6 @@ public class SiyoXConfig {
             if (nativeEpicHosts != null && nativeEpicHosts.length > 0) {
                 EpicConfig.HOSTS = nativeEpicHosts;
             }
-
             String t3Json = NativeVerify.nativeGetT3ConfigJson();
             if (t3Json != null && !t3Json.isEmpty()) {
                 JSONObject obj = new JSONObject(t3Json);
@@ -193,7 +180,6 @@ public class SiyoXConfig {
                 T3Config.VERSION_CODE_STR = obj.optString("versionCode", T3Config.VERSION_CODE_STR);
                 T3Config.HEARTBEAT_CODE = obj.optString("heartbeatCode", T3Config.HEARTBEAT_CODE);
             }
-
             String wyJson = NativeVerify.nativeGetWeiYanConfigJson();
             if (wyJson != null && !wyJson.isEmpty()) {
                 JSONObject obj = new JSONObject(wyJson);
@@ -206,7 +192,6 @@ public class SiyoXConfig {
                 WeiYanConfig.NOTICE_CODE = obj.optString("noticeCode", WeiYanConfig.NOTICE_CODE);
                 WeiYanConfig.UPDATE_CODE = obj.optString("updateCode", WeiYanConfig.UPDATE_CODE);
             }
-
             String resJson = NativeVerify.nativeGetDefaultResourcesJson();
             if (resJson != null && !resJson.isEmpty()) {
                 JSONArray arr = new JSONArray(resJson);

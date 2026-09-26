@@ -1,5 +1,4 @@
 package XiYue.SiyoX.ui;
-
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.Color;
@@ -17,21 +16,16 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import XiYue.SiyoX.SiyoXConfig;
 import XiYue.SiyoX.data.AppSettings;
 import XiYue.SiyoX.data.LoginVideoManager;
 import XiYue.SiyoX.data.ResourceInjector;
-
 public class DynamicIslandView extends FrameLayout {
-
     private final Handler timeHandler = new Handler(Looper.getMainLooper());
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-
     private LinearLayout islandCard;
     private LinearLayout topRow;
     private View statusDot;
@@ -43,10 +37,8 @@ public class DynamicIslandView extends FrameLayout {
     private View dividerProgress;
     private TextView tvCompactStatus;
     private ProgressBar pbCompact;
-
     private boolean isResDownloading = false;
     private boolean isVideoDownloading = false;
-
     private final Runnable timeRunnable = new Runnable() {
         @Override
         public void run() {
@@ -54,7 +46,6 @@ public class DynamicIslandView extends FrameLayout {
             timeHandler.postDelayed(this, 1000);
         }
     };
-
     public DynamicIslandView(Context context) {
         super(context);
         initView();
@@ -63,16 +54,13 @@ public class DynamicIslandView extends FrameLayout {
         applyTransform();
         applySettingsConfig();
     }
-
     private int dp(float dpValue) {
         return (int) (dpValue * getContext().getResources().getDisplayMetrics().density + 0.5f);
     }
-
     private void initView() {
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, Gravity.TOP));
         setClipChildren(false);
         setClipToPadding(false);
-
         islandCard = new LinearLayout(getContext());
         islandCard.setOrientation(LinearLayout.VERTICAL);
         islandCard.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -81,30 +69,30 @@ public class DynamicIslandView extends FrameLayout {
         islandCard.setElevation(dp(8));
         islandCard.setClipChildren(false);
         islandCard.setClipToPadding(false);
-
         LayoutParams cardParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
         islandCard.setLayoutParams(cardParams);
-
         LayoutTransition transition = new LayoutTransition();
         transition.setDuration(160);
         transition.enableTransitionType(LayoutTransition.CHANGING);
         islandCard.setLayoutTransition(transition);
-
         topRow = new LinearLayout(getContext());
         topRow.setOrientation(LinearLayout.HORIZONTAL);
         topRow.setGravity(Gravity.CENTER_VERTICAL);
         topRow.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, dp(22)));
-
         statusDot = new View(getContext());
+
+        AppSettings initialSettings = AppSettings.get();
+        int initDotColor = initialSettings != null ? initialSettings.getIslandDotColor() : Color.parseColor("#0A84FF");
+        boolean initShowDot = initialSettings != null && initialSettings.isIslandShowDot();
         GradientDrawable dotBg = new GradientDrawable();
         dotBg.setShape(GradientDrawable.OVAL);
-        dotBg.setColor(Color.parseColor("#0A84FF"));
+        dotBg.setColor(initDotColor);
         statusDot.setBackground(dotBg);
+        statusDot.setVisibility(initShowDot ? View.VISIBLE : View.GONE);
         LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(dp(7), dp(7));
         dotParams.setMargins(0, 0, dp(6), 0);
         statusDot.setLayoutParams(dotParams);
         topRow.addView(statusDot);
-
         tvCompactClient = new TextView(getContext());
         String cName = SiyoXConfig.CLIENT_NAME;
         if (cName == null || cName.trim().isEmpty()) {
@@ -115,7 +103,6 @@ public class DynamicIslandView extends FrameLayout {
         tvCompactClient.setTypeface(Typeface.DEFAULT_BOLD);
         tvCompactClient.setTextColor(Color.WHITE);
         topRow.addView(tvCompactClient);
-
         sepAuthor = new View(getContext());
         sepAuthor.setBackgroundColor(Color.parseColor("#33FFFFFF"));
         LinearLayout.LayoutParams sepAuthorParams = new LinearLayout.LayoutParams(dp(1), dp(10));
@@ -123,7 +110,6 @@ public class DynamicIslandView extends FrameLayout {
         sepAuthor.setLayoutParams(sepAuthorParams);
         sepAuthor.setVisibility(View.GONE);
         topRow.addView(sepAuthor);
-
         tvCompactAuthor = new TextView(getContext());
         String cAuthor = SiyoXConfig.CLIENT_AUTHOR;
         if (cAuthor == null || cAuthor.trim().isEmpty()) {
@@ -134,21 +120,18 @@ public class DynamicIslandView extends FrameLayout {
         tvCompactAuthor.setTextColor(Color.parseColor("#9CA3AF"));
         tvCompactAuthor.setVisibility(View.GONE);
         topRow.addView(tvCompactAuthor);
-
         sepTime = new View(getContext());
         sepTime.setBackgroundColor(Color.parseColor("#33FFFFFF"));
         LinearLayout.LayoutParams sepTimeParams = new LinearLayout.LayoutParams(dp(1), dp(10));
         sepTimeParams.setMargins(dp(7), 0, dp(7), 0);
         sepTime.setLayoutParams(sepTimeParams);
         topRow.addView(sepTime);
-
         tvCompactTime = new TextView(getContext());
         tvCompactTime.setText(timeFormat.format(new Date()));
         tvCompactTime.setTextSize(11.5f);
         tvCompactTime.setTypeface(Typeface.DEFAULT_BOLD);
         tvCompactTime.setTextColor(Color.parseColor("#D1D5DB"));
         topRow.addView(tvCompactTime);
-
         dividerProgress = new View(getContext());
         dividerProgress.setBackgroundColor(Color.parseColor("#33FFFFFF"));
         LinearLayout.LayoutParams divProgParams = new LinearLayout.LayoutParams(dp(1), dp(10));
@@ -156,26 +139,21 @@ public class DynamicIslandView extends FrameLayout {
         dividerProgress.setLayoutParams(divProgParams);
         dividerProgress.setVisibility(View.GONE);
         topRow.addView(dividerProgress);
-
         tvCompactStatus = new TextView(getContext());
         tvCompactStatus.setTextSize(11f);
         tvCompactStatus.setTypeface(Typeface.DEFAULT_BOLD);
         tvCompactStatus.setTextColor(Color.parseColor("#0A84FF"));
         tvCompactStatus.setVisibility(View.GONE);
         topRow.addView(tvCompactStatus);
-
         islandCard.addView(topRow);
-
         pbCompact = createProgressBar();
         LinearLayout.LayoutParams pbParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(4.5f));
         pbParams.setMargins(0, dp(4.5f), 0, dp(1.5f));
         pbCompact.setLayoutParams(pbParams);
         pbCompact.setVisibility(View.GONE);
         islandCard.addView(pbCompact);
-
         addView(islandCard);
     }
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
@@ -184,19 +162,16 @@ public class DynamicIslandView extends FrameLayout {
             islandCard.setPivotY(0);
         }
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return false;
     }
-
     public void applyTransform() {
         try {
             AppSettings settings = AppSettings.get();
             final int scale = settings.getIslandScale();
             final int posX = settings.getIslandPosX();
             final int posY = settings.getIslandPosY();
-
             if (islandCard != null) {
                 islandCard.setScaleX(scale / 100f);
                 islandCard.setScaleY(scale / 100f);
@@ -215,7 +190,6 @@ public class DynamicIslandView extends FrameLayout {
             updateIslandBackground(isResDownloading || isVideoDownloading);
         } catch (Throwable ignored) {}
     }
-
     public void applySettingsConfig() {
         try {
             AppSettings settings = AppSettings.get();
@@ -223,16 +197,23 @@ public class DynamicIslandView extends FrameLayout {
             boolean showAuthor = settings.isIslandShowAuthor();
             boolean showProgress = settings.isIslandShowProgress();
 
+            boolean showDot = settings.isIslandShowDot();
+            int dotColor = settings.getIslandDotColor();
+            if (statusDot != null) {
+                statusDot.setVisibility(showDot ? View.VISIBLE : View.GONE);
+                GradientDrawable dotBg = new GradientDrawable();
+                dotBg.setShape(GradientDrawable.OVAL);
+                dotBg.setColor(dotColor);
+                statusDot.setBackground(dotBg);
+            }
             if (sepTime != null && tvCompactTime != null) {
                 sepTime.setVisibility(showTime ? View.VISIBLE : View.GONE);
                 tvCompactTime.setVisibility(showTime ? View.VISIBLE : View.GONE);
             }
-
             if (sepAuthor != null && tvCompactAuthor != null) {
                 sepAuthor.setVisibility(showAuthor ? View.VISIBLE : View.GONE);
                 tvCompactAuthor.setVisibility(showAuthor ? View.VISIBLE : View.GONE);
             }
-
             if (!showProgress) {
                 if (dividerProgress != null) dividerProgress.setVisibility(View.GONE);
                 if (tvCompactStatus != null) tvCompactStatus.setVisibility(View.GONE);
@@ -248,53 +229,44 @@ public class DynamicIslandView extends FrameLayout {
             }
         } catch (Throwable ignored) {}
     }
-
     private void updateIslandBackground(boolean isExpanded) {
         if (islandCard == null) return;
         AppSettings settings = AppSettings.get();
         int baseRadius = settings != null ? settings.getIslandCornerRadius() : 18;
         int targetRadius = isExpanded ? Math.max(6, (int) (baseRadius * 0.6f)) : baseRadius;
-
         GradientDrawable bg = new GradientDrawable();
         bg.setColor(Color.parseColor("#E6121214"));
         bg.setCornerRadius(dp(targetRadius));
         bg.setStroke(dp(1), Color.parseColor("#26FFFFFF"));
         islandCard.setBackground(bg);
     }
-
     private ProgressBar createProgressBar() {
         ProgressBar pb = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
         pb.setMax(100);
         pb.setProgress(0);
         pb.setIndeterminate(false);
-
         GradientDrawable pbBg = new GradientDrawable();
         pbBg.setColor(Color.parseColor("#2C2C2E"));
         pbBg.setCornerRadius(dp(2));
-
         GradientDrawable pbProgress = new GradientDrawable();
         pbProgress.setColor(Color.parseColor("#0A84FF"));
         pbProgress.setCornerRadius(dp(2));
         ClipDrawable clipDrawable = new ClipDrawable(pbProgress, Gravity.START, ClipDrawable.HORIZONTAL);
-
         LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{pbBg, clipDrawable});
         progressLayer.setId(0, android.R.id.background);
         progressLayer.setId(1, android.R.id.progress);
         pb.setProgressDrawable(progressLayer);
         return pb;
     }
-
     private void updateTime() {
         if (tvCompactTime != null) {
             tvCompactTime.setText(timeFormat.format(new Date()));
         }
     }
-
     private void startTimeTicker() {
         timeHandler.removeCallbacks(timeRunnable);
         timeHandler.post(timeRunnable);
     }
-
     public void updateClientName() {
         if (tvCompactClient != null) {
             String cName = SiyoXConfig.CLIENT_NAME;
@@ -311,7 +283,6 @@ public class DynamicIslandView extends FrameLayout {
             tvCompactAuthor.setText(cAuthor);
         }
     }
-
     private void setupListeners() {
         ResourceInjector.setGlobalDownloadListener(new ResourceInjector.GlobalResourceDownloadListener() {
             @Override
@@ -336,7 +307,6 @@ public class DynamicIslandView extends FrameLayout {
                     }
                 });
             }
-
             @Override
             public void onDownloadComplete(final String packName, final boolean success, final String message) {
                 post(new Runnable() {
@@ -372,7 +342,6 @@ public class DynamicIslandView extends FrameLayout {
                 });
             }
         });
-
         LoginVideoManager.get().setGlobalListener(new LoginVideoManager.LoginVideoListener() {
             @Override
             public void onProgress(final int percent, final String status) {
@@ -396,7 +365,6 @@ public class DynamicIslandView extends FrameLayout {
                     }
                 });
             }
-
             @Override
             public void onComplete(final boolean success, final String message) {
                 post(new Runnable() {
@@ -433,7 +401,6 @@ public class DynamicIslandView extends FrameLayout {
             }
         });
     }
-
     public void resetToIdle() {
         post(new Runnable() {
             @Override
@@ -454,7 +421,6 @@ public class DynamicIslandView extends FrameLayout {
             }
         });
     }
-
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();

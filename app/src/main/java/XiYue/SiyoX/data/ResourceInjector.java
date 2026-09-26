@@ -1,16 +1,10 @@
-
-
 package XiYue.SiyoX.data;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
 import org.json.JSONObject;
-
 import XiYue.SiyoX.SiyoXConfig;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -28,73 +22,53 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 public class ResourceInjector {
-
-    private static final String TAG = "SiyoX_ResourceInjector";
-
-public static final String TARGET_PACK_REL_PATH = "games/com.netease/resource_packs/3.9_FirstPatch_2024_res_s1_texture_647d7cd2-1f2d-5959-a82f-c1093988afd0_0_0_2";
-
+    private static final String TAG = "SiyoX_ResourceInjector";public static final String TARGET_PACK_REL_PATH = "games/com.netease/resource_packs/3.9_FirstPatch_2024_res_s1_texture_647d7cd2-1f2d-5959-a82f-c1093988afd0_0_0_2";
     private static final ExecutorService executor = Executors.newCachedThreadPool();
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
-
     public static class DownloadTask {
         private volatile boolean isPaused = false;
         private volatile boolean isCancelled = false;
-
         public void pause() {
             this.isPaused = true;
         }
-
         public void cancel() {
             this.isCancelled = true;
         }
-
         public boolean isPaused() {
             return isPaused;
         }
-
         public boolean isCancelled() {
             return isCancelled;
         }
     }
-
     public interface DownloadCallback {
         void onProgress(int percent, long currentBytes, long totalBytes);
         void onPaused();
         void onSuccess(File downloadedFile);
         void onError(String error);
     }
-
     public interface InjectCallback {
         void onProgress(String message);
         void onSuccess(String message);
         void onError(String error);
     }
-
     public interface GlobalResourceDownloadListener {
         void onDownloadProgress(String packName, int percent, long currentBytes, long totalBytes);
         void onDownloadComplete(String packName, boolean success, String message);
     }
-
     private static GlobalResourceDownloadListener globalDownloadListener;
-
     public static void setGlobalDownloadListener(GlobalResourceDownloadListener listener) {
         globalDownloadListener = listener;
     }
-
     public static GlobalResourceDownloadListener getGlobalDownloadListener() {
         return globalDownloadListener;
-    }
-
-public static File getTargetPackDir(Context context) {
+    }public static File getTargetPackDir(Context context) {
         if (context == null) {
             return new File("/data/user/0/com.netease.x19/files/" + TARGET_PACK_REL_PATH);
         }
         return new File(context.getFilesDir(), TARGET_PACK_REL_PATH);
-    }
-
-public static File getResFilesDir(Context context) {
+    }public static File getResFilesDir(Context context) {
         File dir;
         if (context == null) {
             dir = new File("/data/user/0/com.netease.x19/files/SiyoX/ResFiles");
@@ -105,9 +79,7 @@ public static File getResFilesDir(Context context) {
             dir.mkdirs();
         }
         return dir;
-    }
-
-public static File getBackupDir(Context context) {
+    }public static File getBackupDir(Context context) {
         File dir;
         if (context == null) {
             dir = new File("/data/user/0/com.netease.x19/files/SiyoX/Backup/3.9_FirstPatch");
@@ -118,9 +90,7 @@ public static File getBackupDir(Context context) {
             dir.mkdirs();
         }
         return dir;
-    }
-
-public static void ensureBackup(Context context) {
+    }public static void ensureBackup(Context context) {
         try {
             File targetDir = getTargetPackDir(context);
             File backupDir = getBackupDir(context);
@@ -135,28 +105,18 @@ public static void ensureBackup(Context context) {
         } catch (Throwable t) {
             SiyoXLogger.e(TAG, "Failed to ensure backup: " + t.getMessage(), t);
         }
-    }
-
-public static boolean restoreBackup(Context context) {
+    }public static boolean restoreBackup(Context context) {
         try {
             File targetDir = getTargetPackDir(context);
             File backupDir = getBackupDir(context);
-
             if (backupDir.exists() && backupDir.isDirectory()) {
                 File[] backupFiles = backupDir.listFiles();
                 if (backupFiles != null && backupFiles.length > 0) {
-                    
                     deleteDirectory(targetDir);
-                    targetDir.mkdirs();
-
-copyDirectory(backupDir, targetDir);
-
-regenerateFolderMd5(targetDir);
+                    targetDir.mkdirs();copyDirectory(backupDir, targetDir);regenerateFolderMd5(targetDir);
                     return true;
                 }
-            }
-
-if (targetDir.exists()) {
+            }if (targetDir.exists()) {
                 deleteDirectory(targetDir);
                 targetDir.mkdirs();
                 return true;
@@ -167,11 +127,9 @@ if (targetDir.exists()) {
             return false;
         }
     }
-
     public static DownloadTask downloadResource(final Context context, final String urlStr, final String fileName, final DownloadCallback callback) {
         return downloadResource(context, urlStr, fileName, null, callback);
     }
-
     public static DownloadTask downloadResource(final Context context, final String urlStr, final String fileName, final String expectedMd5, final DownloadCallback callback) {
         final DownloadTask task = new DownloadTask();
         executor.execute(new Runnable() {
@@ -185,23 +143,19 @@ if (targetDir.exists()) {
                     File resDir = getResFilesDir(context);
                     final File targetFile = new File(resDir, fileName);
                     tempFile = new File(resDir, fileName + ".tmp");
-
                     long existingBytes = 0;
                     if (tempFile.exists() && tempFile.isFile()) {
                         existingBytes = tempFile.length();
                     }
-
                     URL url = new URL(urlStr);
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setConnectTimeout(15000);
                     conn.setReadTimeout(30000);
                     conn.setInstanceFollowRedirects(true);
                     conn.setRequestProperty("User-Agent", "Mozilla/5.0 SiyoX-Client/1.0");
-
                     if (existingBytes > 0) {
                         conn.setRequestProperty("Range", "bytes=" + existingBytes + "-");
                     }
-
                     int responseCode = conn.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_MOVED_TEMP ||
                             responseCode == HttpURLConnection.HTTP_MOVED_PERM ||
@@ -217,7 +171,6 @@ if (targetDir.exists()) {
                         }
                         responseCode = conn.getResponseCode();
                     }
-
                     boolean isPartial = (responseCode == 206);
                     if (responseCode != HttpURLConnection.HTTP_OK && responseCode != 206) {
                         if (existingBytes > 0 && responseCode == 416) {
@@ -233,18 +186,14 @@ if (targetDir.exists()) {
                             throw new Exception("HTTP " + responseCode + ": " + conn.getResponseMessage());
                         }
                     }
-
                     long serverContentLength = conn.getContentLength();
                     final long totalBytes = isPartial ? (existingBytes + serverContentLength) : (serverContentLength > 0 ? serverContentLength : -1);
                     long downloadedBytes = isPartial ? existingBytes : 0;
-
                     is = new BufferedInputStream(conn.getInputStream());
                     os = new BufferedOutputStream(new FileOutputStream(tempFile, isPartial));
-
                     byte[] buffer = new byte[8192];
                     int len;
                     long lastNotifyTime = 0;
-
                     while ((len = is.read(buffer)) != -1) {
                         if (task.isCancelled()) {
                             try { os.close(); is.close(); } catch (Throwable ignored) {}
@@ -261,10 +210,8 @@ if (targetDir.exists()) {
                             });
                             return;
                         }
-
                         os.write(buffer, 0, len);
                         downloadedBytes += len;
-
                         long now = System.currentTimeMillis();
                         if (now - lastNotifyTime > 100 || (totalBytes > 0 && downloadedBytes == totalBytes)) {
                             lastNotifyTime = now;
@@ -283,13 +230,11 @@ if (targetDir.exists()) {
                             });
                         }
                     }
-
                     os.flush();
                     os.close();
                     os = null;
                     is.close();
                     is = null;
-
                     if (expectedMd5 != null && !expectedMd5.trim().isEmpty() && SiyoXConfig.ENABLE_RESOURCE_MD5_VERIFY) {
                         String tempMd5 = computeFileMd5(tempFile);
                         if (tempMd5 == null || !tempMd5.equalsIgnoreCase(expectedMd5.trim())) {
@@ -299,7 +244,6 @@ if (targetDir.exists()) {
                             throw new Exception("MD5 校验不匹配 (预期: " + expectedMd5 + ", 实际: " + tempMd5 + ")");
                         }
                     }
-
                     if (targetFile.exists()) {
                         targetFile.delete();
                     }
@@ -308,7 +252,6 @@ if (targetDir.exists()) {
                         copyFile(tempFile, targetFile);
                         tempFile.delete();
                     }
-
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -320,7 +263,6 @@ if (targetDir.exists()) {
                             }
                         }
                     });
-
                 } catch (final Throwable t) {
                     if (task.isCancelled() || task.isPaused()) return;
                     SiyoXLogger.e(TAG, "Download error: " + t.getMessage(), t);
@@ -344,7 +286,6 @@ if (targetDir.exists()) {
         });
         return task;
     }
-
     public static boolean deleteResource(Context context, String fileName) {
         try {
             File resDir = getResFilesDir(context);
@@ -357,7 +298,6 @@ if (targetDir.exists()) {
             return false;
         }
     }
-
 public static void injectZip(final Context context, final File zipFile, final InjectCallback callback) {
         executor.execute(new Runnable() {
             @Override
@@ -366,55 +306,35 @@ public static void injectZip(final Context context, final File zipFile, final In
                     if (zipFile == null || !zipFile.exists() || zipFile.length() == 0) {
                         throw new Exception("资源压缩包文件不存在或为空！");
                     }
-
-                    postProgress(callback, "正在校验并备份原版资源...");
+                    postProgress(callback, "注入中");
                     ensureBackup(context);
-
                     File targetDir = getTargetPackDir(context);
                     if (!targetDir.exists()) {
                         targetDir.mkdirs();
                     }
-
-                    File targetContents = new File(targetDir, "contents.json");
-                    if (targetContents.exists()) targetContents.delete();
-                    File targetManifest = new File(targetDir, "manifest.json");
-                    if (targetManifest.exists()) targetManifest.delete();
-
-                    postProgress(callback, "正在解压材质资源文件...");
-
+                    postProgress(callback, "注入中");
                     ZipFile zip = null;
                     try {
                         String canonicalTargetDir = targetDir.getCanonicalPath();
                         zip = new ZipFile(zipFile);
                         Enumeration<? extends ZipEntry> entries = zip.entries();
-
                         while (entries.hasMoreElements()) {
                             ZipEntry entry = entries.nextElement();
                             String name = entry.getName();
-
                             String normName = name.replace('\\', '/');
-
                             String lowerName = normName.toLowerCase();
-                            if (lowerName.equals("contents.json") || lowerName.endsWith("/contents.json")
-                                    || lowerName.equals("manifest.json") || lowerName.endsWith("/manifest.json")) {
-                                SiyoXLogger.i(TAG, "Skipping filtered file in zip: " + name);
-                                continue;
-                            }
-
                             File outFile = new File(targetDir, normName);
                             String canonicalOut = outFile.getCanonicalPath();
                             if (!canonicalOut.startsWith(canonicalTargetDir + File.separator) && !canonicalOut.equals(canonicalTargetDir)) {
                                 SiyoXLogger.w(TAG, "Skipping malicious zip entry: " + name);
                                 continue;
                             }
-
                             if (entry.isDirectory()) {
                                 outFile.mkdirs();
                             } else {
                                 if (outFile.getParentFile() != null && !outFile.getParentFile().exists()) {
                                     outFile.getParentFile().mkdirs();
                                 }
-
                                 InputStream zis = zip.getInputStream(entry);
                                 OutputStream zos = new FileOutputStream(outFile);
                                 try {
@@ -435,10 +355,8 @@ public static void injectZip(final Context context, final File zipFile, final In
                             try { zip.close(); } catch (Throwable ignored) {}
                         }
                     }
-
-                    postProgress(callback, "正在构建资源校验数据...");
+                    postProgress(callback, "注入中");
                     regenerateFolderMd5(targetDir);
-
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -447,7 +365,6 @@ public static void injectZip(final Context context, final File zipFile, final In
                             }
                         }
                     });
-
                 } catch (final Throwable t) {
                     SiyoXLogger.e(TAG, "Inject error: " + t.getMessage(), t);
                     mainHandler.post(new Runnable() {
@@ -462,7 +379,6 @@ public static void injectZip(final Context context, final File zipFile, final In
             }
         });
     }
-
     private static void postProgress(final InjectCallback callback, final String msg) {
         mainHandler.post(new Runnable() {
             @Override
@@ -473,20 +389,16 @@ public static void injectZip(final Context context, final File zipFile, final In
             }
         });
     }
-
     public static void regenerateFolderMd5(File targetDir) throws Exception {
         if (targetDir == null || !targetDir.exists() || !targetDir.isDirectory()) {
             return;
         }
-
         Map<String, String> md5Map = new LinkedHashMap<>();
         scanDirectoryForMd5(targetDir, targetDir, md5Map);
-
         JSONObject json = new JSONObject();
         for (Map.Entry<String, String> e : md5Map.entrySet()) {
             json.put(e.getKey(), e.getValue());
         }
-
         File md5File = new File(targetDir, "folder_md5.json");
         FileOutputStream fos = null;
         try {
@@ -498,23 +410,19 @@ public static void injectZip(final Context context, final File zipFile, final In
                 try { fos.close(); } catch (Throwable ignored) {}
             }
         }
-
         SiyoXLogger.i(TAG, "Generated folder_md5.json with " + md5Map.size() + " entries.");
     }
-
     private static void scanDirectoryForMd5(File rootDir, File currentDir, Map<String, String> md5Map) {
         File[] files = currentDir.listFiles();
         if (files == null) return;
-
         for (File f : files) {
             if (f.isDirectory()) {
                 scanDirectoryForMd5(rootDir, f, md5Map);
             } else if (f.isFile()) {
                 String fileName = f.getName();
                 if (fileName.equalsIgnoreCase("folder_md5.json")) {
-                    continue; 
+                    continue;
                 }
-
                 String rootPath = rootDir.getAbsolutePath();
                 String filePath = f.getAbsolutePath();
                 if (filePath.startsWith(rootPath)) {
@@ -522,9 +430,7 @@ public static void injectZip(final Context context, final File zipFile, final In
                     if (relPath.startsWith(File.separator)) {
                         relPath = relPath.substring(1);
                     }
-
                     String formattedKey = relPath.replace('/', '\\');
-
                     String md5 = computeFileMd5(f);
                     if (md5 != null) {
                         md5Map.put(formattedKey, md5);
@@ -533,7 +439,6 @@ public static void injectZip(final Context context, final File zipFile, final In
             }
         }
     }
-
     public static String computeFileMd5(File file) {
         if (file == null || !file.exists() || !file.isFile()) return null;
         InputStream is = null;
@@ -558,7 +463,6 @@ public static void injectZip(final Context context, final File zipFile, final In
             try { if (is != null) is.close(); } catch (Throwable ignored) {}
         }
     }
-
     private static void copyDirectory(File src, File dest) throws Exception {
         if (src.isDirectory()) {
             if (!dest.exists()) {
@@ -574,7 +478,6 @@ public static void injectZip(final Context context, final File zipFile, final In
             copyFile(src, dest);
         }
     }
-
     private static void copyFile(File src, File dest) throws Exception {
         if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();
@@ -595,7 +498,6 @@ public static void injectZip(final Context context, final File zipFile, final In
             try { if (in != null) in.close(); } catch (Throwable ignored) {}
         }
     }
-
     private static void deleteDirectory(File dir) {
         if (dir == null || !dir.exists()) return;
         if (dir.isDirectory()) {

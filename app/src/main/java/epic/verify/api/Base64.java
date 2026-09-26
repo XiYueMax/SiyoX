@@ -1,20 +1,13 @@
-package epic.verify.api;
-
-public final class Base64 {
-
+package epic.verify.api;public final class Base64 {
     private static final char[] ALPHABET =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
-
     private static final int[] DECODE = new int[128];
-
     static {
         for (int i = 0; i < 128; i++) DECODE[i] = -1;
         for (int i = 0; i < ALPHABET.length; i++) DECODE[ALPHABET[i]] = i;
     }
-
     private Base64() {
     }
-
     public static String encode(byte[] data) {
         if (data == null) return null;
         StringBuilder sb = new StringBuilder(((data.length + 2) / 3) * 4);
@@ -43,7 +36,6 @@ public final class Base64 {
         }
         return sb.toString();
     }
-
     public static byte[] decode(String s) {
         if (s == null) return null;
         int len = s.length();

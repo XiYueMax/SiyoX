@@ -1,12 +1,8 @@
 package XiYue.SiyoX.data;
-
 import android.util.Log;
-
 public class NativeVerify {
-
     private static final String TAG = "SiyoX_NativeVerify";
     private static boolean isNativeLoaded = false;
-
     static {
         try {
             System.loadLibrary("siyox_verify");
@@ -17,11 +13,9 @@ public class NativeVerify {
             isNativeLoaded = false;
         }
     }
-
     public static boolean isNativeLoaded() {
         return isNativeLoaded;
     }
-
     public static native int nativeGetActiveVerifyType();
     public static native int nativeGetVersionCode();
     public static native String nativeGetClientName();
@@ -43,10 +37,13 @@ public class NativeVerify {
     public static native String nativeGetWeiYanConfigJson();
     public static native String nativeGetDefaultResourcesJson();
 
+    public static native boolean nativeGetEnableEntityKiller();
+    public static native String nativeGetDefaultEntityKillerPatterns();
+    public static native boolean nativeGetEnableCustomEntityKiller();
+    public static native String nativeGetEntityKillerPatterns();
     public static native String nativeT3VerifyCard(String card, String imei);
     public static native String nativeT3FetchNotice();
     public static native String nativeT3Heartbeat(String card, String statecode);
-
     public static native String nativeVerifyCard(int verifyType, String card, String imei);
     public static native String nativeFetchNotice(int verifyType);
 }

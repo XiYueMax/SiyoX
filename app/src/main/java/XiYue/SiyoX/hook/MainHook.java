@@ -1,5 +1,4 @@
 package XiYue.SiyoX.hook;
-
 import android.app.Activity;
 import android.os.Bundle;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -11,26 +10,25 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import XiYue.SiyoX.SiyoXConfig;
 import XiYue.SiyoX.data.SiyoXLogger;
 import XiYue.SiyoX.ui.FloatingOverlayManager;
-
 public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-
     private static final String TAG = "SiyoX";
-
+    public static volatile String sModulePath = null;
     @Override
     public void initZygote(StartupParam startupParam) {
+        if (startupParam != null && startupParam.modulePath != null) {
+            sModulePath = startupParam.modulePath;
+        }
         XposedBridge.log("[" + TAG + "] SiyoX Java Xposed module initialized in Zygote");
     }
-
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!SiyoXConfig.TARGET_PACKAGE.equals(lpparam.packageName)) {
             return;
         }
-
         XposedBridge.log("[" + TAG + "] Successfully injected into " + SiyoXConfig.TARGET_PACKAGE + " (process: " + lpparam.processName + ")");
         hookActivityLifecycle(lpparam);
+        XiYue.SiyoX.data.UniFixBypass.apply(lpparam);
     }
-
     private void hookActivityLifecycle(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             XposedHelpers.findAndHookMethod(
@@ -43,12 +41,13 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                         Activity activity = (Activity) param.thisObject;
                         if (activity == null || !SiyoXConfig.TARGET_PACKAGE.equals(activity.getPackageName())) return;
                         SiyoXLogger.init(activity);
+                        SiyoXConfig.initContext(activity);
                         SiyoXLogger.i(TAG, "Activity onCreate: " + activity.getClass().getName());
+                        XiYue.SiyoX.data.EntityKillerManager.start();
                         FloatingOverlayManager.attach(activity);
                     }
                 }
             );
-
             XposedHelpers.findAndHookMethod(
                 Activity.class,
                 "onPostCreate",
@@ -62,7 +61,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     }
                 }
             );
-
             XposedHelpers.findAndHookMethod(
                 Activity.class,
                 "onResume",
@@ -71,11 +69,11 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     protected void afterHookedMethod(MethodHookParam param) {
                         Activity activity = (Activity) param.thisObject;
                         if (activity == null || !SiyoXConfig.TARGET_PACKAGE.equals(activity.getPackageName())) return;
+                        XiYue.SiyoX.data.EntityKillerManager.start();
                         FloatingOverlayManager.attach(activity);
                     }
                 }
             );
-
             XposedHelpers.findAndHookMethod(
                 Activity.class,
                 "onWindowFocusChanged",
@@ -92,7 +90,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     }
                 }
             );
-
         } catch (Throwable t) {
             XposedBridge.log("[" + TAG + "] Error hooking Activity lifecycle: " + t.getMessage());
         }

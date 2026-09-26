@@ -1,46 +1,34 @@
-
-
 package XiYue.SiyoX.data;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 public class SiyoXDirManager {
-
     private static final String TAG = "SiyoX_DirManager";
-
     public static void initDirectories(Context context) {
         if (context == null) return;
-
         try {
             String pkgName = context.getPackageName();
-
             File privateDir = new File(context.getFilesDir(), "SiyoX");
             if (!privateDir.exists()) {
                 privateDir.mkdirs();
             }
-
             File loginVideoDir = new File(privateDir, "LoginVideo");
             if (!loginVideoDir.exists()) {
                 loginVideoDir.mkdirs();
             }
-
             File privateLogoFile = new File(privateDir, "Logo.png");
             if (!privateLogoFile.exists() || privateLogoFile.length() == 0) {
                 extractLogoTo(context, privateLogoFile);
             }
-
             File extBaseDir = null;
             try {
                 File extFiles = context.getExternalFilesDir(null);
@@ -48,31 +36,23 @@ public class SiyoXDirManager {
                     extBaseDir = new File(extFiles.getParentFile(), "SiyoX");
                 }
             } catch (Throwable ignored) {}
-
             if (extBaseDir == null) {
                 extBaseDir = new File(Environment.getExternalStorageDirectory(), "Android/data/" + pkgName + "/SiyoX");
             }
-
             File resourcesDir = new File(extBaseDir, "Resources");
             File logDir = new File(extBaseDir, "Log");
-
             if (!resourcesDir.exists()) resourcesDir.mkdirs();
             if (!logDir.exists()) logDir.mkdirs();
-
             SiyoXLogger.init(context);
-
             File extLogoFile = new File(resourcesDir, "Logo.png");
             if (!extLogoFile.exists() || extLogoFile.length() == 0) {
                 extractLogoTo(context, extLogoFile);
             }
-
             SiyoXLogger.i(TAG, "SiyoX directories initialized successfully!");
-
         } catch (Throwable t) {
             SiyoXLogger.e(TAG, "Error initializing SiyoX directories: " + t.getMessage(), t);
         }
     }
-
     public static boolean extractLogoTo(Context context, File targetFile) {
         InputStream is = null;
         OutputStream os = null;
@@ -80,7 +60,6 @@ public class SiyoXDirManager {
             if (targetFile.getParentFile() != null) targetFile.getParentFile().mkdirs();
             is = openLogoInputStream(context);
             if (is == null) return false;
-
             os = new FileOutputStream(targetFile);
             byte[] buf = new byte[8192];
             int len;
@@ -97,19 +76,14 @@ public class SiyoXDirManager {
             try { if (is != null) is.close(); } catch (Throwable ignored) {}
         }
     }
-
     public static InputStream openLogoInputStream(Context context) {
-        
+        if (context == null) return null;
         try {
-            Context modCtx = context.createPackageContext("XiYue.SiyoX", Context.CONTEXT_IGNORE_SECURITY);
-            return modCtx.getAssets().open("logo.png");
+            return context.getAssets().open("logo.png");
         } catch (Throwable ignored) {}
-
-try {
-            PackageManager pm = context.getPackageManager();
-            ApplicationInfo appInfo = pm.getApplicationInfo("XiYue.SiyoX", 0);
-            if (appInfo.sourceDir != null) {
-                ZipFile zip = new ZipFile(new File(appInfo.sourceDir));
+        try {
+            if (XiYue.SiyoX.hook.MainHook.sModulePath != null) {
+                ZipFile zip = new ZipFile(new File(XiYue.SiyoX.hook.MainHook.sModulePath));
                 ZipEntry entry = zip.getEntry("assets/logo.png");
                 if (entry == null) entry = zip.getEntry("res/drawable/logo.png");
                 if (entry != null) {
@@ -117,30 +91,24 @@ try {
                 }
             }
         } catch (Throwable ignored) {}
-
-try {
-            PackageManager pm = context.getPackageManager();
-            Resources modRes = pm.getResourcesForApplication("XiYue.SiyoX");
-            int resId = modRes.getIdentifier("logo", "drawable", "XiYue.SiyoX");
-            if (resId != 0) {
-                return modRes.openRawResource(resId);
+        try {
+            if (context.getApplicationInfo() != null && context.getApplicationInfo().sourceDir != null) {
+                ZipFile zip = new ZipFile(new File(context.getApplicationInfo().sourceDir));
+                ZipEntry entry = zip.getEntry("assets/logo.png");
+                if (entry == null) entry = zip.getEntry("res/drawable/logo.png");
+                if (entry != null) {
+                    return zip.getInputStream(entry);
+                }
             }
         } catch (Throwable ignored) {}
-
-try {
-            return context.getAssets().open("logo.png");
-        } catch (Throwable ignored) {}
-
         try {
             int resId = context.getResources().getIdentifier("logo", "drawable", context.getPackageName());
             if (resId != 0) {
                 return context.getResources().openRawResource(resId);
             }
         } catch (Throwable ignored) {}
-
         return null;
     }
-
     public static File getPrivateLogoFile(Context context) {
         if (context == null) return null;
         File f = new File(context.getFilesDir(), "SiyoX/Logo.png");
